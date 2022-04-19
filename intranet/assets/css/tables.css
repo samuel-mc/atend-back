@@ -1,0 +1,94 @@
+/* *****************************************
+***************** TABLA ********************
+******************************************* */
+
+.main__table {
+    border-collapse: collapse;
+    margin-top: 40px;
+    margin-bottom: 24px;
+    width: 100%;
+    overflow: scroll;
+    min-width: 900px;
+}
+
+.main__table th {
+    font-size: var(--md);
+    padding: 12px 0;
+}
+
+.table__row--disable {
+    color: var(--light-gray);
+}
+
+.table__row--disable svg{
+    fill: var(--light-gray);
+}
+
+.main__table td {
+    border-bottom: 1px solid var(--light-gray);
+    padding: 12px 0;
+    text-align: center;
+    font-size: var(--sm);
+}
+
+.main__table td a:hover {
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: var(--in);
+}
+
+.main__table--estatus span.disable {
+    color: var(--light-gray);
+}
+
+.main__table--estatus span.green {
+    color: green;
+}
+
+.main__table--estatus span.red {
+    color: red;
+}
+
+.main__table--estatus span.yellow {
+    color: yellow;
+}
+
+
+/* *****************************************
+************* FOOTER - MAIN ****************
+******************************************* */
+.main__footer {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin: 24px 0;
+    font-size: var(--sm);
+}
+
+.footer__progress--bar {
+    background-color: var(--light-gray);
+    border-radius: 24px;
+    height: 8px;
+    position: relative;
+    width: 240px;
+}
+
+.footer__progress--bar span {
+    background-color: var(--primary-black);
+    border-radius: 24px;
+    height: 8px;
+    left: 20%;
+    position: absolute;
+    width: 64px;
+}
+
+.footer__progress--number {
+    margin: 0 32px;
+}
+
+.footer__progress--buttons .button--transparent {
+    height: var(--sm);
+    width: var(--sm);
+    margin: 0 8px;
+}

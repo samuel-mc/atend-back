@@ -1,0 +1,106 @@
+
+/* *****************************************
+*************** BOTONES ********************
+******************************************* */
+.button {
+    background-color: var(--primary-white);
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+}
+
+.button--circle {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    padding: 8px 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button--transparent {
+    border: none;
+    background-color: transparent;
+    height: var(--lg);
+    transition: var(--out);
+    width: var(--lg);
+    font-size: var(--lg);
+}
+
+.button--transparent:hover i {
+    cursor: pointer;
+    opacity: 0.4;
+    transition: var(--in);
+}
+
+.button--aside {
+    background-color: transparent;
+    border: none;
+    border-radius: 0 24px 24px 0;
+    font-size: var(--md);
+    margin: 12px 0;
+    padding: 12px 40px 12px 80px;
+    transition: var(--out);
+    text-align: left;
+    width: 100%;
+}
+
+.button--aside.disable:hover {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    cursor: pointer;
+    transition: var(--in);
+}
+
+.button--aside.active {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+}
+
+.button--primary {
+    background-color: var(--primary-white);
+    border: 1px solid var(--primary-black);
+    border-radius: 24px;
+    transition: var(--out);
+}
+
+.button--primary:hover {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    transition: var(--in);
+}
+
+.button--primary:hover svg {
+    fill: var(--primary-white);
+    transition: var(--in);
+}
+
+.button--primary.active {
+    background-color: var(--primary-black);
+    border-radius: 24px;
+    color: var(--primary-white);
+}
+
+.button--filter svg {
+    height: var(--md);
+    margin: 0 12px;
+}
+
+.buttonEditar {
+    background-color: var(--primary-white);
+    border: none;
+    cursor: pointer;
+}
+
+.buttonEditar i {
+    margin: 0;
+    height: var(--md);
+}
+
+.buttonEditarFecha {
+    background-color: var(--primary-white);
+    border: none;
+    border-bottom: 1px solid #111;
+    cursor: pointer;
+}

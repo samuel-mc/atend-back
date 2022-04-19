@@ -1,0 +1,121 @@
+.bg-login-image{
+	background: url(../img/login.png);
+	background-size: cover;
+	height: 70vh;
+}
+
+.btn-primary{
+	color: #37474f;
+	background-color: #add7f6;
+	border-color: #add7f6;
+}
+
+.form-input{
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 14px;
+    height: auto;
+    border: none;
+    border-bottom: 0.5px solid #06c;
+    color: #06c;
+    border-radius: 0;
+    opacity: .45;
+}
+
+.form-input:focus{
+	color: #495057 !important;
+	opacity: 1 !important;
+}
+
+.page-title{
+	padding: 40px 0;
+}
+
+.tooltip-data {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px solid #d9d9d9;
+    line-height: 1;
+    cursor: pointer;
+}
+.tooltip-data .tiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    border-radius: 3px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.tooltip-data .tiptext::after {
+    content: "";
+    position: absolute;
+}
+.tooltip-data:hover .tiptext {
+    visibility: visible;
+}
+
+.table-responsive::-webkit-scrollbar {
+  display: none;
+}
+
+.table-responsive {
+  overflow-y: clip;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.table-responsive {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.page-link{
+	color: #1038a0;
+	border: none;
+}
+
+.excel-button {
+  width: 100px !important;
+  height: 40px !important;
+  background: none !important;
+  border: none !important;
+  cursor: auto;
+}
+.excel-button {
+	display: block;
+	background-size: 42px 40px !important;
+	background-position: center 10px;
+	background-image: url(../img/save_alt.svg) !important;
+	background-repeat: no-repeat !important;
+}
+
+.filter-by-date-btn{
+    width: 135px !important;
+    height: 40px !important;
+    background: none !important;
+    border: none !important;
+    cursor: auto;
+    margin-left: 30px;
+    display: block;
+    background-size: 42px 40px !important;
+    background-image: url(../img/add_circle_outline.svg) !important;
+    background-repeat: no-repeat !important;
+}
+
+.new-delivery-btn {
+  width: 135px !important;
+  height: 40px !important;
+  background: none !important;
+  border: none !important;
+  cursor: auto;
+  margin-left: 30px;
+}
+.new-delivery-btn {
+	display: block;
+	background-size: 42px 40px !important;
+	background-image: url(../img/add_circle_outline.svg) !important;
+	background-repeat: no-repeat !important;
+}

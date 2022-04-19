@@ -1,0 +1,296 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/avenir_ff/AvenirLTStd-Roman.otf');
+}
+
+* {
+    animation: fadeIn 0.3s ease-in-out;
+    box-sizing: border-box;
+    font-family: 'Avenir';
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+:root {
+    --primary-blue: #F3F5FB;
+    --primary-white: #FFFFFF;
+    --primary-black: #000000;
+    --light-gray: #C9C9C9;
+
+    /* Font Size */
+    --sm: 1.2rem;
+    --md: 1.6rem;
+    --lg: 2.4rem;
+    --xl: 3.6rem;
+
+    /* Transition */
+    --in: all ease-in 0.3s;
+    --out: all ease-out 0.6s;
+}
+
+body {
+    background-color: var(--primary-blue);
+    display: grid;
+    grid-template-areas:
+      "aside header header"
+      "aside content content"
+      "aside content content";
+}
+
+
+/* *****************************************
+***************** ASIDE ********************
+******************************************* */
+.main {
+    display: grid;
+    grid-column: 2 / 3;
+}
+
+.main__aside {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    grid-area: aside;
+}
+
+.main__content {
+    background-color: var(--primary-white);
+    border-radius: 24px;
+    margin: 12px;
+    padding: 20px 40px;
+    position: relative;
+    grid-area: content;
+}
+
+.main__content > h1 {
+    font-size: var(--lg);
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.main__aside a {
+    color: var(--primary-black);
+    font-size: var(--md);
+    font-weight: bold;
+    margin: 64px auto;
+    text-decoration: none;
+}
+
+.main__aside a:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+
+.main__header--servicios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header.main__header--servicios h1 {
+    font-size: var(--lg);
+    margin: 16px 0;
+    font-weight: bold;
+}
+
+.main__header--servicios section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__header--servicios section > *,
+.main__header--servicios #buttonFiltrar  i,
+#buttonNuevaFactura  i {
+    margin: 0 12px;
+}
+/* *****************************************
+************ Sección Bitácora **************
+******************************************* */
+.bitacora__navbar > ul {
+    align-items: center;
+    display: flex;
+    font-size: var(--sm);
+    justify-content: space-between;
+    margin: 12px;
+    position: relative;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.bitacora__navbar a {
+    color: var(--primary-black);
+    text-decoration: none;
+}
+
+ul.bitacora__navbar--escalas {
+    list-style: none;
+}
+
+.bitacora__navbar--escalas {
+    display:none;
+    position:absolute;
+    min-width:140px;
+}
+
+.escalas i {
+    margin-left: 12px;
+}
+
+.escalas:hover > .bitacora__navbar--escalas  {
+    display: block;
+    z-index: 1;
+}
+
+.main__form--top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.main__content form {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--md);
+}
+
+.form__field {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__field label:first-child {
+    font-weight: bold;
+}
+.form__field input {
+    border: none;
+    border-bottom: 1px solid var(--light-gray);
+    padding: 8px;
+}
+
+.form__field.form__field--doble {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form__field.form__field--doble div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form--checkbox {
+    width: 100%;
+    margin: 12px 0;
+    border-bottom: 1px solid var(--light-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form--checkbox input[type="checkbox"] {
+    margin: 12px 0;
+}
+
+.form__field select {
+    border: none;
+    border-bottom: 1px solid var(--light-gray);
+    padding: 8px;
+}
+
+.form__info-cliente.form__doble-column  {
+    flex-direction: row;
+}
+
+.form__info-cliente.form__doble-column > div {
+    width: 50%;
+    margin: 0 12px;
+}
+
+.main__add--cotainer {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.main__content form.form__info-paciente {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.field__checkbox {
+    margin: 12px 0;
+}
+
+.main__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px;
+}
+
+.main__buttons div {
+    display: flex;
+    align-items: center;
+}
+
+.main__buttons button {
+    margin-right: 12px;
+}
+
+.info-servicios__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px 0;
+}
+
+.info-servicios__header h1 {
+    font-size: var(--lg);
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.info-servicios__body.hidden {
+    display: none;
+}
+
+.main__add-prestadora {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form__field--avanzada > div {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form__field--avanzada > div label {
+    color: var(--light-gray);
+    font-weight: normal;
+}
+
+
+.image__profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

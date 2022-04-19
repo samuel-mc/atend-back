@@ -1,0 +1,103 @@
+/* Desde aquí el scroll de toda la página */
+/* Tamaño del scroll */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Estilos barra (thumb) de scroll */
+body::-webkit-scrollbar-thumb {
+  background: #101935;
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+body::-webkit-scrollbar-track {
+  background: #add7f6;
+  border-radius: 2px;
+}
+
+body::-webkit-scrollbar-track:hover,
+body::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+/* Hasta aquí el scroll de toda la página */
+
+/* Desde aquí para quitar el scroll */
+.no-scroll-query::-webkit-scrollbar {
+  width: 0px;
+}
+/* Hasta aquí para quitar el scroll */
+/* Desde aquí el scroll de toda la página */
+/* Tamaño del scroll */
+.scroll-query::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Estilos barra (thumb) de scroll */
+.scroll-query::-webkit-scrollbar-thumb {
+  background: var(--bright-orange);
+  border-radius: 8px;
+}
+
+.scroll-query::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.scroll-query::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+.scroll-query::-webkit-scrollbar-track {
+  background: #add7f6;
+  border-radius: 2px;
+}
+
+.scroll-query::-webkit-scrollbar-track:hover,
+.scroll-query::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+/* Hasta aquí el scroll de toda la página */
+
+/* Desde aquí el scroll de los divs */
+/* Tamaño del scroll */
+div::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Estilos barra (thumb) de scroll */
+div::-webkit-scrollbar-thumb {
+  background: #101935;
+  border-radius: 8px;
+}
+
+div::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+div::-webkit-scrollbar-track {
+  background: #add7f6;
+  border-radius: 2px;
+}
+
+div::-webkit-scrollbar-track:hover,
+div::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+/* Hasta aquí el scroll de los divs */
