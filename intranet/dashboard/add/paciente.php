@@ -288,7 +288,7 @@
                 </div>
             </header>
             <div class="info-servicios__body hidden" id="infoServicio">
-                <form class="form__info-paciente" id="formInfoServicio">
+                <form class="form__info-paciente" id="formInfoServicioBIS">
                     <div>
                         <div class="form__field">
                             <label for="inicioServicio">Fecha de Inicio</label>
@@ -413,29 +413,29 @@
                 <h1>Información de Servicio</h1>
             </header>
             <div>
-                <form action="" class="form__info-paciente">
+                <form class="form__info-paciente" id="formInfoServicio">
                     <div>
                         <div class="form__field">
-                            <label for="apellidosCliente">Fecha de Inicio</label>
-                            <input type="date" value="2020-05-01">
+                            <label for="inicioServicio">Fecha de Inicio</label>
+                            <input type="date" value="2020-05-01" name="inicioServicio" id="inicioServicio">
                         </div>
 
                         <div class="form__field">
-                            <label for="apellidosCliente">Fecha de terminación (opcional)</label>
-                            <input type="date">
+                            <label for="finServicio">Fecha de terminación (opcional)</label>
+                            <input type="date" value="2020-05-01" name="finServicio" id="finServicio">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
-                                <label for="sexo">Sexo ECA</label>
-                                <select name="sexo" id="sexo">
+                                <label for="sexoECA">Sexo ECA</label>
+                                <select name="sexoECA" id="sexoECA">
                                     <option value="femenino">Femenino</option>
                                     <option value="masculino">Masculino</option>
                                 </select>
                             </div>
                             <div>
-                                <label for="sexo">Tipo de Servcio</label>
-                                <select name="tipoDeServicio" id="tipoDeServicio">
+                                <label for="tipoServicio">Tipo de Servcio</label>
+                                <select name="tipoServicio" id="tipoServicio">
                                     <option value="enfermeriaGral">Enfermería Gral.</option>
                                     <option value="otro">Otro</option>
                                 </select>
@@ -452,8 +452,8 @@
 
                         <div class="form__field form__field--doble">
                             <div>
-                                <label for="duracion">Duración</label>
-                                <input type="text" value="12 horas" name="duracion" id="duracion">
+                                <label for="duracionServicio">Duración</label>
+                                <input type="text" value="12 horas" name="duracionServicio" id="duracionServicio">
                             </div>
 
                             <div>
@@ -496,9 +496,7 @@
                             <label for="frecDelServicio">Frecuencia del Servicio</label>
                             <select name="frecDelServicio" id="frecDelServicio">
                                 <option value="">Otro</option>
-                                <option value="1">Padecimiento 1</option>
-                                <option value="2">Padecimiento 2</option>
-                                <option value="3">Padecimiento 3</option>
+                                <option value="1">Diariamente</option>
                             </select>
                             <div class="field__checkbox">
                                 <input type="checkbox" id="lunes" name="lunes" value="lunes">
@@ -530,6 +528,7 @@
                             </div>
                         </div>
                     </div>
+                    <input type="submit" class="button button--primary button--submit" value="Guardar">
                 </form>
             </div>
         </section>
