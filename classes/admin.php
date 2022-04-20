@@ -13,9 +13,9 @@ class Admin
 	const TABLE_CAT_AFFECTED_ZONE = "cat_affected_zone";
 	const TABLE_CAT_AILMENTS = "cat_ailments";
 	const TABLE_CAT_ATEND_PROFILES = "cat_atend_profiles";
-	const TABLE_CAT_BILLING_REGIME = "cat_billing_regime";
-	const TABLE_CAT_BILLING_SCHEME = "cat_billing_scheme";
-	const TABLE_CAT_BILLING_USE = "cat_billing_use";
+	const TABLE_CAT_BILLING_REGIMES = "cat_billing_regime";
+	const TABLE_CAT_BILLING_SCHEMES = "cat_billing_scheme";
+	const TABLE_CAT_BILLING_USES = "cat_billing_use";
 	const TABLE_CAT_BREATH_HELP = "cat_breath_help";
 	const TABLE_CAT_CARE_TYPE = "cat_care_type";
 	const TABLE_CAT_CLIENT_TYPE = "cat_client_type";
@@ -44,7 +44,7 @@ class Admin
 	const TABLE_CLIENTS = "clients";
 	const TABLE_CLIENT_BALANCE = "client_balance";
 	const TABLE_CLIENT_BALANCE_LOG = "client_balance_log";
-	const TABLE_FINANCIAL_INFORMATION = "financial_information";
+	const TABLE_FINANTIAL_INFORMATION = "finantial_information";
 	const TABLE_HR_CONTROL = "hr_control";
 	const TABLE_PATIENTS = "patients";
 	const TABLE_CLIENT_PAYMENTS = "client_payments";
@@ -63,6 +63,7 @@ class Admin
 	const TABLE_SERVICE_COSTS = "service_costs";
 	const TABLE_SERVICE_FREQUENCY = "service_frequency";
 	const TABLE_SERVICE_STATUS = "service_status";
+	const TABLE_CAT_USER_TYPES = "user_types";
 	const TABLE_USERS = "users";
 	
 	/*const TABLE_AUTH_USERS = "auth_users";

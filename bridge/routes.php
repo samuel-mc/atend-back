@@ -6,6 +6,28 @@
 	require "../classes/utils.php";
 	$router = new Router;
 
+	$router->Group("services",[
+		"get_services_table"=>"GetTable",
+		"get_services_by_client"=>"GetByClientId",
+		"get_services_by_patient"=>"GetByPatientId"
+		]
+	);
+
+	$router->Group("clients",[
+		"save_new_client"=>"NewClient",
+		"save_new_billing_info"=>"NewBillingInfo"
+		]
+	);
+
+	$router->Group("users",[
+		"get_user_types"=>"GetUserTypes"
+		]
+	);
+
+
+
+
+
 	$router->New("newUser", "users/Save"); //email, password
 	$router->New("login", "users/Login"); //email, password
 	$router->New("getUsers", "users/List");
@@ -30,12 +52,6 @@
 	$router->New("uploadDocument", "documents/Upload");
 
 
-	$router->Group("services",[
-		"get_services_table"=>"GetTable",
-		"get_services_by_client"=>"GetByClientId",
-		"get_services_by_patient"=>"GetByPatientId"
-		]
-	);
 
 
 	$router->Group("drugs",[
