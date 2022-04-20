@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    define('__ROOT__', "http://localhost/backend");
-    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    //define('__ROOT__', "http://localhost/backend");
+    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -126,9 +126,11 @@ Flight::route('/bitacora/norton', function () {
 // Rutas relacionadas a las funcionalidades de agregar
 Flight::route('/add/servicio', function () {
     $admin = new Model;
-    $user_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_USER_TYPES]))
+    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/servicio', ['title' => 'Agregar - Servicio', 'header' => 'headerBitacora',"user_types"=>$user_types]);
+    Flight::render('dashboard/add/servicio', ['title' => 'Agregar - Servicio', 'header' => 'headerBitacora',"billing_schemes"=>$billing_schemes,"billing_regimes"=>$billing_regimes,"billing_uses"=>$billing_uses]);
 });
 
 Flight::route('/add/paciente', function () {

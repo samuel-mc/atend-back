@@ -14,7 +14,8 @@
 	);
 
 	$router->Group("clients",[
-		"save_new_client"=>"NewClient"
+		"save_new_client"=>"NewClient",
+		"save_new_billing_info"=>"NewBillingInfo"
 		]
 	);
 
