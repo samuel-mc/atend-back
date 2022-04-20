@@ -125,8 +125,10 @@ Flight::route('/bitacora/norton', function () {
 
 // Rutas relacionadas a las funcionalidades de agregar
 Flight::route('/add/servicio', function () {
+    $admin = new Model;
+    $user_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_USER_TYPES]))
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/servicio', ['title' => 'Agregar - Servicio', 'header' => 'headerBitacora']);
+    Flight::render('dashboard/add/servicio', ['title' => 'Agregar - Servicio', 'header' => 'headerBitacora',"user_types"=>$user_types]);
 });
 
 Flight::route('/add/paciente', function () {
