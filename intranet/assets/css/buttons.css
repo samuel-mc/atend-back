@@ -87,6 +87,14 @@
     margin: 0 12px;
 }
 
+.button--submit {
+    width: 50%;
+    margin: 24px auto 12px;
+    display: flex;
+    justify-content: center;
+    
+}
+
 .buttonEditar {
     background-color: var(--primary-white);
     border: none;

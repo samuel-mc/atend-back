@@ -63,7 +63,7 @@ body {
     margin: 12px;
     padding: 20px 40px;
     position: relative;
-    grid-area: content;
+    /* grid-area: content; */
 }
 
 .main__content > h1 {
