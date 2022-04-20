@@ -1,5 +1,4 @@
 <?php
-// onclick="e => handleEditModal(e)"
     $botonEditar = '
     <button class="buttonEditar" >
         <i class="fa-solid fa-pencil"></i>
@@ -44,8 +43,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                
+            <tbody id="table_data">
                 <tr class="table__row--disable">
                     <td>21.03.2021</td>
                     <td>000 – 00</td>
@@ -416,3 +414,69 @@
         </footer>
     </section>
 </main>
+
+
+<script>
+    $.ajax({
+        url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=get_services_by_client',
+        type: 'GET',
+        data:{
+            client_id:<?php echo $client['id']; ?>
+        },
+        success: function(data) {
+            console.log(JSON.parse(data));
+            fillindexTable(JSON.parse(data));
+        }
+    });
+
+    const fillindexTable = (data) => {
+        let table = '';
+        data.forEach(element => {
+
+            table += `<tr>
+                <td>
+                    <button class="buttonEditarFecha">
+                        ${element.date}
+                    </button>
+                </td>
+                <td>${element.id}</td>
+                <td>
+                    <a href="<?php echo __ROOT__; ?>/paciente/${element.patient.id}">
+                        ${element.patient.name}
+                    </a>
+                </td>
+                <td>${element.service_type}</td>
+                <td>
+                    ${element.provider.name} ${element.provider.lastname}
+                    <?php echo $botonEditar; ?>
+                </td>
+                <td>
+                    ${element.costo_cliente ? element.costo_cliente : '$ 0'}
+                    <button onclick="console.log('${element.date}')">    
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </td>
+                <td>
+                    ${element.costo_total ? element.costo_total : '$0'}
+                    <a>    
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+                <td>
+                    ${element.costo_extras ? element.costo_extras : '$0'}
+                    <a>    
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+                <td class="main__table--estatus">
+                    <span class="disable"> ● </span> ${element.status.name} 
+                    <?php echo $botonEditar; ?>
+                </td>
+                <td>
+                    <i class="fa-solid fa-trash-can"></i>
+                </td>
+            </tr>`;
+        });
+        $("#table_data").html(table);
+    }
+</script>

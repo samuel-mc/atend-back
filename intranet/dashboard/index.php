@@ -112,6 +112,8 @@
         </footer>
     </section>
 </main>
+
+
 <script>
     const indexTable = document.getElementById('indexTable');
     $.ajax({
@@ -135,7 +137,7 @@
                     </td>
                     <td>${element.id}</td>
                     <td>
-                        <a href="./cliente">
+                        <a href="./cliente/${element.client.id}">
                             ${element.client.name}
                         </a>
                     </td>
@@ -169,6 +171,4 @@
         });
         indexTable.innerHTML = table;
     }
-
-
 </script>

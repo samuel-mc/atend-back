@@ -29,7 +29,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical ">
                     <div>
-                        <h2>Mario Hernandez Campuzano</h2>
+                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                         <button class="button button--primary button--circle">
                             <i class="fa-solid fa-pencil"></i>
                         </button>
@@ -58,10 +58,10 @@
                     <h3>Nuevo paciente</h3>
                 </section>
                 <section class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $14,500.00</h2>
+                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
                     <nav>
                         <ul>
-                            <li><a href="./pagos">Pagos</a></li>
+                            <li><a href="'.__ROOT__.'/pagos/'.(isset($client)?$client['id']:0).'">Pagos</a></li>
                             <li><a href="#">Facturas</a></li>
                         </ul>
                     </nav>
@@ -74,7 +74,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical ">
                     <div>
-                        <h2>Mario Hernandez Campuzano</h2>
+                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                         <button class="button button--primary button--circle">
                             <i class="fa-solid fa-pencil"></i>
                         </button>
@@ -96,7 +96,7 @@
                 <div class="header__side--left">.</div>
 
                 <div class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $14,500.00</h2>
+                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
                     <nav>
                         <ul>
                             <li><a href="#">Acreditar Pago</a></li>
@@ -110,7 +110,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
                     <div>
-                        <h2>Mario Hernandez Campuzano</h2>
+                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                         <button class="button button--primary button--circle">
                             <i class="fa-solid fa-pencil"></i>
                         </button>
@@ -130,7 +130,7 @@
             <section class="header--bottom-container">
                 <section class="header__side--left"></section>
                 <section class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $14,500.00</h2>
+                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
                     <nav>
                         <ul>
                             <li><a href="#">Acreditar Pago</a></li>
@@ -145,7 +145,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
                     <div>
-                        <h2>Mario Hernandez Campuzano</h2>
+                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                         <button class="button button--primary button--circle">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -192,7 +192,7 @@
         '<header class="header">
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
-                    <h2>Mario Hernandez Campuzano</h2>
+                    <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                     <h3>ID PACIENTE: 000</h3>
                 </div>
                 <div class="header__side--right">
@@ -217,7 +217,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
                     <h2>Asignación ECA</h2>
-                    <h3>ID SERVICIO 00 | MAría pérez prieto</h3>
+                    <h3>ID SERVICIO 00 | '.(isset($headerName)?$headerName:"Nombre").'</h3>
                 </div>
                 <div class="header__side--right">
                     <button class="button--transparent">
@@ -240,7 +240,7 @@
         '<header class="header">
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
-                    <h2>María Pérez Prieto</h2>
+                    <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                     <h3>ID PACIENTE 00</h3>
                 </div>
                 <div class="header__side--right">

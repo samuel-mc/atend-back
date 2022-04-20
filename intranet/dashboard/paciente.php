@@ -3,31 +3,31 @@
         <section class="main__content main__add--cotainer">
             <header class="main__header--servicios">
                 <h1>Información del paciente</h1>
-                <button class="button button--primary button--filter" id="buttonFiltrar">
+                <!--<button class="button button--primary button--filter" id="buttonFiltrar">
                     <i class="fa-solid fa-filter"></i>
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
-                </button>
+                </button>-->
             </header>
             <div>
                 <form action="" class="form__info-paciente">
                     <div>
                         <div class="form__field">
                             <label for="nombrePaciente">Nombre del paciente </label>
-                            <input type="text" value="María Pérez Prieto" name="nombrePaciente" id="nombrePaciente">
+                            <input type="text" value="<?php echo $patient['name']; ?>" name="nombrePaciente" id="nombrePaciente">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="apellidosCliente">Fecha de Nacimmiento</label>
-                                <input type="date">
+                                <input type="date" value="<?php echo $patient['birthdate']; ?>">
                             </div>
 
                             <div>
                                 <label for="sexo">Sexo</label>
                                 <select name="sexo" id="sexo">
-                                    <option value="femenino">Femenino</option>
-                                    <option value="masculino">Masculino</option>
+                                    <option value="femenino" <?php echo ($patient['gender']=='1'?"selected":"") ?>>Femenino</option>
+                                    <option value="masculino" <?php echo ($patient['gender']=='2'?"selected":"") ?>>Masculino</option>
                                 </select>
                             </div>
                         </div>
@@ -35,53 +35,52 @@
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="peso">Peso</label>
-                                <input type="text" value="92 kg" name="peso" id="peso">
+                                <input type="text" value="<?php echo $patient['weight']; ?> kg" name="peso" id="peso">
                             </div>
 
                             <div>
                                 <label for="estatura">Estatura</label>
-                                <input type="text" value="170 cm" name="estatura" id="estatura">
+                                <input type="text" value="<?php echo $patient['height']; ?> cm" name="estatura" id="estatura">
                             </div>
                         </div>
 
                         <div class="form__field">
                             <label for="calle">Calle </label>
-                            <input type="text" value="Río Rhín" name="calle" id="calle">
+                            <input type="text" value="<?php echo $patient['address']['street']; ?>" name="calle" id="calle">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="numeroExterior">Número Ext</label>
-                                <input type="number" value="1609" name="numeroExterior" id="numeroExterior">
+                                <input type="number" value="<?php echo $patient['address']['exterior']; ?>" name="numeroExterior" id="numeroExterior">
                             </div>
 
                             <div>
                                 <label for="numeroInterion">Número Int</label>
-                                <input type="number" value="12" name="numeroInterion" id="numeroInterion">
+                                <input type="number" value="<?php echo $patient['address']['interior']; ?>" name="numeroInterion" id="numeroInterion">
                             </div>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="colonia">Colonia</label>
-                                <input type="text" value="Cuauhtémoc" name="colonia" id="colonia">
+                                <input type="text" value="<?php echo $patient['address']['suburb']; ?>" name="colonia" id="colonia">
                             </div>
-
                             <div>
                                 <label for="delegacion">Delegación</label>
-                                <input type="number" value="Cuauhtémoc" name="delegacion" id="delegacion">
+                                <input type="text" value="<?php echo $patient['address']['municipality']['name']; ?>" name="delegacion" id="delegacion">
                             </div>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="codigoPostal">CP</label>
-                                <input type="number" value="06500" name="codigoPostal" id="codigoPostal">
+                                <input type="text" value="<?php echo $patient['address']['zipcode']['zipcode']; ?>" name="codigoPostal" id="codigoPostal">
                             </div>
 
                             <div>
                                 <label for="estado">Estado</label>
-                                <input type="text" value="CDMX" name="estado" id="estado">
+                                <input type="text" value="<?php echo $patient['address']['state']['name']; ?>" name="estado" id="estado">
                             </div>
                         </div>
 
@@ -92,23 +91,23 @@
 
                         <div class="form__field">
                             <label for="medicoTratante">Médico Tratante </label>
-                            <input type="text" value="Mauricio López" name="medicoTratante" id="medicoTratante">
+                            <input type="text" value="<?php echo $patient['doctor']['name']; ?>" name="medicoTratante" id="medicoTratante">
                         </div>
 
                         <div class="form__field">
                             <label for="contactoDeEmergencia">Contacto de Emergencia </label>
-                            <input type="text" value="Laura Hernández" name="contactoDeEmergencia" id="contactoDeEmergencia">
+                            <input type="text" value="<?php echo $patient['emergency_contact']; ?>" name="contactoDeEmergencia" id="contactoDeEmergencia">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="telEmergencia1">Tel emergencia 1</label>
-                                <input type="tel" value="5530473340" name="telEmergencia1" id="telEmergencia1">
+                                <input type="tel" value="<?php echo $patient['emergency_phone']; ?>" name="telEmergencia1" id="telEmergencia1">
                             </div>
 
                             <div>
                                 <label for="telEmergencia2">Tel emergencia 2</label>
-                                <input type="tel" value="5539609402" name="telEmergencia2" id="telEmergencia2">
+                                <input type="tel" value="<?php echo $patient['emergency_phone2']; ?>" name="telEmergencia2" id="telEmergencia2">
                             </div>
                         </div>
                     </div>
@@ -116,24 +115,24 @@
                     <div>
                         <div class="form__field">
                             <label for="diagnostico">Diagnóstico</label>
-                            <input type="text" name="diagnostico" id="diagnostico">
+                            <input type="text" value="<?php echo $patient['diagnosis']; ?>" id="diagnostico">
                         </div>
                         <div class="form__field">
                             <label for="comentario">Comentarios</label>
-                            <input type="text" name="comentario" id="comentario">
+                            <input type="text" value="<?php echo $patient['comments']; ?>" id="comentario">
                         </div>
                         <div class="form__field">
                             <label for="alergia">Alergías</label>
-                            <input type="text" name="alergia" id="alergia">
+                            <input type="text" value="<?php echo $patient['allergies']; ?>" id="alergia">
                         </div>
                         <div class="form__field">
                             <label for="ordenMedica">Orden Médica</label>
-                            <input type="text" name="ordenMedica" id="ordenMedica">
+                            <input type="text" value="ordenMedica" id="ordenMedica">
                         </div>
                         <div class="form__field">
                             <label for="reanimacion">Reanimación </label>
                             <label for="requiere" class="form--checkbox">El paciente quiere reanimación
-                                <input type="checkbox">
+                                <input type="checkbox" <?php echo $patient['want_reanimation']==1?"checked":""; ?>>
                             </label>
                         </div>
                     </div>
@@ -141,14 +140,22 @@
                     <div>
                         <div class="form__field">
                             <label for="padecimientos">Padecimientos</label>
-                            <select name="padecimientos" id="padecimientos">
-                                <option value="">Seleccionar Padecimientos</option>
-                                <option value="1">Padecimiento 1</option>
-                                <option value="2">Padecimiento 2</option>
-                                <option value="3">Padecimiento 3</option>
+                            <select name="padecimientos" id="padecimientos" onchange="selectAilment()">
+                                <option value="0">Seleccionar Padecimientos</option>
+                                <?php foreach ($ailments as $ail) { ?>
+                                    <option value="<?php echo $ail['id']; ?>"><?php echo $ail['name']; ?></option>
+                                <?php } ?>
                             </select>
+                            <div class="row" style="margin-top:10px;">
+                                <div id="ailments_selected">
+                                    <?php foreach ($patient['ailments'] as $ailment) { ?>
+                                        <span id="selected_ailment_<?php echo $ailment['id']; ?>" name="<?php echo $ailment['name']; ?>" class="ailment-tag"><?php echo $ailment['name']; ?><span><i onclick="deleteAilment(<?php echo $ailment['id']; ?>)" class="fas fa-times"></i></span></span>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </section>
@@ -168,39 +175,9 @@
                         <th>Inicio</th>
                         <th>Fin</th>
                         <th>Extras</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php for ($i = 0; $i < 10; $i++) { ?>
-                        <tr>
-                            <td>Enfermería General</td>
-                            <td>12:00:00</td>
-                            <td>8:00 – 20:00</td>
-                            <td>Lunes – Viernes</td>
-                            <td>01.01.2021</td>
-                            <td>01.04.2021</td>
-                            <td>N/A</td>
-                            <td>
-                                <a>
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <a>
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <a>
-                                    <i class="fa-solid fa-pencil"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php }; ?>
-                </tbody>
+                <tbody id="table_data"></tbody>
             </table>
 
             <footer class="main__footer">
@@ -221,3 +198,86 @@
 
     </div>
 </main>
+
+<script>
+    $.ajax({
+        url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=get_services_by_patient',
+        type: 'GET',
+        data:{
+            patient_id:<?php echo $patient['id']; ?>
+        },
+        success: function(data) {
+            console.log(JSON.parse(data));
+            fillindexTable(JSON.parse(data));
+        }
+    });
+
+    const fillindexTable = (data) => {
+        let table = '';
+        data.forEach(element => {
+
+            table+=`
+                <tr>
+                    <td>${element.service.name}</td>
+                    <td>${element.duration}</td>
+                    <td>${element.schedule}</td>
+                    <td>${element.frequency.days}</td>
+                    <td>${element.frequency.start_date}</td>
+                    <td>${element.frequency.end_date}</td>
+                    <td>$${element.cost.extra_cost}</td>
+                </tr>
+            `;
+
+            /*
+                <td>
+                    <a>
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
+            */
+        });
+        $("#table_data").html(table);
+    }
+</script>
+
+<script type="text/javascript">
+    let ailments = Array();
+    for (var i = 1; i < 11; i++) {
+        if ($("#selected_ailment_"+i).length){
+            ailments.push({id:i,name:$("#selected_ailment_"+i).attr("name")});
+            $("#padecimientos option[value='"+i+"']").remove();
+        }
+    }
+    console.log(ailments);
+    setDrugs();
+    function selectAilment() {
+        ailments.push({id:Number($("#padecimientos").val()),name:$("#padecimientos option:selected").text()});
+        $("#padecimientos option[value='"+$("#padecimientos").val()+"']").remove();
+        $("#padecimientos").val(0);
+        setDrugs();
+    }
+    function deleteAilment(id) {
+        let ac = ailments.filter(item => item.id === id);
+        $("#padecimientos").append("<option value='"+id+"'>"+ac[0].name+"</option>")
+        ailments = ailments.filter(item => item.id !== id);
+        setDrugs();
+    }
+    function setDrugs() {
+        let ms = "";
+        for (var i = 0; i < ailments.length; i++) {
+            let m = ailments[i];
+            ms+='<span id="selected_ailment_'+m.id+'" name="'+m.name+'" class="ailment-tag">'+m.name+' <span><i onclick="deleteAilment('+m.id+')" class="fas fa-times"></i></span></span>';
+        }
+        $("#ailments_selected").html(ms);
+    }
+</script>

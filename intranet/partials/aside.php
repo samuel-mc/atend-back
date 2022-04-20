@@ -1,5 +1,5 @@
 <aside class="main__aside">
-    <a href="./">
+    <a href="<?php echo __ROOT__; ?>">
         <h1 class="header__tittle"> Atend </h1>
     </a>
     <nav>

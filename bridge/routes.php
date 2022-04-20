@@ -31,7 +31,9 @@
 
 
 	$router->Group("services",[
-		"get_services_table"=>"GetTable"
+		"get_services_table"=>"GetTable",
+		"get_services_by_client"=>"GetByClientId",
+		"get_services_by_patient"=>"GetByPatientId"
 		]
 	);
 

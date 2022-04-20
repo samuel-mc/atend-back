@@ -2,12 +2,9 @@
 class Drugs extends Admin
 {
 
-	public $summaryModel;
-
 	function __construct()
 	{
 		parent::__construct();
-		$this->summaryModel = new Summary;
 	}
 
 	public function Create(Request $data)
@@ -53,7 +50,7 @@ class Drugs extends Admin
 	{
 		$d = $this->GetById(self::TABLE_DRUGS, $request->id);
 		$d['concentration'] = $this->GetById(self::TABLE_DRUG_CONCENTRATION, $d['concentration_id']);
-		$d['summary'] = $this->summaryModel->GetByDrugId($d['id']);
+		
 		$d['name'] = $this->GetById(self::TABLE_DRUG_NAMES, $d['name_id']);
 		return $this->success($d);
 	}
@@ -64,12 +61,12 @@ class Drugs extends Admin
 		$res = array();
 		foreach ($drugs as $d) {
 			$d['concentration'] = $this->GetById(self::TABLE_DRUG_CONCENTRATION, $d['concentration_id']);
-			$d['summary'] = $this->summaryModel->GetByDrugId($d['id']);
+			//$d['summary'] = $this->summaryModel->GetByDrugId($d['id']);
 			if ($data->get("existent")=="1"){
-				if ($d['summary']['quantity']>0){
+				/*if ($d['summary']['quantity']>0){
 					$d['name'] = $this->GetById(self::TABLE_DRUG_NAMES, $d['name_id']);
 					$res[] = $d;
-				}
+				}*/
 			}else{
 				$d['name'] = $this->GetById(self::TABLE_DRUG_NAMES, $d['name_id']);
 				$res[] = $d;

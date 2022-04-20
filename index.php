@@ -10,7 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    define('__ROOT__', "http://localhost/backend");
+    //define('__ROOT__', "http://localhost/backend");
+    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -23,31 +24,43 @@ Flight::route('/', function () {
     Flight::render('dashboard/index', ['title' => 'Dashboard', 'header' => 'headerIndex']);
 });
 
-Flight::route('/cliente', function () {
+Flight::route('/cliente/@id', function ($id) {
+    $admin = new Model;
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/cliente', ['title' => 'Cliente', 'header' => 'headerCliente']);
+    Flight::render('dashboard/cliente', ['title' => 'Cliente', 'header' => 'headerCliente',"client" => $client,"headerName"=>$client['name']]);
 });
 
-Flight::route('/pagos', function () {
+Flight::route('/pagos/@id', function ($id) {
+     $admin = new Model;
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+    $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagos', ['title' => 'Historial De Pagos', 'header' => 'headerPagos']);
+    Flight::render('dashboard/pagos', ['title' => 'Historial De Pagos', 'header' => 'headerPagos',"client" => $client,"headerName"=>$client['name'],"payments"=>$payments]);
 });
 
-Flight::route('/pagosPaciente', function () {
+Flight::route('/pagosPaciente/@id', function ($id) {
+    $admin = new Model;
+    $patients = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+    $payments = $admin->payments->GetByPatient(new Request(["patient_id"=>$id]));
+    $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente']);
+    Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente',"headerName"=>$patients['name'],"payments"=>$payments,"balance"=>$balance['amount']]);
 });
 
 Flight::route('/servicios', function () {
     $admin = new Model();
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/servicios', ['title' => 'Servicios', 'header' => 'headerServicios', 
-                    'admin' => $admin]);
+    Flight::render('dashboard/servicios', ['title' => 'Servicios', 'header' => 'headerServicios', 'admin' => $admin]);
 });
 
-Flight::route('/paciente', function () {
+Flight::route('/paciente/@id', function ($id) {
+    $admin = new Model;
+    $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/paciente', ['title' => 'Paciente', 'header' => 'headerPaciente']);
+    Flight::render('dashboard/paciente', ['title' => 'Paciente', 'header' => 'headerPaciente',"patient"=>$patient,"ailments"=>$ailments,"headerName"=>$patient['name']]);
 });
 
 Flight::route('/prestadoras', function () {

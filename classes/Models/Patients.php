@@ -14,9 +14,18 @@
 			return $this->success($insert);
 		}
 
-		public function Read(Request $data)
+		public function GetPatientById(Request $data)
 		{
-			return $this->success($this->GetById(self::TABLE_PATIENTS,$data->id));
+			$pat = $this->GetById(self::TABLE_PATIENTS,$data->id);
+			$pat['address'] = $this->getByCondition(self::TABLE_ADDRESSES,"related_id = ".$data->id." AND type = 2 AND status = 1");
+			if ($pat['address']!=null){
+				$pat['address']['zipcode'] = $this->getById(self::TABLE_CAT_ZIPCODES,$pat["address"]['zipcode_id']);
+				$pat['address']['state'] = $this->getById(self::TABLE_CAT_STATES,$pat["address"]['zipcode']['state_id']);
+				$pat['address']['municipality'] = $this->getById(self::TABLE_CAT_MUNICIPALITIES,$pat["address"]['zipcode']['municipality_id']);
+			}
+			$pat['doctor'] = $this->getById(self::TABLE_USERS,$pat['doctor_id']);
+			$pat['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS,"id IN ".$pat['ailments']);
+			return $pat;
 		}
 
 		public function List()

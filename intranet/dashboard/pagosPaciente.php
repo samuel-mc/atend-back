@@ -30,13 +30,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php for($i = 0; $i<10; $i++){ ?>
+                <?php foreach ($payments as $pay) { ?>
                     <tr>
-                        <td>21.03.2021</td>
-                        <td>BBVA</td>
-                        <td>Tranferencia</td>
-                        <td>$1,500.00</td>
-                        <td>Infusión</td>
+                        <td><?php echo $pay['date']; ?></td>
+                        <td><?php echo $pay['bank']; ?></td>
+                        <td><?php echo $pay['method']; ?></td>
+                        <td>$<?php echo $pay['amount']; ?></td>
+                        <td><?php echo $pay['comments']; ?></td>
                         <td>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </td>
@@ -45,19 +45,6 @@
                         </td>
                     </tr>
                 <?php } ?>
-                    <tr>
-                        <td>21.03.2021</td>
-                        <td>BBVA</td>
-                        <td>Tranferencia</td>
-                        <td>$1,500.00</td>
-                        <td>Infusión</td>
-                        <td>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </td>
-                        <td>
-                            <i class="fa-solid fa-trash"></i>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
 

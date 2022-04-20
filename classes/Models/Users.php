@@ -10,7 +10,7 @@
 			$this->logModel = new Log;
 		}
 
-		public function Save(Request $data)
+		public function SaveUser(Request $data)
 		{
 			$d = $data->extract(["name","email","type"]);
 			$user = $this->GetFirst($this->query->select("*",self::TABLE_USERS,"email = '".$data->get("email")."'"));
