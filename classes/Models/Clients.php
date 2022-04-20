@@ -37,9 +37,9 @@
 			$zc = $this->GetByCondition(self::TABLE_CAT_ZIPCODES,["zipcode",$data->get("zipcode")])['id'];
 			$data->put("country_id", 1);
 			$data->put("zipcode_id",$zc);
-			$data->put("type",2);
+			$data->put("type",3);
 			$data->put("related_id",$finantial_info['id']);
-			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id"]);
+			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
 			
 			$fi = $this->Insert(self::TABLE_ADDRESSES,$add,"id");
 

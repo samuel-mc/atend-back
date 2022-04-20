@@ -44,6 +44,7 @@ class Admin
 	const TABLE_CLIENTS = "clients";
 	const TABLE_CLIENT_BALANCE = "client_balance";
 	const TABLE_CLIENT_BALANCE_LOG = "client_balance_log";
+	const TABLE_DOCTORS = "doctors";
 	const TABLE_FINANTIAL_INFORMATION = "finantial_information";
 	const TABLE_HR_CONTROL = "hr_control";
 	const TABLE_PATIENTS = "patients";

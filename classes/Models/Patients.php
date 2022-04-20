@@ -7,10 +7,31 @@
 			parent::__construct();
 		}
 
-		public function Create(Request $data)
+		public function NewPatient(Request $data)
 		{
-			$d = $data->extract(["name","diagnosis","birthdate","gender","weight","height","ailments","want_reanimation","care_plan","comments","allergies","medical_order","doctor_id","emergency_contact","emergency_phone","emergency_phone2"]);
+			$user = $this->Insert(self::TABLE_USERS,["name"=>$data->get("name"),"email"=>"patient@mail.com","password"=>"null","type"=>6,"status"=>1],"id");
+
+			$dr = $this->GetByCondition(self::TABLE_DOCTORS,"name = '".$data->get("doctor")."'");
+			if ($dr==null){
+				$user = $this->Insert(self::TABLE_USERS,["name"=>$data->get("doctor"),"email"=>"doctor@mail.com","password"=>"null","type"=>4,"status"=>1],"id");
+				$dr = $this->Insert(self::TABLE_DOCTORS,["name"=>$data->get("doctor")],"id");
+			}
+
+			$data->put("user_id",$user['id']);
+			$data->put("doctor_id",$dr['id']);
+			$d = $data->extract(["user_id","client_id","name","diagnosis","birthdate","gender","weight","height","ailments","want_reanimation","care_plan","comments","allergies","medical_order","doctor_id","emergency_contact","emergency_phone","emergency_phone2"]);
 			$insert = $this->Insert(self::TABLE_PATIENTS,$d,"id");
+
+
+			$zc = $this->GetByCondition(self::TABLE_CAT_ZIPCODES,["zipcode",$data->get("zipcode")])['id'];
+			$data->put("country_id", 1);
+			$data->put("zipcode_id",$zc);
+			$data->put("type",2);
+			$data->put("related_id",$insert['id']);
+			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
+			
+			$fi = $this->Insert(self::TABLE_ADDRESSES,$add,"id");
+
 			return $this->success($insert);
 		}
 
@@ -23,7 +44,7 @@
 				$pat['address']['state'] = $this->getById(self::TABLE_CAT_STATES,$pat["address"]['zipcode']['state_id']);
 				$pat['address']['municipality'] = $this->getById(self::TABLE_CAT_MUNICIPALITIES,$pat["address"]['zipcode']['municipality_id']);
 			}
-			$pat['doctor'] = $this->getById(self::TABLE_USERS,$pat['doctor_id']);
+			$pat['doctor'] = $this->getById(self::TABLE_DOCTORS,$pat['doctor_id']);
 			$pat['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS,"id IN ".$pat['ailments']);
 			return $pat;
 		}

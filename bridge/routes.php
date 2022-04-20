@@ -24,6 +24,11 @@
 		]
 	);
 
+	$router->Group("patients",[
+		"save_new_patient"=>"NewPatient"
+		]
+	);
+
 
 
 

@@ -26,8 +26,8 @@
                             <div>
                                 <label for="sexo">Sexo</label>
                                 <select name="sexo" id="sexo">
-                                    <option value="femenino" <?php echo ($patient['gender']=='1'?"selected":"") ?>>Femenino</option>
-                                    <option value="masculino" <?php echo ($patient['gender']=='2'?"selected":"") ?>>Masculino</option>
+                                    <option value="1" <?php echo ($patient['gender']=='1'?"selected":"") ?>>Femenino</option>
+                                    <option value="2" <?php echo ($patient['gender']=='2'?"selected":"") ?>>Masculino</option>
                                 </select>
                             </div>
                         </div>

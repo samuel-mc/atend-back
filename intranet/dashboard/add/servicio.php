@@ -139,78 +139,78 @@
                     <div>
                         <div class="form__field">
                             <label for="nombrePaciente">Nombre del paciente </label>
-                            <input type="text" value="María Pérez Prieto" name="nombrePaciente" id="nombrePaciente">
+                            <input type="text" value="" name="nombrePaciente" id="nombrePaciente">
                         </div>
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="fechaNacimiento">Fecha de Nacimmiento</label>
-                                <input type="date" name="fechaNacimiento" id="fechaNacimiento">
+                                <input type="date" name="" id="fechaNacimiento">
                             </div>
                             <div>
                                 <label for="sexoPaciente">Sexo</label>
                                 <select name="sexoPaciente" id="sexoPaciente">
-                                    <option value="femenino">Femenino</option>
-                                    <option value="masculino">Masculino</option>
+                                    <option value="1">Femenino</option>
+                                    <option value="2">Masculino</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
-                                <label for="peso">Peso</label>
-                                <input type="text" value="92 kg" name="peso" id="peso">
+                                <label for="peso">Peso (Kg)</label>
+                                <input type="text" value="" name="peso" id="peso">
                             </div>
 
                             <div>
-                                <label for="estatura">Estatura</label>
-                                <input type="text" value="170 cm" name="estatura" id="estatura">
+                                <label for="estatura">Estatura (cm)</label>
+                                <input type="text" value="" name="estatura" id="estatura">
                             </div>
                         </div>
 
                         <div class="form__field">
                             <label for="callePaciente">Calle </label>
-                            <input type="text" value="Río Rhín" name="callePaciente" id="callePaciente">
+                            <input type="text" value="" name="callePaciente" id="callePaciente">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="numeroExteriorPaciente">Número Ext</label>
-                                <input type="number" value="1609" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
+                                <input type="number" value="" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
                             </div>
 
                             <div>
                                 <label for="numeroInteriorPaciente">Número Int</label>
-                                <input type="number" value="12" name="numeroInteriorPaciente" id="numeroInterion">
+                                <input type="number" value="" name="numeroInteriorPaciente" id="numeroInteriorPaciente">
                             </div>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="coloniaPaciente">Colonia</label>
-                                <input type="text" value="Cuauhtémoc" name="coloniaPaciente" id="coloniaPaciente">
+                                <input type="text" value="" name="coloniaPaciente" id="coloniaPaciente">
                             </div>
 
                             <div>
                                 <label for="delegacionPaciente">Delegación</label>
-                                <input type="number" value="Cuauhtémoc" name="delegacionPaciente" id="delegacionPaciente">
+                                <input type="number" value="" name="delegacionPaciente" id="delegacionPaciente">
                             </div>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="cpPaciente">CP</label>
-                                <input type="number" value="06500" name="cpPaciente" id="cpPaciente">
+                                <input type="number" value="" name="cpPaciente" id="cpPaciente">
                             </div>
 
                             <div>
                                 <label for="estadoPaciente">Estado</label>
-                                <input type="text" value="CDMX" name="estadoPaciente" id="estadoPaciente">
+                                <input type="text" value="" name="estadoPaciente" id="estadoPaciente">
                             </div>
                         </div>
 
                         <div class="form__field">
                             <label for="paisPaciente">País </label>
-                            <input type="text" value="México" name="paisPaciente" id="paisPaciente">
+                            <input type="text" value="" name="paisPaciente" id="paisPaciente">
                         </div>
 
                         <div class="form__field">
@@ -220,18 +220,18 @@
 
                         <div class="form__field">
                             <label for="contactoDeEmergencia">Contacto de Emergencia </label>
-                            <input type="text" value="Laura Hernández" name="contactoDeEmergencia" id="contactoDeEmergencia">
+                            <input type="text" value="" name="contactoDeEmergencia" id="contactoDeEmergencia">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="telEmergencia1">Tel emergencia 1</label>
-                                <input type="tel" value="5530473340" name="telEmergencia1" id="telEmergencia1">
+                                <input type="tel" value="" name="telEmergencia1" id="telEmergencia1">
                             </div>
 
                             <div>
                                 <label for="telEmergencia2">Tel emergencia 2</label>
-                                <input type="tel" value="5539609402" name="telEmergencia2" id="telEmergencia2">
+                                <input type="tel" value="" name="telEmergencia2" id="telEmergencia2">
                             </div>
                         </div>
                     </div>
@@ -264,12 +264,15 @@
                     <div>
                         <div class="form__field">
                             <label for="padecimientos">Padecimientos</label>
-                            <select name="padecimientos" id="padecimientos">
-                                <option value="">Seleccionar Padecimientos</option>
-                                <option value="1">Padecimiento 1</option>
-                                <option value="2">Padecimiento 2</option>
-                                <option value="3">Padecimiento 3</option>
+                            <select name="padecimientos" id="padecimientos" onchange="selectAilment()">
+                                <option value="0">Seleccionar Padecimientos</option>
+                                <?php foreach ($ailments as $ail) { ?>
+                                    <option value="<?php echo $ail['id']; ?>"><?php echo $ail['name']; ?></option>
+                                <?php } ?>
                             </select>
+                            <div class="row" style="margin-top:10px;">
+                                <div id="ailments_selected"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -679,31 +682,47 @@
         const ordenMedica = $("#ordenMedica").val();
         const requiereReanimacion = $("#requiereReanimacion").is(":checked");;
         
+        let ails = "(";
+        $(ailments).each(function(index,element) {
+            ails+=element.id+",";
+        });
+        ails = ails.slice(0,-1)+")";
+
         const infoPaciente = {
-            nombrePaciente,
-            fechaNacimiento,
-            sexoPaciente,
-            peso,
-            estatura,
-            callePaciente,
-            numeroExteriorPaciente,
-            numeroInteriorPaciente,
-            coloniaPaciente,
-            delegacionPaciente,
-            cpPaciente,
-            estadoPaciente,
+            client_id,
+            name:nombrePaciente,
+            birthdate:fechaNacimiento,
+            gender:sexoPaciente,
+            weight:peso,
+            height:estatura,
+            street:callePaciente,
+            exterior:numeroExteriorPaciente,
+            interior:numeroInteriorPaciente,
+            suburb:coloniaPaciente,
+            townhall:delegacionPaciente,
+            zipcode:cpPaciente,
+            state:estadoPaciente,
             paisPaciente,
-            medicoTratante,
-            contactoDeEmergencia,
-            telEmergencia1,
-            telEmergencia2,
-            diagnostico,
-            comentarioPaciente,
-            alergia,
-            ordenMedica,
-            requiereReanimacion
+            doctor:medicoTratante,
+            emergency_contact:contactoDeEmergencia,
+            emergency_phone:telEmergencia1,
+            emergency_phone2:telEmergencia2,
+            diagnosis:diagnostico,
+            comments:comentarioPaciente,
+            allergies:alergia,
+            medical_order:ordenMedica,
+            want_reanimation:requiereReanimacion?1:0,
+            ailments: ails
         };
         
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+            data:infoPaciente,
+            success: function(res) {
+                console.log(res)
+            }
+        })
+
         console.log(infoPaciente);
     });
 </script>
@@ -712,4 +731,36 @@
     $("#requiereFactura").on("change",function() {
         $("#billing_container").toggle();
     });
+</script>
+
+<script type="text/javascript">
+    let ailments = Array();
+    for (var i = 1; i < 11; i++) {
+        if ($("#selected_ailment_"+i).length){
+            ailments.push({id:i,name:$("#selected_ailment_"+i).attr("name")});
+            $("#padecimientos option[value='"+i+"']").remove();
+        }
+    }
+    console.log(ailments);
+    setDrugs();
+    function selectAilment() {
+        ailments.push({id:Number($("#padecimientos").val()),name:$("#padecimientos option:selected").text()});
+        $("#padecimientos option[value='"+$("#padecimientos").val()+"']").remove();
+        $("#padecimientos").val(0);
+        setDrugs();
+    }
+    function deleteAilment(id) {
+        let ac = ailments.filter(item => item.id === id);
+        $("#padecimientos").append("<option value='"+id+"'>"+ac[0].name+"</option>")
+        ailments = ailments.filter(item => item.id !== id);
+        setDrugs();
+    }
+    function setDrugs() {
+        let ms = "";
+        for (var i = 0; i < ailments.length; i++) {
+            let m = ailments[i];
+            ms+='<span id="selected_ailment_'+m.id+'" name="'+m.name+'" class="ailment-tag">'+m.name+' <span><i onclick="deleteAilment('+m.id+')" class="fas fa-times"></i></span></span>';
+        }
+        $("#ailments_selected").html(ms);
+    }
 </script>
