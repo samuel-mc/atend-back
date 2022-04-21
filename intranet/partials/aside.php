@@ -3,7 +3,17 @@
         <h1 class="header__tittle"> Atend </h1>
     </a>
     <nav>
-        <button class="button--aside active">servicios</button>
-        <button class="button--aside disable">enfermeras</button>
+        <a 
+            class='button--aside <?php echo  (isset($asideActive)?'disable':'active')?>'
+            href="<?php echo __ROOT__; ?>/"
+        >
+            servicios
+        </a>
+        <a 
+            class='button--aside <?php echo  (isset($asideActive)?'active':'disable')?>'
+            href="<?php echo __ROOT__; ?>/prestadoras"
+        >
+            enfermeras
+        </a>
     </nav>
 </aside>

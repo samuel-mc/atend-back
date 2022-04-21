@@ -44,7 +44,13 @@ Flight::route('/pagos/@id', function ($id) {
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagos', ['title' => 'Historial De Pagos', 'header' => 'headerPagos',"client" => $client,"headerName"=>$client['name'],"payments"=>$payments]);
+    Flight::render('dashboard/pagos', [
+        'title' => 'Historial De Pagos', 
+        'header' => 'headerPagos',
+        "client" => $client,
+        "headerName"=>$client['name'],
+        "payments"=>$payments
+    ]);
 });
 
 Flight::route('/pagosPaciente/@id', function ($id) {
@@ -80,7 +86,11 @@ Flight::route('/paciente/@id', function ($id) {
 
 Flight::route('/prestadoras', function () {
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/prestadoras', ['title' => 'Prestadoras', 'header' => 'headerPrestadoras']);
+    Flight::render('dashboard/prestadoras', [
+        'title' => 'Prestadoras', 
+        'header' => 'headerPrestadoras',
+        'asideActive' => 'enfermeras'
+    ]);
 });
 
 // Rutas relacionadas a las bitacoras

@@ -6,6 +6,11 @@
     margin: 24px;
 }
 
+.header h2 {
+    font-size: var(--lg);
+    font-weight: bold;
+}
+
 .header--top-container,
 .header--bottom-container {
     display: flex;
@@ -63,6 +68,7 @@ div.header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    font-size: var(--md);
 }
 
 .header__side--right button {

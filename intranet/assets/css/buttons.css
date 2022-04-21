@@ -39,7 +39,7 @@
     transition: var(--in);
 }
 
-.button--aside {
+.button--aside{
     background-color: transparent;
     border: none;
     border-radius: 0 24px 24px 0;
@@ -49,6 +49,11 @@
     transition: var(--out);
     text-align: left;
     width: 100%;
+    display: block;
+}
+
+a.button--aside{
+    margin: 12px 0;
 }
 
 .button--aside.disable:hover {
@@ -56,6 +61,7 @@
     color: var(--primary-white);
     cursor: pointer;
     transition: var(--in);
+    text-decoration: none;
 }
 
 .button--aside.active {

@@ -2,7 +2,7 @@
     $buttonEditar = '
     <a
         class="button button--primary button--circle"
-        href="/backend/add/servicio/'.(isset($idClient)?$idClient:"").'"
+        href="'.__ROOT__.'/add/servicio/'.(isset($idClient)?$idClient:"").'"
     >
         <i class="fa-solid fa-pencil"></i>
     </a>';
@@ -19,7 +19,7 @@
                     </div>
                     <a 
                         class="button button--primary button--circle"
-                        href="./add/servicio"
+                        href="'.__ROOT__.'/add/servicio"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
@@ -64,14 +64,14 @@
                         <input type="text">
                     </div>
                     <a class="button button--primary button--circle" 
-                        href="/backend/add/servicio/'.(isset($idClient)?$idClient:"").'#infoPaciente"
+                        href="'.__ROOT__.'/add/servicio/'.(isset($idClient)?$idClient:"").'#infoPaciente"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
                     <h3>Nuevo paciente</h3>
                 </section>
                 <section class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
+                    <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h3>
                     <nav>
                         <ul>
                             <li><a href="'.__ROOT__.'/pagos/'.(isset($client)?$client['id']:0).'">Pagos</a></li>
@@ -86,12 +86,7 @@
         '<header id="header" class="header">
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical ">
-                    <div>
-                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
-                        <button class="button button--primary button--circle">
-                            <i class="fa-solid fa-pencil"></i>
-                        </button>
-                    </div>
+                    <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                     <h3>HISTORIAL DE PAGOS</h3>
                 </div>
                 <div class="header__side--right">
@@ -109,7 +104,7 @@
                 <div class="header__side--left">.</div>
 
                 <div class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
+                    <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
                     <nav>
                         <ul>
                             <li><a href="#">Acreditar Pago</a></li>
@@ -124,9 +119,6 @@
                 <div class="header__side--left header__side--vertical">
                     <div>
                         <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
-                        <button class="button button--primary button--circle">
-                            <i class="fa-solid fa-pencil"></i>
-                        </button>
                     </div>
                     <h3>HISTORIAL DE PAGOS PACIENTE</h3>
                 </div>
@@ -143,7 +135,7 @@
             <section class="header--bottom-container">
                 <section class="header__side--left"></section>
                 <section class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
+                    <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h3>
                     <nav>
                         <ul>
                             <li><a href="#">Acreditar Pago</a></li>
@@ -188,7 +180,7 @@
                     <h3>Nuevo servicio</h3>
                 </section>
                 <section class="header__side--right">
-                    <h2 class="button button--primary active">Saldo: $14,500.00</h2>
+                    <h3 class="button button--primary active">Saldo: $14,500.00</h3>
                     <nav>
                         <ul>
                             <li><a href="./pagos">Pagos</a></li>
@@ -302,9 +294,12 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text">
                     </div>
-                    <button class="button button--primary button--circle">
+                    <a 
+                        class="button button--primary button--circle"
+                        href="'.__ROOT__.'/add/prestadora"
+                    >
                         <i class="fa-solid fa-plus"></i>
-                    </button>
+                    </a>
                     <h3>Nueva prestadora </h3>
                 </div>        
                 <div class="header__side--right">
