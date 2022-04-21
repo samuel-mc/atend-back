@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -29,11 +29,18 @@ Flight::route('/cliente/@id', function ($id) {
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
 
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/cliente', ['title' => 'Cliente', 'header' => 'headerCliente',"client" => $client,"headerName"=>$client['name']]);
+    Flight::render(
+        'dashboard/cliente', [
+            'title' => 'Cliente', 
+            'header' => 'headerCliente',
+            "client" => $client,
+            "headerName"=>$client['name'],
+            "idClient"=>$client['id']
+        ]);
 });
 
 Flight::route('/pagos/@id', function ($id) {
-     $admin = new Model;
+    $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
@@ -124,14 +131,42 @@ Flight::route('/bitacora/norton', function () {
 });
 
 // Rutas relacionadas a las funcionalidades de agregar
-Flight::route('/add/servicio', function () {
+Flight::route('/add/servicio/@id', function ($id) {
+    $admin = new Model;
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render(
+        'dashboard/add/servicio', [
+            'title' => 'Agregar - Servicio',
+            'header' => 'headerBitacora',
+            "billing_schemes"=>$billing_schemes,
+            "billing_regimes"=>$billing_regimes,
+            "billing_uses"=>$billing_uses,
+            "ailments"=>$ailments,
+            "client"=>$client
+        ]);
+});
+Flight::route('/add/servicio/', function () {
     $admin = new Model;
     $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
     $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
     $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
     $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/servicio', ['title' => 'Agregar - Servicio', 'header' => 'headerBitacora',"billing_schemes"=>$billing_schemes,"billing_regimes"=>$billing_regimes,"billing_uses"=>$billing_uses,"ailments"=>$ailments]);
+    Flight::render(
+        'dashboard/add/servicio', [
+            'title' => 'Agregar - Servicio',
+            'header' => 'headerBitacora',
+            "billing_schemes"=>$billing_schemes,
+            "billing_regimes"=>$billing_regimes,
+            "billing_uses"=>$billing_uses,
+            "ailments"=>$ailments,
+            "client"=>null
+        ]);
 });
 
 Flight::route('/add/paciente', function () {

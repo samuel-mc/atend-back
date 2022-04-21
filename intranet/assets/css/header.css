@@ -54,6 +54,11 @@ div.header {
     width: 36px;
 }
 
+.header a.button--circle {
+    color: var(--primary-black);
+    text-decoration: none;
+}
+
 .header__side--right {
     display: flex;
     align-items: center;

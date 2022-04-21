@@ -17,30 +17,30 @@
                     </div>
                     <div class="form__field">
                         <label for="nombreCliente">Nombre *</label>
-                        <input type="text" value="" id="nombreCliente">
+                        <input type="text" value="<?php echo (isset($client) ? $client["name"]:""); ?>" id="nombreCliente">
                     </div>
                     <div class="form__field">
                         <label for="apellidosCliente">Apellido(s) *</label>
-                        <input type="text" value="" id="apellidosCliente">
+                        <input type="text" value="<?php echo (isset($client) ? $client["lastname"]:""); ?>" id="apellidosCliente">
                     </div>
                     <div class="form__field">
                         <label for="telefonoCliente">Teléfono *</label>
-                        <input type="number" value="" id="telefonoCliente">
+                        <input type="number" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente">
                     </div>
                     <div class="form__field">
                         <label for="mailCliente">Mail *</label>
-                        <input type="mail" value="" id="mailCliente">
+                        <input type="mail" value="<?php echo (isset($client) ? $client["email"]:""); ?>" id="mailCliente">
                     </div>
                     <div class="form__field">
                         <label for="requiereFactura">Requiere Factura</label>
-                        <select name="requiereFactura" id="requiereFactura">
+                        <select name="requiereFactura" id="requiereFactura" value="<?php echo (isset($client) ? $client["require_billing"]:""); ?>">
                             <option value="1">Sí</option>
                             <option value="0">No</option>
                         </select>
                     </div>
                     <div class="form__field">
                         <label for="factura">Comentarios (opcional)</label>
-                        <input type="text" value="" id="comentariosCliente">
+                        <input type="text" value="<?php echo (isset($client) ? $client["comments"]:""); ?>" id="comentariosCliente">
                     </div>
                     <input type="submit" class="button button--primary button--submit" value="Guardar">
 
@@ -130,7 +130,7 @@
             </div>
         </section>
 
-        <section class="main__content main__add--cotainer">
+        <section class="main__content main__add--cotainer" id="infoPaciente">
             <header class="main__header--servicios">
                 <h1>Info del paciente</h1>
             </header>
@@ -192,7 +192,7 @@
 
                             <div>
                                 <label for="delegacionPaciente">Delegación</label>
-                                <input type="number" value="" name="delegacionPaciente" id="delegacionPaciente">
+                                <input type="text" value="" name="delegacionPaciente" id="delegacionPaciente">
                             </div>
                         </div>
 
@@ -554,7 +554,9 @@
 
 <script>
 
-    let client_id = 0;
+    let client_id = <?php echo (isset($client) ? $client["id"] : 0); ?>;
+
+    console.log(client_id);
 
     const formInfoCliente = document.querySelector('#formInfoCliente');
     formInfoCliente.addEventListener('submit', (e) => {
@@ -722,8 +724,6 @@
                 console.log(res)
             }
         })
-
-        console.log(infoPaciente);
     });
 </script>
 

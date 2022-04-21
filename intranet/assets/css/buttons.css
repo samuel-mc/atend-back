@@ -19,6 +19,11 @@
     justify-content: center;
 }
 
+.button.button--primary.button--circle a {
+    color: var(--primary-black);
+    text-decoration: none;
+}
+
 .button--transparent {
     border: none;
     background-color: transparent;

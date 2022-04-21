@@ -7,10 +7,13 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text">
                     </div>
-                    <button class="button button--primary button--circle">
+                    <a 
+                        class="button button--primary button--circle"
+                        href="./add/servicio"
+                    >
                         <i class="fa-solid fa-plus"></i>
-                    </button>
-                    <h3>Nuevo cliente: </h3>
+                    </a>
+                    <h3>Nuevo cliente</h3>
                 </div>        
                 <div class="header__side--right">
                     <button class="button--transparent">
@@ -29,12 +32,15 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical ">
                     <div>
-                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
-                        <button class="button button--primary button--circle">
+                        <h2>'.(isset($headerName)?$headerName:"Agregar Cliente").'</h2>
+                        <a 
+                            class="button button--primary button--circle"
+                            href="/backend/add/servicio/'.(isset($idClient)?$idClient:"").'"
+                        >
                             <i class="fa-solid fa-pencil"></i>
-                        </button>
+                        </a>
                     </div>
-                    <h3>ID CLIENTE 000</h3>
+                    <h3> ID CLIENTE: '.(isset($idClient)?$idClient:"ID CLIENTE").'</h3>
                 </div>
                 <div class="header__side--right">
                     <button class="button--transparent">
@@ -52,9 +58,11 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text">
                     </div>
-                    <button class="button button--primary button--circle">
+                    <a class="button button--primary button--circle" 
+                        href="/backend/add/servicio/'.(isset($idClient)?$idClient:"").'#infoPaciente"
+                    >
                         <i class="fa-solid fa-plus"></i>
-                    </button>
+                    </a>
                     <h3>Nuevo paciente</h3>
                 </section>
                 <section class="header__side--right">
@@ -145,7 +153,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
                     <div>
-                        <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
+                        <h2>'.(isset($headerName)?$headerName:"").'</h2>
                         <button class="button button--primary button--circle">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
