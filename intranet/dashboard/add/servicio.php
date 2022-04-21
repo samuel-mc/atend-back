@@ -281,7 +281,7 @@
             </div>
         </section>
 
-        <section class="main__content main__info-servicios">
+        <section class="main__content main__info-servicios" id="infoServicio">
             <header class="info-servicios__header">
                 <div>
                     <h1>Información de Servicio</h1>

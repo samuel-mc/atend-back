@@ -56,10 +56,18 @@ Flight::route('/pagosPaciente/@id', function ($id) {
     Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente',"headerName"=>$patients['name'],"payments"=>$payments,"balance"=>$balance['amount']]);
 });
 
-Flight::route('/servicios', function () {
+Flight::route('/servicios/@id', function ($id) {
     $admin = new Model();
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/servicios', ['title' => 'Servicios', 'header' => 'headerServicios', 'admin' => $admin]);
+    Flight::render('dashboard/servicios', [
+        'title' => 'Servicios', 
+        'header' => 'headerServicios', 
+        'admin' => $admin,
+        "client" => $client,
+        "headerName"=>$client['name'],
+        "idClient"=>$client['id']
+    ]);
 });
 
 Flight::route('/paciente/@id', function ($id) {
