@@ -42,6 +42,12 @@ body {
       "aside content content";
 }
 
+h1 {
+    font-size: var(--lg);
+    font-weight: bold;
+}
+
+h2 { font-size: var(--md); }
 
 /* *****************************************
 ***************** ASIDE ********************
@@ -68,8 +74,6 @@ body {
 }
 
 .main__content > h1 {
-    font-size: var(--lg);
-    font-weight: bold;
     margin-top: 20px;
 }
 
@@ -95,9 +99,7 @@ body {
 }
 
 header.main__header--servicios h1 {
-    font-size: var(--lg);
     margin: 16px 0;
-    font-weight: bold;
 }
 
 .main__header--servicios section {
@@ -253,8 +255,6 @@ ul.bitacora__navbar--escalas {
 }
 
 .info-servicios__header h1 {
-    font-size: var(--lg);
-    font-weight: bold;
     margin-bottom: 12px;
 }
 

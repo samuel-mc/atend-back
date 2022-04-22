@@ -313,6 +313,24 @@
                 </div>
             </section>
         </header>';
+    $headerEnfermeras = 
+    '<header class="header" id="header">
+        <section class="header--top-container">
+            <h2>ATEND</h2>
+        </section>
+        <section class="header--bottom-container header__enfermera">
+            <div class="header__enfermera--links">
+                <a class="button button--primary active">Servicios</a>
+                <a class="button button--primary">Pagos</a>
+            </div>
+            <div class="header__enfermera--calendar">
+                <h3>Hoy</h3>
+                <span> </span>
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+        </section>
+        
+    </header>';
 
     switch ($header) {
         case 'headerIndex':
@@ -344,6 +362,9 @@
             break;
         case 'headerAddPrestadora':
             echo $headerAddPrestadora;
+            break;
+        case 'headerEnfermeras':
+            echo $headerEnfermeras;
             break;
         default:
             echo $headerIndex;

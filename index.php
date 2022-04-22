@@ -203,6 +203,21 @@ Flight::route('/asignacionECA', function () {
     Flight::render('dashboard/asignacionECA', ['title' => 'Asignacion ECA', 'header' => 'headerECA']);
 });
 
+/* ----------------------------------------------------------------
+ * -------------------  Sección de enfermeras  --------------------
+ * ---------------------------------------------------------------- */
+
+// Rutas relacionadas a asignacionTECA
+Flight::route('/enfermera', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/index', [
+        'title' => 'El nombre de la enfermera', 
+        'header' => 'headerEnfermeras',
+        'isEnfermera' => true
+        
+    ]);
+});
+
 /*Flight::route('/dashboard/recept-vials/@id',function($id){
     $id = str_replace(".", "", $id);
     Flight::redirect('/recept-vials/'.$id);
