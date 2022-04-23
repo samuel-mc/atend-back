@@ -553,9 +553,7 @@
 </main>
 
 <script>
-
     let client_id = <?php echo (isset($client) ? $client["id"] : 0); ?>;
-
     console.log(client_id);
 
     const formInfoCliente = document.querySelector('#formInfoCliente');

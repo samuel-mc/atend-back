@@ -123,6 +123,7 @@
 
     const showModalEditar = (e) => {
         const father = e.target.parentNode.parentNode;
+        console.log(e)
         if (!showingModalEditar) {
             father.appendChild(modalEditar);
             showingModalEditar = true;
