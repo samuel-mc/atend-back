@@ -6,6 +6,11 @@
     margin: 24px;
 }
 
+.header h2 {
+    font-size: var(--lg);
+    font-weight: bold;
+}
+
 .header--top-container,
 .header--bottom-container {
     display: flex;
@@ -63,6 +68,7 @@ div.header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    font-size: var(--md);
 }
 
 .header__side--right button {
@@ -109,4 +115,40 @@ div.header__side--vertical {
     margin: 0 32px;
     object-fit: cover;
     width: 80px;
+}
+
+section.header--bottom-container.header__enfermera {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.header__enfermera--links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 24px;
+    width: 80%;
+}
+
+.header__enfermera--links a {
+    width: 100%;
+    text-align: center;
+    margin: 0 12px;
+}
+
+.header__enfermera--calendar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px;
+    width: 100%;
+}
+
+.header__enfermera--calendar span {
+    content: "";
+    height: 1px;
+    width: 60%;
+    background-color: var(--primary-black);
+    margin: 0 12px;
 }

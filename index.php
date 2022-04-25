@@ -44,7 +44,13 @@ Flight::route('/pagos/@id', function ($id) {
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagos', ['title' => 'Historial De Pagos', 'header' => 'headerPagos',"client" => $client,"headerName"=>$client['name'],"payments"=>$payments]);
+    Flight::render('dashboard/pagos', [
+        'title' => 'Historial De Pagos', 
+        'header' => 'headerPagos',
+        "client" => $client,
+        "headerName"=>$client['name'],
+        "payments"=>$payments
+    ]);
 });
 
 Flight::route('/pagosPaciente/@id', function ($id) {
@@ -80,7 +86,11 @@ Flight::route('/paciente/@id', function ($id) {
 
 Flight::route('/prestadoras', function () {
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/prestadoras', ['title' => 'Prestadoras', 'header' => 'headerPrestadoras']);
+    Flight::render('dashboard/prestadoras', [
+        'title' => 'Prestadoras', 
+        'header' => 'headerPrestadoras',
+        'asideActive' => 'enfermeras'
+    ]);
 });
 
 // Rutas relacionadas a las bitacoras
@@ -150,7 +160,7 @@ Flight::route('/add/servicio/@id', function ($id) {
     Flight::render(
         'dashboard/add/servicio', [
             'title' => 'Agregar - Servicio',
-            'header' => 'headerBitacora',
+            'header' => 'headerAdd',
             "billing_schemes"=>$billing_schemes,
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
@@ -168,7 +178,7 @@ Flight::route('/add/servicio/', function () {
     Flight::render(
         'dashboard/add/servicio', [
             'title' => 'Agregar - Servicio',
-            'header' => 'headerBitacora',
+            'header' => 'headerAdd',
             "billing_schemes"=>$billing_schemes,
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
@@ -191,6 +201,21 @@ Flight::route('/add/prestadora', function () {
 Flight::route('/asignacionECA', function () {
     Flight::set('flight.views.path', 'intranet');
     Flight::render('dashboard/asignacionECA', ['title' => 'Asignacion ECA', 'header' => 'headerECA']);
+});
+
+/* ----------------------------------------------------------------
+ * -------------------  Sección de enfermeras  --------------------
+ * ---------------------------------------------------------------- */
+
+// Rutas relacionadas a asignacionTECA
+Flight::route('/enfermera', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/index', [
+        'title' => 'El nombre de la enfermera', 
+        'header' => 'headerEnfermeras',
+        'isEnfermera' => true
+        
+    ]);
 });
 
 /*Flight::route('/dashboard/recept-vials/@id',function($id){

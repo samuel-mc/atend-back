@@ -2,6 +2,10 @@
 ************* Modal FILTRAR ****************
 ******************************************* */
 
+.td__editable {
+    position: relative;
+}
+
 .main__modal {
     color: var(--primary-white);
     background-color: var(--primary-black);
@@ -12,7 +16,9 @@
 }
 
 .main__modal--edit {
-    /* right: 0px; */
+    left: -100px;
+    top: 32px;
+    width: 280px;
 }
 
 .main__modal > div {
@@ -21,20 +27,21 @@
 }
 
 .main__modal--filtrar {
-    top: 220px;
-    right: 160px;
+    top: 60px;
+    right: 90px;
+    margin: 0;
 }
 
 .main__modal--edit::before {
-    border-right: 50px solid transparent;
-    border-top: 50px solid transparent;
-    border-left: 50px solid transparent;
-    border-bottom: 50px solid var(--primary-black);
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid var(--primary-black);
     content: "";
     height: 0;
-    right: 20px;
+    right: 132px;
     position: absolute;
-    top: -80px;
+    top: -20px;
     width: 0;
 }
 

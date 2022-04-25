@@ -281,10 +281,10 @@
             </div>
         </section>
 
-        <section class="main__content main__info-servicios" id="infoServicio">
+        <!-- <section class="main__content main__info-servicios" id="infoServicio">
             <header class="info-servicios__header">
                 <div>
-                    <h1>Información de Servicio</h1>
+                    <h1>Información de Servicios</h1>
                     <h3 id="serviciosResume" class="servicios__header--text">Enfermería Gral. | Oncológico | 12 hrs | 8:00am</h3>
                 </div>
                 <div>
@@ -412,29 +412,29 @@
                     <input type="submit" class="button button--primary button--submit" value="Guardar">
                 </form>
             </div>
-        </section>
+        </section> -->
 
         <section class="main__content main__add--cotainer">
             <header class="main__header--servicios">
                 <h1>Información de Servicio</h1>
             </header>
             <div>
-                <form action="" class="form__info-paciente">
+                <form class="form__info-paciente" id="formInfoServicio">
                     <div>
                         <div class="form__field">
                             <label for="apellidosCliente">Fecha de Inicio</label>
-                            <input type="date" value="2020-05-01">
+                            <input type="date" value="2020-05-01" name="fechaInicio" id="fechaInicio">
                         </div>
 
                         <div class="form__field">
                             <label for="apellidosCliente">Fecha de terminación (opcional)</label>
-                            <input type="date">
+                            <input type="date" name="fechaFin" id="fechaFin">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
-                                <label for="sexo">Sexo ECA</label>
-                                <select name="sexo" id="sexo">
+                                <label for="sexoInfoServicio">Sexo ECA</label>
+                                <select name="sexoInfoServicio" id="sexoInfoServicio">
                                     <option value="femenino">Femenino</option>
                                     <option value="masculino">Masculino</option>
                                 </select>
@@ -501,66 +501,78 @@
                         <div class="form__field">
                             <label for="frecDelServicio">Frecuencia del Servicio</label>
                             <select name="frecDelServicio" id="frecDelServicio">
-                                <option value="">Otro</option>
-                                <option value="1">Padecimiento 1</option>
-                                <option value="2">Padecimiento 2</option>
-                                <option value="3">Padecimiento 3</option>
+                                <option value="0">Otro</option>
+                                <option value="1">Lunes a Viernes</option>
+                                <option value="2">Todos los días</option>
                             </select>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="lunes" name="lunes" value="lunes">
-                                <label for="lunes"> Lunes</label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="martes" name="martes" value="martes">
-                                <label for="martes"> Martes </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="miercoles" name="miercoles" value="miercoles">
-                                <label for="miercoles"> Miércoles </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="jueves" name="jueves" value="jueves">
-                                <label for="jueves"> Jueves </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="viernes" name="viernes" value="viernes">
-                                <label for="viernes"> Viernes </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="sabado" name="sabado" value="sabado">
-                                <label for="sabado"> Sábado </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="domingo" name="domingo" value="domingo">
-                                <label for="domingo"> Domingo </label><br>
+                            <div class="frecDelServicio--otro">
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="lunes" name="lunes" value="lunes">
+                                    <label for="lunes"> Lunes</label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="martes" name="martes" value="martes">
+                                    <label for="martes"> Martes </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="miercoles" name="miercoles" value="miercoles">
+                                    <label for="miercoles"> Miércoles </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="jueves" name="jueves" value="jueves">
+                                    <label for="jueves"> Jueves </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="viernes" name="viernes" value="viernes">
+                                    <label for="viernes"> Viernes </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="sabado" name="sabado" value="sabado">
+                                    <label for="sabado"> Sábado </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="domingo" name="domingo" value="domingo">
+                                    <label for="domingo"> Domingo </label><br>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <input type="submit" class="button button--primary button--submit" value="Guardar">
+
                 </form>
             </div>
         </section>
 
-        <section class="main__buttons">
+        <!-- <section class="main__buttons">
             <div>
                 <button class="button button--primary button--circle">
                     <i class="fas fa-plus"></i>
                 </button>
                 <h3>Nuevo servicio</h3>
             </div>
-        </section>
+        </section> -->
 
     </div>
 </main>
 
-<script>
+<script> //Script que desplega los dias de las semana si el user selecciona otro
+    const frecDelServicio = document.getElementById('frecDelServicio');
+    frecDelServicio.addEventListener('change', (e) => {
+        if (e.target.value === '0') {
+            document.querySelector('.frecDelServicio--otro').style.display = 'block';
+        } else {
+            document.querySelector('.frecDelServicio--otro').style.display = 'none';
+        }
+    });
+</script>
 
+<script> //Script para manejar el submit de los formularios
     let client_id = <?php echo (isset($client) ? $client["id"] : 0); ?>;
 
-    console.log(client_id);
-
+    // Manejo del formulario "Cliente"
     const formInfoCliente = document.querySelector('#formInfoCliente');
     formInfoCliente.addEventListener('submit', (e) => {
-        e.preventDefault();
+        e.preventDefault();        
         const clienteEmpresa = $("#clienteEmpresa").is(":checked");
         const nombreCliente = $("#nombreCliente").val();
         const apellidosCliente = $("#apellidosCliente").val();
@@ -594,11 +606,15 @@
         });
     });
 
-
-
+    // Manejo del formulario "Informacion Financiera"
     const formInfoFinanciera = document.querySelector('#formInfoFinanciera');
     formInfoFinanciera.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        if (client_id === 0) {
+            alert('Primero debes crear un cliente.');
+            return;
+        }
 
         const razonSocial = $("#razonSocial").val();
         const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
@@ -657,6 +673,7 @@
         });
     });
 
+    // Manejo del formulario "Informacion del paciente"
     const formInfoPaciente = document.querySelector('#formInfoPaciente');
     formInfoPaciente.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -724,6 +741,76 @@
                 console.log(res)
             }
         })
+    });
+
+    // Manejo del formulario "Informacion del servicio"
+    const formInfoServicio = document.querySelector('#formInfoServicio');
+    formInfoServicio.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fechaInicio = $("#fechaInicio").val();
+        const fechaFin = $("#fechaFin").val();
+        const sexoInfoServicio = $("#sexoInfoServicio").val();
+        const tipoDeServicio = $("#tipoDeServicio").val();
+        const tipoDeCuidado = $("#tipoDeCuidado").val();
+        const duracion = $("#duracion").val();
+        const entrada = $("#entrada").val();
+        const complexion = $("#complexion").val();
+        const calParaSeguro = $("#calParaSeguro").val();
+        const precioCliente = $("#precioCliente").val();
+        const precioEca = $("#precioEca").val();
+        const frecDelServicio = $("#frecDelServicio").val();
+        const diasFrecuencia = [];
+        if (frecDelServicio === 0) {
+            if ($("#lunes").is(":checked")) {
+                diasFrecuencia.push(1);
+            }
+            if ($("#martes").is(":checked")) {
+                diasFrecuencia.push(2);
+            }
+            if ($("#miercoles").is(":checked")) {
+                diasFrecuencia.push(3);
+            }
+            if ($("#jueves").is(":checked")) {
+                diasFrecuencia.push(4);
+            }
+            if ($("#viernes").is(":checked")) {
+                diasFrecuencia.push(5);
+            }
+            if ($("#sabado").is(":checked")) {
+                diasFrecuencia.push(6);
+            }
+            if ($("#domingo").is(":checked")) {
+                diasFrecuencia.push(7);
+            }
+        }
+        const costo = $("#costo").val();
+        const comentarioServicio = $("#comentarioServicio").val();
+
+        const infoServicio = {
+            client_id,
+            start_date:fechaInicio,
+            end_date:fechaFin,
+            eca_sex: sexoInfoServicio,
+            service_type: tipoDeServicio,
+            care_type: tipoDeCuidado,
+            duration: duracion,
+            entry: entrada,
+            complexion_id: complexion,
+            insurance: calParaSeguro === 'si' ? 1 : 0,
+            cost: precioCliente,
+            eca_cost: precioEca,
+            frequency: frecDelServicio,
+            frequency_days: diasFrecuencia,
+        };
+
+        console.log(infoServicio);
+        // $.ajax({
+        //     // url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
+        //     data:infoServicio,
+        //     success: function(res) {
+        //         console.log(res)
+        //     }
+        // })
     });
 </script>
 

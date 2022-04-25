@@ -1,12 +1,19 @@
 <script type="text/javascript">
     // Modal Filtrar
-	let showingModal = false;
     const buttonFiltrar = document.getElementById('buttonFiltrar');
     const modalFiltrar = document.createElement("div");
     modalFiltrar.classList.add('main__modal', 'main__modal--filtrar');
     modalFiltrar.setAttribute('id', 'modalFiltrar');
     modalFiltrar.innerHTML =
-        `<form>
+        `<div>
+            <button
+                class="button button--primary button--circle"
+                onclick="closeFiltrar(this)"
+            >
+                <i class="fa-solid fa-x"></i>
+            </button>
+        </div>
+        <form>
             <div>
                 <label for="fecha">Fecha</label>
                 <input type="date">
@@ -61,19 +68,14 @@
 
     const main = document.getElementById('header');
 
-    if (buttonFiltrar) {
-        buttonFiltrar.addEventListener('click', showModalFiltrar);
+    let isShowingFiltrar = false;
+    function showModalFiltrar(boton) {
+        boton.parentNode.appendChild(modalFiltrar);
+        isShowingFiltrar = true;
     }
-
-
-    function showModalFiltrar() {
-        if (!showingModal) {
-            main.appendChild(modalFiltrar);
-            showingModal = true;
-        } else {
-            main.removeChild(modalFiltrar);
-            showingModal = false;
-        }
+    function closeFiltrar (botonCerrar) {
+        botonCerrar.parentNode.parentNode.remove();
+        const isShowingFiltrar = false;
     }
 
     // Modal Editar
@@ -123,6 +125,7 @@
 
     const showModalEditar = (e) => {
         const father = e.target.parentNode.parentNode;
+        console.log(e)
         if (!showingModalEditar) {
             father.appendChild(modalEditar);
             showingModalEditar = true;

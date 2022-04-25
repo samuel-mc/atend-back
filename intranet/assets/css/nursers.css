@@ -1,0 +1,89 @@
+body.body__enfermera {
+    display: flex;
+    flex-direction: column;
+}
+
+.content__nurse--button {
+    margin: 32px 0;
+    text-align: center;
+}
+
+.content__nurse--button button {
+    margin: 0 auto;
+    font-size: var(--md);
+}
+
+.content__nurse--button button > *{
+    margin: 0 12px;
+}
+
+.content__nurse--header > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px 0;
+}
+
+.content__nurse--body {
+    font-size: var(--md);
+    margin: 48px 0;
+}
+
+.content__nurse--body > div {
+    margin: 32px 0;
+}
+
+.content__nurse--body a.button {
+    width: 200px;
+    margin: 12px auto;
+}
+
+.content__nurse--body ul{ list-style: none;}
+
+.nurse__body--datos h2 {
+    margin-bottom: 12px;
+}
+
+.nurse__body--datos ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.nurse__body--datos li {
+    background-color: var(--primary-black);
+    border-radius: 16px;
+    color: var(--primary-white);
+    font-size: var(--md);
+    text-align: center;
+    padding: 12px;
+}
+
+.nurse__body--padecimientos ul{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nurse__body--padecimientos li {
+    background-color: var(--primary-black);
+    border-radius: 20px;
+    color: var(--primary-white);
+    font-size: var(--md);
+    margin: 4px;
+    padding: 12px;
+    text-align: center;
+}
+
+.nurse__body--adicional ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+.nurse__body--adicional li {
+    border: 1px solid var(--primary-black);
+    border-radius: 20px;
+    color: var(--primary-black);
+    font-size: var(--md);
+    margin: 4px;
+    padding: 12px;
+    text-align: center;
+}
