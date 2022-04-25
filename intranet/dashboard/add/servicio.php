@@ -747,7 +747,6 @@
     const formInfoServicio = document.querySelector('#formInfoServicio');
     formInfoServicio.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const fechaInicio = $("#fechaInicio").val();
         const fechaFin = $("#fechaFin").val();
         const sexoInfoServicio = $("#sexoInfoServicio").val();

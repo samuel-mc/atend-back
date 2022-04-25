@@ -9,7 +9,7 @@
             </section>
 
             <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar">
+                <button class="button button--primary button--filter" id="buttonFiltrar" onclick="showModalFiltrar(this)">
                     <i class="fa-solid fa-filter"></i>
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
@@ -64,9 +64,6 @@
         </table>
 
         <footer class="main__footer">
-            <div class="footer__progress--bar">
-                <span></span>
-            </div>
             <div class="footer__progress--number">
                 1 de 16
             </div>
@@ -165,7 +162,7 @@
                     class="button button--primary button--circle"
                     onclick="closeModalEditarCosto(this)"
                 >
-                    X
+                    <i class="fa-solid fa-x"></i>
                 </button>
             </div>
             <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
