@@ -160,7 +160,7 @@ Flight::route('/add/servicio/@id', function ($id) {
     Flight::render(
         'dashboard/add/servicio', [
             'title' => 'Agregar - Servicio',
-            'header' => 'headerBitacora',
+            'header' => 'headerAdd',
             "billing_schemes"=>$billing_schemes,
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
@@ -178,7 +178,7 @@ Flight::route('/add/servicio/', function () {
     Flight::render(
         'dashboard/add/servicio', [
             'title' => 'Agregar - Servicio',
-            'header' => 'headerBitacora',
+            'header' => 'headerAdd',
             "billing_schemes"=>$billing_schemes,
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
