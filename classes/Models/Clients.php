@@ -28,6 +28,12 @@
 			return $cl; 
 		}
 
+		public function SaveClient(Request $data)
+		{
+			$d = $data->extract(["user_id","type_id","name","lastname","phone","email","require_billing","comments","photo"]);
+			$this->Save(self::TABLE_CLIENTS,$d,$data->id);
+		}
+
 		public function NewBillingInfo(Request $data)
 		{
 			$data->put("status",1);
@@ -44,6 +50,21 @@
 			$fi = $this->Insert(self::TABLE_ADDRESSES,$add,"id");
 
 			return $finantial_info;
+		}
+
+		public function SaveBillingInfo(Request $data)
+		{
+			$d = $data->extract(["bussines_name","billing_scheme_id","rfc","email","use_id","billing_regime_id","status"]);
+			$this->Save(self::TABLE_FINANTIAL_INFORMATION,$d,$data->id);
+			$zc = $this->GetByCondition(self::TABLE_CAT_ZIPCODES,["zipcode",$data->get("zipcode")])['id'];
+			$data->put("country_id", 1);
+			$data->put("zipcode_id",$zc);
+			$data->put("type",3);
+			$data->put("related_id",$data->id);
+			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
+			$add_id =  $this->GetByCondition(self::TABLE_ADDRESSES,["related_id",$data->id])['id'];
+
+			$this->Save(self::TABLE_ADDRESSES,$add,$add_id);
 		}
 
 		

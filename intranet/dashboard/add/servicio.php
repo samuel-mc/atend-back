@@ -136,6 +136,9 @@
             </header>
             <div>
                 <form class="form__info-paciente" id="formInfoPaciente">
+
+                    <input type="hidden" id="patient_id" value="<?php //echo $patient['id']; ?>">
+
                     <div>
                         <div class="form__field">
                             <label for="nombrePaciente">Nombre del paciente </label>
@@ -699,7 +702,9 @@
         const comentarioPaciente = $("#comentarioPaciente").val();
         const alergia = $("#alergia").val();
         const ordenMedica = $("#ordenMedica").val();
-        const requiereReanimacion = $("#requiereReanimacion").is(":checked");;
+        const requiereReanimacion = $("#requiereReanimacion").is(":checked");
+
+        const id = $("#patient_id").val();
         
         let ails = "(";
         $(ailments).each(function(index,element) {
@@ -735,7 +740,7 @@
         };
         
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action="+(id!=0?"update_patient":"save_new_patient"),
             data:infoPaciente,
             success: function(res) {
                 console.log(res)

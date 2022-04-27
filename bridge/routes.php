@@ -15,7 +15,9 @@
 
 	$router->Group("clients",[
 		"save_new_client"=>"NewClient",
-		"save_new_billing_info"=>"NewBillingInfo"
+		"update_client"=>"SaveClient",
+		"save_new_billing_info"=>"NewBillingInfo",
+		"update_billing_info"=>"SaveBillingInfo"
 		]
 	);
 
@@ -25,7 +27,8 @@
 	);
 
 	$router->Group("patients",[
-		"save_new_patient"=>"NewPatient"
+		"save_new_patient"=>"NewPatient",
+		"update_patient"=>"UpdatePatient"
 		]
 	);
 

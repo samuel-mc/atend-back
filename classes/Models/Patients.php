@@ -35,6 +35,12 @@
 			return $this->success($insert);
 		}
 
+		public function UpdatePatient(Request $data)
+		{
+			$d = $data->extract(["user_id","client_id","name","diagnosis","birthdate","gender","weight","height","ailments","want_reanimation","care_plan","comments","allergies","medical_order","doctor_id","emergency_contact","emergency_phone","emergency_phone2"]);
+			$update = $this->Save(self::TABLE_PATIENTS,$d,$data->id);
+		}
+
 		public function GetPatientById(Request $data)
 		{
 			$pat = $this->GetById(self::TABLE_PATIENTS,$data->id);
