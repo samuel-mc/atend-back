@@ -214,7 +214,60 @@ Flight::route('/enfermera', function () {
         'title' => 'El nombre de la enfermera', 
         'header' => 'headerEnfermeras',
         'isEnfermera' => true
-        
+    ]);
+});
+
+Flight::route('/enfermera/servicios', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/servicios', [
+        'title' => 'Servicio', 
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/ingresosYEgresos', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/ingresosYEgresos', [
+        'title' => 'Ingresos y egresos', 
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/signosVitales', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/signosVitales', [
+        'title' => 'Signos vitales',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/movilizaciones', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/movilizaciones', [
+        'title' => 'Movilizaciones',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/apoyoRespiratorio', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/apoyoRespiratorio', [
+        'title' => 'Apoyo Respiratorio',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/medicamentos', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/medicamentos', [
+        'title' => 'Medicamentos',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
     ]);
 });
 

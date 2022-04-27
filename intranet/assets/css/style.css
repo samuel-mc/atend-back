@@ -21,6 +21,7 @@ html {
     --primary-white: #FFFFFF;
     --primary-black: #000000;
     --light-gray: #C9C9C9;
+    --danger-red: #CD5858;
 
     /* Font Size */
     --sm: 1.2rem;

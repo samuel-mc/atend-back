@@ -357,6 +357,16 @@
             </section>
             
         </header>';
+    $headerEnfermeraServicios = 
+        '<header class="header header__enfermera--servicios">
+            <div></div>
+            <div><h2>00:00:00</h3></div>
+            <div>
+                <button class="button button--transparent" id="buttonSideMenu">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>        
+            </div>
+        </header>';
 
     switch ($header) {
         case 'headerIndex':
@@ -394,6 +404,9 @@
             break;
         case 'headerEnfermeras':
             echo $headerEnfermeras;
+            break;
+        case 'headerEnfermeraServicios':
+            echo $headerEnfermeraServicios;
             break;
         default:
             echo $headerIndex;

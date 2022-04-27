@@ -152,3 +152,9 @@ section.header--bottom-container.header__enfermera {
     background-color: var(--primary-black);
     margin: 0 12px;
 }
+
+.header.header__enfermera--servicios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
