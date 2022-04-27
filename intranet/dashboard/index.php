@@ -116,19 +116,19 @@
                     <td>${element.provider.name} ${element.provider.lastname}</td>
                     <td class="td__editable">
                         $ ${element.cost.cost ? element.cost.cost : '0'}
-                        <button onclick="showEditarModal(this, 'cliente', ${element?.id}, ${element?.cost.cost})">
+                        <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
                         ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'eca', ${element?.id}, ${element?.cost.eca_cost})">
+                        <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
                         ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'extra', ${element?.id}, ${element?.cost.extra_cost})">
+                        <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
@@ -186,12 +186,12 @@
     
                 <div>
                     <label for="monto">Monto</label>
-                    <input id="monto" name="monto" type="text" value="$ ${costo}">
+                    <input id="monto" name="monto" type="text" value="${costo}">
                 </div>
     
                 <div>
                     <label for="comentario">Comentario</label>
-                    <input name="comentario" id="comentario" type="text" value="EPP y transporte de ECA">
+                    <input name="comentario" id="comentario" type="text" value="">
                 </div>
                 <button type="submit" class="button button--primary button--submit">
                     Guardar
@@ -223,20 +223,21 @@
         const recurrencia = document.getElementById('recurrencia');
         const monto = document.getElementById('monto');
         const comentario = document.getElementById('comentario');
-        const data = {
-            aplica: aplica.value,
-            recurrencia: recurrencia.value,
-            monto: monto.value,
-            comentario: comentario.value,
-            idCosto: idCosto.value
+        let data = {
+            recurrency: recurrencia.value,
+            reason: comentario.value,
+            id: idCosto.value
         }
+        data[aplica.value] = monto.value;
+        console.log(data);
         $.ajax({
             url: 'bridge/routes.php?action=update_cost',
-            type: 'POST',
-            data: data,
-            success: function(data) {
+            type: 'GET',
+            data,
+            success: function(resp) {
+                console.log(resp)
                 alert('Información actualizada');
-                window.location.reload();
+                //window.location.reload();
             }
         });
     }

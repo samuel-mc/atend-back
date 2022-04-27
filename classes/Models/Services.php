@@ -57,6 +57,12 @@
 			}
 			return $res;
 		}
+
+		public function SaveCosts(Request $data)
+		{	
+			$d = $data->extract(["cost","eca_cost","extra_cost","reason"]);
+			return $this->Save(self::TABLE_SERVICE_COSTS,$d,$data->id);
+		}
 	}
 
 ?>
