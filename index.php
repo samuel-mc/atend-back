@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -266,6 +266,15 @@ Flight::route('/enfermera/medicamentos', function () {
     Flight::set('flight.views.path', 'intranet');
     Flight::render('nursers/medicamentos', [
         'title' => 'Medicamentos',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
+Flight::route('/enfermera/escalas', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/escalas', [
+        'title' => 'Escalas',
         'header' => 'headerEnfermeraServicios',
         'isEnfermera' => true
     ]);

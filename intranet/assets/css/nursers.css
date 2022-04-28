@@ -184,3 +184,9 @@ body.body__enfermera {
 .form__field.form__field--doble input {
     width: 100%;
 }
+
+.conductual__fields > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

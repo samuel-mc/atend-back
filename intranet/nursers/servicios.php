@@ -28,7 +28,7 @@
             </a>
         </li>
         <li>
-            <a class="button button--primary" href="">
+            <a class="button button--primary" href="<?php echo __ROOT__; ?>/enfermera/escalas">
                 Escalas
             </a>
         </li>
