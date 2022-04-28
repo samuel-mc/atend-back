@@ -223,9 +223,10 @@
         const recurrencia = document.getElementById('recurrencia');
         const monto = document.getElementById('monto');
         const comentario = document.getElementById('comentario');
+        
         let data = {
             recurrency: recurrencia.value,
-            reason: comentario.value,
+            reason: $("#comentario").val(),
             id: idCosto.value
         }
         data[aplica.value] = monto.value;

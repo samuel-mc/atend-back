@@ -94,13 +94,28 @@ Flight::route('/prestadoras', function () {
 });
 
 // Rutas relacionadas a las bitacoras
-Flight::route('/bitacora', function () {
-    Flight::redirect('/bitacora/ingresosYEgresos');
+Flight::route('/bitacora/@id/@type', function ($id,$type) {
+    Flight::set('flight.views.path', 'intranet');
+
+    $admin = new Model;
+    $table = [
+        "apoyo"=>"binnacle_breath_help",
+        "ingresos"=>"binnacle_io",
+        "movilizaciones"=>"binnacle_movements",
+        "signos"=>"binnacle_vital_signs",
+        "medicamentos"=>"binnacle_drugs",
+        "evaluacion"=>"scale_pain",
+        "pupilar"=>"scale_pupilar",
+        "glasgow"=>"scale_glasgow",
+        "perimetros"=>"scale_perimeters",
+        "norton"=>"scale_norton"
+    ];
+
+    $data = $admin->binnacle->GetData($id,$table[$type]);
+    Flight::render('dashboard/bitacora/'.$type, ['title' => 'Bitácora', 'header' => 'headerBitacora', "data"=>$data]);
 });
 
-Flight::route('/bitacora/ingresosYEgresos', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/bitacora/ingresos', ['title' => 'Bitacora - Ingresos Y Egresos', 'header' => 'headerBitacora']);
+/*Flight::route('/bitacora/ingresosYEgresos', function () {
 });
 
 Flight::route('/bitacora/signosVitales', function () {
@@ -146,7 +161,7 @@ Flight::route('/bitacora/perimetros', function () {
 Flight::route('/bitacora/norton', function () {
     Flight::set('flight.views.path', 'intranet');
     Flight::render('dashboard/bitacora/norton', ['title' => 'Bitacora - Norton', 'header' => 'headerBitacora']);
-});
+});*/
 
 // Rutas relacionadas a las funcionalidades de agregar
 Flight::route('/add/servicio/@id', function ($id) {
