@@ -280,6 +280,15 @@ Flight::route('/enfermera/escalas', function () {
     ]);
 });
 
+Flight::route('/enfermera/terminar', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('nursers/terminar', [
+        'title' => 'Terminar',
+        'header' => 'headerEnfermeraServicios',
+        'isEnfermera' => true
+    ]);
+});
+
 /*Flight::route('/dashboard/recept-vials/@id',function($id){
     $id = str_replace(".", "", $id);
     Flight::redirect('/recept-vials/'.$id);
