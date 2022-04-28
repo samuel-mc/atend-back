@@ -1,63 +1,7 @@
 <main class="main">
     <section class="main__content" id="main">
-        <header class="main__header--servicios">
-            <section>
-                <h2>Bitácora del 21.03.2021</h2>
-            </section>
-
-            <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar">
-                    Descargar Bitácora
-                    <i class="fa-solid fa-download"></i>
-                </button>
-                <button class="button button--circle button--primary">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </section>
-        </header>
-        <section class="bitacora__navbar">
-            <ul>
-                <li>
-                    <a href="./ingresosYEgresos" class="button button--primary">Ingresos Y Egresos</a>
-                </li>
-                <li>
-                    <a href="./signosVitales" class="button button--primary">Signos Vitales</a>
-                </li>
-                <li>
-                    <a href="./movilizaciones" class="button button--primary">Movilizaciones</a>
-                </li>
-                <li>
-                    <a href="./apoyoRespiratorio" class="button button--primary">Apoyo Respiratorio</a>
-                </li>
-                <li class="escalas">
-                    <a href="#" class="button button--primary active">
-                        Escalas <i class="fa-solid fa-angle-down"></i> 
-                    </a>
-                    <ul class="bitacora__navbar--escalas">
-                        <li>
-                            <a class="button button--primary" href="./evaluacion">Evaluación y reevaluación del dolor</a>
-                        </li>
-                        <li>
-                            <a class="button button--primary active" href="./pupilar">Pupilar</a>
-                        </li>
-                        <li>
-                            <a class="button button--primary" href="./glasgow">Glasgow</a>
-                        </li>
-                        <li>
-                            <a class="button button--primary" href="./perimetros">Perímetros</a>
-                        </li>
-                        <li>
-                            <a class="button button--primary" href="./norton">Norton</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="./medicamentos" class="button button--primary">
-                        Medicamentos
-                    </a>
-                </li>
-            </ul>
-        </section>
+       
+        <?php include "botones.php"; ?>
 
         <h1>Pupilar</h1>
 

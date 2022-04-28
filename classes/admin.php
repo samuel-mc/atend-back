@@ -20,6 +20,7 @@ class Admin
 	const TABLE_CAT_CARE_TYPE = "cat_care_type";
 	const TABLE_CAT_CLIENT_TYPE = "cat_client_type";
 	const TABLE_CAT_COMPLEXION = "cat_complexion";
+	const TABLE_CAT_IO_TYPES = "cat_io_types"; 
 	const TABLE_CAT_DRUG_WAYS = "cat_drug_ways";
 	const TABLE_CAT_GENERAL_STATUS = "cat_general_status";
 	const TABLE_CAT_HR_STEPS = "cat_hr_steps";
@@ -55,7 +56,7 @@ class Admin
 	const TABLE_PROVIDER_SKILLS = "provider_skills";
 	const TABLE_PROVIDER_SKILLS_LEVEL = "provider_skills_level";
 	const TABLE_PROVIDER_STATUS = "provider_status";
-	const TABLE_SCALE_GLASLOW = "scale_glaslow";
+	const TABLE_SCALE_GLASGOW = "scale_glasgow";
 	const TABLE_SCALE_NORTON = "scale_norton";
 	const TABLE_SCALE_PAIN = "scale_pain";
 	const TABLE_SCALE_PERIMETERS = "scale_perimeters";

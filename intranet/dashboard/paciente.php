@@ -91,7 +91,7 @@
 
                         <div class="form__field">
                             <label for="medicoTratante">Médico Tratante </label>
-                            <input type="text" value="<?php echo $patient['doctor']['name']; ?>" name="medicoTratante" id="medicoTratante">
+                            <input type="text" value="<?php echo isset($patient['doctor'])?$patient['doctor']['name']:''; ?>" name="medicoTratante" id="medicoTratante">
                         </div>
 
                         <div class="form__field">
