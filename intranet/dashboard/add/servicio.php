@@ -1,6 +1,14 @@
+<?php
+    $add = isset($add) ? $add : null;
+?>
+
 <main class="main">
     <div>
-        <section class="main__form--top" id="main">
+        <section 
+            class="main__form--top"
+            id="main"
+            style="display: <?php echo $add === 'paciente' ? 'none' : 'grid' ?>;"
+        >
             <div class="main__content">
                 <form class="form__info-cliente" id="formInfoCliente">
                     <header class="main__header--servicios">

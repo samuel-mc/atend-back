@@ -64,7 +64,7 @@
                         <input type="text">
                     </div>
                     <a class="button button--primary button--circle" 
-                        href="'.__ROOT__.'/add/servicio/'.(isset($idClient)?$idClient:"").'#infoPaciente"
+                        href="'.__ROOT__.'/add/paciente/'.(isset($idClient)?$idClient:"").'"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
