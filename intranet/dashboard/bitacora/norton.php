@@ -20,38 +20,21 @@
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 8; $i < 12; $i++) : ?>
+                <?php foreach ($data as $d) : ?>
                     <tr>
-                        <td><?php echo $i; ?>:00 am</td>
-                        <td>Confuso</td>
-                        <td>Sentado</td>
-                        <td>Muy limitada</td>
-                        <td>Urinaria</td>
-                        <td>Malo</td>
-                        <td>Cóxis</td>
-                        <td>10 = Alto riesgo</td>
+                        <td><?php echo explode(" ",$d['timestamp'])[1]; ?></td>
+                        <td><?php echo $d['state_of_mind']; ?></td>
+                        <td><?php echo $d['activity']; ?></td>
+                        <td><?php echo $d['movility']; ?></td>
+                        <td><?php echo $d['incontinence']; ?></td>
+                        <td><?php echo $d['general_status']; ?></td>
+                        <td><?php echo $d['affected_zone']; ?></td>
+                        <td><?php echo $d['norton_scale']; ?></td>
                         <td>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </td>
                     </tr>
-                <?php endfor; ?>
-
-                <?php for ($i = 12; $i < 23; $i++) : ?>
-                    <tr>
-                        <td><?php echo $i; ?>:00 pm</td>
-                        <td>Confuso</td>
-                        <td>Sentado</td>
-                        <td>Muy limitada</td>
-                        <td>Urinaria</td>
-                        <td>Malo</td>
-                        <td>Cóxis</td>
-                        <td>10 = Alto riesgo</td>
-                        <td>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </td>
-                    </tr>
-                <?php endfor; ?>
-
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>

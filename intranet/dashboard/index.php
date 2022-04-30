@@ -133,7 +133,7 @@
                         </button>
                     </td>
                     <td>
-                        <a href="./bitacora">
+                        <a href="./bitacora/${element.id}">
                             Ver Bitácora
                         </a>
                     </td>

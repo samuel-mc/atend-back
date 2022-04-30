@@ -10,6 +10,7 @@ class Admin
 	const TABLE_BINNACLE_IO = "binnacle_io";
 	const TABLE_BINNACLE_MOVEMENTS = "binnacle_movements";
 	const TABLE_BINNACLE_VITAL_SIGNS = "binnacle_vital_signs";
+	const TABLE_CAT_ACTIVITY = "cat_activity";
 	const TABLE_CAT_AFFECTED_ZONE = "cat_affected_zone";
 	const TABLE_CAT_AILMENTS = "cat_ailments";
 	const TABLE_CAT_ATEND_PROFILES = "cat_atend_profiles";

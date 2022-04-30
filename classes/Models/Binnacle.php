@@ -38,7 +38,12 @@
 					$d['motor_response'] = $this->getById(self::TABLE_CAT_MOTOR_RESPONSE,$d['motor_response_id'])['name'];
 				}
 				if ($table==self::TABLE_SCALE_NORTON){
-					
+					$d['state_of_mind'] = $this->GetById(self::TABLE_CAT_STATE_OF_MIND,$d['state_of_mind_id'])['name'];
+					$d['activity'] = $this->GetById(self::TABLE_CAT_ACTIVITY,$d['activity_id'])['name'];
+					$d['movility'] = $this->GetById(self::TABLE_CAT_MOVILITY,$d['movility_id'])['name'];
+					$d['incontinence'] = $this->GetById(self::TABLE_CAT_INCONTINENCE,$d['incontinence_id'])['name'];
+					$d['general_status'] = $this->GetById(self::TABLE_CAT_GENERAL_STATUS,$d['general_status_id'])['name'];
+					$d['affected_zone'] = $this->GetById(self::TABLE_CAT_AFFECTED_ZONE,$d['affected_zone_id'])['name'];
 				}
 				if ($table==self::TABLE_SCALE_PAIN){
 					

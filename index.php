@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    define('__ROOT__', "http://localhost/backend");
-    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    //define('__ROOT__', "http://localhost/backend");
+    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -91,6 +91,11 @@ Flight::route('/prestadoras', function () {
         'header' => 'headerPrestadoras',
         'asideActive' => 'enfermeras'
     ]);
+});
+
+// Rutas relacionadas a las bitacoras
+Flight::route('/bitacora/@id', function ($id) {
+    Flight::redirect("/bitacora/".$id."/ingresos");
 });
 
 // Rutas relacionadas a las bitacoras
