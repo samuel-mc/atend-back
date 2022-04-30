@@ -1,6 +1,6 @@
 <?php
     $botonEditar = '
-    <button class="buttonEditar" >
+    <button class="buttonEditar">
         <i class="fa-solid fa-pencil"></i>
     </button>
     ';
@@ -391,7 +391,6 @@
     const fillindexTable = (data) => {
         let table = '';
         data.forEach(element => {
-
             table += `<tr>
                 <td>
                     <button class="buttonEditarFecha">
@@ -427,9 +426,11 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
-                <td class="main__table--estatus">
+                <td class="td__editable main__table--estatus">
                     <span class="disable"> ● </span> ${element.status.name} 
-                    <?php echo $botonEditar; ?>
+                    <button class="buttonEditar" onclick="showStatusModal(this, '${element.status.name}', '${element.status.id}')">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
                 </td>
                 <td>
                     <i class="fa-solid fa-trash-can"></i>
@@ -528,7 +529,7 @@
         data[aplica.value] = monto.value;
         console.log(data);
         $.ajax({
-            url: 'bridge/routes.php?action=update_cost',
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_cost',
             type: 'GET',
             data,
             success: function(resp) {
@@ -547,4 +548,44 @@
             }
         });
     }
+</script>
+
+<script> //Script para editar el status del pacientes.
+    let showingModalEditarStatus = false;
+    function showStatusModal(boton, estatusName, estatusId) {
+        console.log(estatusName);
+        const modalEditarStatus = document.createElement("div");
+        modalEditarStatus.classList.add('main__modal', 'main__modal--edit');
+        modalEditarStatus.setAttribute('id', 'modalEdit');
+        modalEditarStatus.innerHTML =
+            `<div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarCosto(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
+                <input type="hidden" name="aplica" id="aplica" value="hidden"> 
+
+                <div>
+                    <label for="status">Estatus</label>
+                    <select name="status" id="status">
+                        <option value="${estatusId}">${estatusName}</option>
+                        <option value="101011">Foo</option>
+                        <option value="101012">Foo</option>
+                    </select>
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
+            `;
+        if (!showingModalEditarCosto) {
+            boton.parentNode.appendChild(modalEditarStatus);
+            showingModalEditarCosto = true;
+        }
+    } 
+
 </script>
