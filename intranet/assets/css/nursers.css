@@ -157,6 +157,9 @@ body.body__enfermera {
     text-decoration: none;
     margin: 0 12px;
 }
+.enfermera__footer a.button.button--primary {
+    font-size: var(--md);
+}
 
 /* Seccion "Ingresos / Egresos */
 .main__ingresos {
@@ -189,4 +192,8 @@ body.body__enfermera {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.form__field textarea {
+    padding: 12px;
 }

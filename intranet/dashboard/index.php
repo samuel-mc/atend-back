@@ -236,8 +236,17 @@
             type: 'GET',
             data,
             success: function(resp) {
-                console.log(resp)
+                console.log(event.target)
                 alert('Información actualizada');
+                event.target.parentNode.remove();
+                showingModalEditarCosto = false;
+                if (aplica.cost === 'cost') {
+                    aplica.cost = monto.value;
+                } else if (aplica.cost === 'eca_cost') {
+                    aplica.cost = monto.value;
+                } else if (aplica.cost === 'extra_cost') {
+                    aplica.cost = monto.value;
+                }
                 //window.location.reload();
             }
         });

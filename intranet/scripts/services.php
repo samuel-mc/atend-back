@@ -269,8 +269,4 @@
         buttonDisplayServicio.addEventListener('click', handleDisplayServicio);
     }
 
-
-
-
-
 </script>

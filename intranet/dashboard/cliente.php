@@ -357,48 +357,7 @@
             </tbody>
         </table>
 
-        <!-- Modal que se genera al clickear en "edit"  -->
-        <!-- <div class="main__modal main__modal--edit" id="modalEdit">
-            <div>
-                <button class="button button--primary button--circle">X</button>
-            </div>
-            <form action="">
-                <div>
-                    <label for="aplica">Aplica a</label>
-                    <select name="aplica" id="aplica">
-                        <option value="0">Cliente</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="recurrencia">Recurrencia</label>
-                    <select name="recurrencia" id="recurrencia">
-                        <option value="0">De aquí en adelante</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="estatus">Monto</label>
-                    <input type="text" value="$250">
-                </div>
-
-                <div>
-                    <label for="estatus">Comentario</label>
-                    <input type="text" value="EPP y transporte de ECA">
-                </div>
-
-                <button type="button" class="button button--primary button--submit">Agregar</button>
-            </form>
-        </div> -->
-
         <footer class="main__footer">
-            <div class="footer__progress--bar">
-                <span></span>
-            </div>
             <div class="footer__progress--number">
                 1 de 16
             </div>
@@ -450,23 +409,23 @@
                     ${element.provider.name} ${element.provider.lastname}
                     <?php echo $botonEditar; ?>
                 </td>
-                <td>
-                    ${element.costo_cliente ? element.costo_cliente : '$ 0'}
-                    <button onclick="console.log('${element.date}')">    
+                <td class="td__editable">
+                    ${element.cost.cost ? element.cost.cost : '$ 0'}
+                    <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">    
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
-                <td>
-                    ${element.costo_total ? element.costo_total : '$0'}
-                    <a>    
+                <td class="td__editable">
+                    ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                    <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
                         <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    </button>
                 </td>
-                <td>
-                    ${element.costo_extras ? element.costo_extras : '$0'}
-                    <a>    
+                <td class="td__editable">
+                    ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                    <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">    
                         <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    </button>
                 </td>
                 <td class="main__table--estatus">
                     <span class="disable"> ● </span> ${element.status.name} 
@@ -478,5 +437,114 @@
             </tr>`;
         });
         $("#table_data").html(table);
+    }
+</script>
+
+<script> //Script para editar los datos de la tabla
+    /**
+     * Funcion para mostrar el modal de editar
+     * @param {Element} boton
+     * @param {Number} idCosto
+     * @param {Number} cost 
+     */
+    let showingModalEditarCosto = false;
+    function showEditarModal(boton, aplica, idCosto, costo) {
+        const modalEditarCosto = document.createElement("div");
+        modalEditarCosto.classList.add('main__modal', 'main__modal--edit');
+        modalEditarCosto.setAttribute('id', 'modalEdit');
+        modalEditarCosto.innerHTML =
+            `<div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarCosto(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
+                <input type="hidden" name="idCosto" id="idCosto" value="${idCosto}">
+                <input type="hidden" name="aplica" id="aplica" value="${aplica}">
+                <!-- <label for="aplica">Aplica a</label>
+                    <select name="aplica" id="aplica">
+                        <option value="0">Cliente</option>
+                        <option value="101011">Foo</option>
+                        <option value="101012">Foo</option>
+                    </select> -->
+
+                <div>
+                    <label for="recurrencia">Recurrencia</label>
+                    <select name="recurrencia" id="recurrencia">
+                        <option value="0">De aquí en adelante</option>
+                        <option value="101011">Foo</option>
+                        <option value="101012">Foo</option>
+                    </select>
+                </div>
+    
+                <div>
+                    <label for="monto">Monto</label>
+                    <input id="monto" name="monto" type="text" value="${costo}">
+                </div>
+    
+                <div>
+                    <label for="comentario">Comentario</label>
+                    <input name="comentario" id="comentario" type="text" value="">
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
+            `;
+        if (!showingModalEditarCosto) {
+            boton.parentNode.appendChild(modalEditarCosto);
+            showingModalEditarCosto = true;
+        }
+    }
+
+    /**
+     * Funcion para cerrar el modal de editar
+     * @param {Element} boton
+     */
+    const closeModalEditarCosto = (botonCerrar) => {
+        botonCerrar.parentNode.parentNode.remove();
+        showingModalEditarCosto = false;
+    }
+
+    /**
+     * Funcion para enviar los datos del formulario de editar
+     * @param {Event} event 
+     */
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        const aplica = document.getElementById('aplica'); // Esta variable determina el valor del "aplica a" (ya sea cliente, eca o extras);
+        const recurrencia = document.getElementById('recurrencia');
+        const monto = document.getElementById('monto');
+        const comentario = document.getElementById('comentario');
+        
+        let data = {
+            recurrency: recurrencia.value,
+            reason: $("#comentario").val(),
+            id: idCosto.value
+        }
+        data[aplica.value] = monto.value;
+        console.log(data);
+        $.ajax({
+            url: 'bridge/routes.php?action=update_cost',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                console.log(event.target)
+                alert('Información actualizada');
+                event.target.parentNode.remove();
+                showingModalEditarCosto = false;
+                if (aplica.cost === 'cost') {
+                    aplica.cost = monto.value;
+                } else if (aplica.cost === 'eca_cost') {
+                    aplica.cost = monto.value;
+                } else if (aplica.cost === 'extra_cost') {
+                    aplica.cost = monto.value;
+                }
+                //window.location.reload();
+            }
+        });
     }
 </script>

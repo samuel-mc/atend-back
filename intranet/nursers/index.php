@@ -81,7 +81,7 @@
             }
         }
         if (stateEnCamino === 'enCaminoReportado') {
-            window.location.replace('servicios');
+            window.location.replace('<?php echo __ROOT__; ?>/enfermera/servicios');
         }
     }
     function timer(element) {

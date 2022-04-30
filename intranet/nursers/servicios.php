@@ -49,7 +49,12 @@
         </a>
     </div>
     <div>
-        <button class="button button--primary">Terminar Servicio</button>
+        <a
+            class="button button--primary"
+            href="<?php echo __ROOT__; ?>/enfermera/terminar"
+        >
+            Terminar Servicio
+        </a>
     </div>
 </footer>
 
