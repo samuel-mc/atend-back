@@ -46,10 +46,15 @@
 					$d['affected_zone'] = $this->GetById(self::TABLE_CAT_AFFECTED_ZONE,$d['affected_zone_id'])['name'];
 				}
 				if ($table==self::TABLE_SCALE_PAIN){
-					
+					if ($d['drug_id']){
+						$d['drug'] = $this->GetById(self::TABLE_CAT_DRUGS,$d['drug_id'])['name'];
+					}
+					$d['conductual'] = $this->GetById(self::TABLE_CAT_CONDUCTUAL,$d['conductual_id'])['name'];
+					$d['evera'] = $this->GetById(self::TABLE_CAT_EVERA,$d['evera_id'])['name'];
+					$d['pain'] = $this->GetById(self::TABLE_CAT_PAIN_TYPES,$d['pain_type_id'])['name'];
 				}
 				if ($table==self::TABLE_SCALE_PERIMETERS){
-					
+					$d['location'] = $this->GetById(self::TABLE_CAT_LOCATION,$d['location_id'])['name'];
 				}
 				if ($table==self::TABLE_SCALE_PUPILAR){
 					
