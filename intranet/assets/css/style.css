@@ -22,6 +22,7 @@ html {
     --primary-black: #000000;
     --light-gray: #C9C9C9;
     --danger-red: #CD5858;
+    --ligth-green: #80db80;
 
     /* Font Size */
     --sm: 1.2rem;
@@ -49,6 +50,7 @@ h1 {
 }
 
 h2 { font-size: var(--md); }
+h3 { font-size: var(--sm); }
 
 /* *****************************************
 ***************** ASIDE ********************

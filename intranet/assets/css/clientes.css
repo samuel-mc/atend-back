@@ -1,0 +1,46 @@
+.section--top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.cliente__card--header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+.cliente__card--content {
+    margin: 32px 0;
+}
+
+.cliente__card--monto {
+    font-size: var(--xl);
+    font-weight: bold;
+}
+
+.cliente__card--monto {
+    color: var(--ligth-green);
+}
+
+.cliente__facturas-list {
+    list-style: none;
+}
+
+.cliente__facturas-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-size: var(--sm);
+}
+
+.cliente__table-container footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cliente__table-container footer > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

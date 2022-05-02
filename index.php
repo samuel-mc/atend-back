@@ -330,6 +330,18 @@ Flight::route('/enfermera/terminar', function () {
     ]);
 });
 
+/* ----------------------------------------------------------------
+ * -----------------  Sección que ve el cliente  ------------------
+ * ---------------------------------------------------------------- */
+Flight::route('/dashboard/cliente', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('dashboard/cliente/index', [
+        'title' => 'Nombre del cliente',
+        'header' => 'headerClienteDashboard',
+        'asideActive' => 'clientes'
+    ]);
+});
+
 /*Flight::route('/dashboard/recept-vials/@id',function($id){
     $id = str_replace(".", "", $id);
     Flight::redirect('/recept-vials/'.$id);
