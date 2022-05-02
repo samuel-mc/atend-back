@@ -15,28 +15,16 @@
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 8; $i < 12; $i++) : ?>
+                <?php foreach ($data as $d) : ?>
                     <tr>
-                        <td><?php echo $i; ?>:00 am</td>
-                        <td>2</td>
-                        <td>4</td>
+                        <td><?php echo explode(" ",$d['timestamp'])[1]; ?></td>
+                        <td><?php echo $d['pupilar_left']; ?></td>
+                        <td><?php echo $d['pupilar_right']; ?></td>
                         <td>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </td>
                     </tr>
-                <?php endfor; ?>
-
-                <?php for ($i = 12; $i < 23; $i++) : ?>
-                    <tr>
-                        <td><?php echo $i; ?>:00 pm</td>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </td>
-                    </tr>
-                <?php endfor; ?>
-
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>

@@ -18,33 +18,20 @@
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 8; $i < 12; $i++) : ?>
-                    <tr>
-                        <td><?php echo $i; ?>:00 am</td>
-                        <td>4</td>
-                        <td>Moderado</td>
-                        <td>Dolor Moderado</td>
-                        <td>Opresivo</td>
-                        <td>Físico</td>
-                        <td>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </td>
-                    </tr>
-                <?php endfor; ?>
 
-                <?php for ($i = 12; $i < 23; $i++) : ?>
+                <?php foreach ($data as $d) : ?>
                     <tr>
-                        <td><?php echo $i; ?>:00 pm</td>
-                        <td>4</td>
-                        <td>Moderado</td>
-                        <td>Dolor Moderado</td>
-                        <td>Opresivo</td>
-                        <td>Físico</td>
+                        <td><?php echo explode(" ",$d['timestamp'])[1]; ?></td>
+                        <td><?php echo $d['ena_eva']; ?></td>
+                        <td><?php echo $d['evera']; ?></td>
+                        <td><?php echo $d['conductual']; ?></td>
+                        <td><?php echo $d['pain']; ?></td>
+                        <td><?php echo $d['treatment']; ?></td>
                         <td>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </td>
                     </tr>
-                <?php endfor; ?>
+                <?php endforeach; ?>
 
             </tbody>
         </table>
