@@ -35,32 +35,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>000 <i class="fa-solid fa-circle-info"></i></td>
-                    <td>Marcela Pérez C</td>
-                    <td>Auxiliar</td>
-                    <td>Cuidadora - A</td>
-                    <td>marcelap@gmail.com</td>
-                    <td>5519218230</td>
-                    <td>Cuauhtémoc</td>
-                    <td>Completa</td>
-                    <td>No</td>
-                </tr>
-                <?php for($i = 0; $i<10; $i++){ ?>
-
-                <tr>
-                    <td>000</td>
-                    <td>Marcela Pérez C</td>
-                    <td>Auxiliar</td>
-                    <td>Cuidadora - A</td>
-                    <td>marcelap@gmail.com</td>
-                    <td>5519218230</td>
-                    <td>Cuauhtémoc</td>
-                    <td>Completa</td>
-                    <td>No</td>
-                </tr>
-
-                <?php } ?>
+                <?php foreach ($providers as $pro): ?> 
+                    <tr>
+                        <td><?php echo $pro['id']; ?><i class="fa-solid fa-circle-info"></i></td>
+                        <td><?php echo $pro['name']." ".$pro['lastname']; ?></td>
+                        <td><?php echo $pro['professional_profile']; ?></td>
+                        <td><?php echo $pro['atend_profile']; ?></td>
+                        <td><?php echo $pro['email']; ?></td>
+                        <td><?php echo $pro['mobile']; ?></td>
+                        <td><?php echo $pro['zone']; ?></td>
+                        <td><?php echo $pro['availability']; ?></td>
+                        <td>¿No?</td>
+                    </tr>
+                <?php endforeach ?>
             </tbody>
         </table>
 

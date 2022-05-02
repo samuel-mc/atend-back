@@ -224,396 +224,53 @@
                 <header class="main__header--servicios">
                     <h1>Información avanzada</h1>
                 </header>
-                <form action="" class="form__info-cliente form__doble-column">
+                <form action="" class="form__info-cliente">
                     <div>
-                        <div class="form__field--avanzada">
-                            <h3>Signos vitales</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Prevención de caídas</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
+
+                        <?php $i = 1; foreach($provider_skills as $ps){ ?>
+
+                            <div class="form__field--avanzada">
+                                <h3><?php echo $ps['name']; ?></h3>
+                                <div>
+                                    <div class="form__field">
+                                        <?php if ($ps['has_practical']){ ?>
+                                            <label for="signosVitalesP">Práctico</label>
+                                            <select name="signosVitalesP_<?php echo $ps['id']; ?>" id="signosVitalesP_<?php echo $ps['id']; ?>">
+                                                <option value="bajo">bajo</option>
+                                                <option value="otro">otro</option>
+                                            </select>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="form__field">
+                                        <?php if ($ps['has_teorical']){ ?>
+                                            <label for="signosVitalesT">Teórico</label>
+                                            <select name="signosVitalesT_<?php echo $ps['id']; ?>" id="signosVitalesT_<?php echo $ps['id']; ?>">
+                                                <option value="bajo">bajo</option>
+                                                <option value="otro">otro</option>
+                                            </select>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Prevensión de úlseras por presión</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Lavado de manos</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Seguridad del paciente</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Educación al paciente y familia</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Preparación de medicamento</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Cuidado de heridas</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Manejo de bebés</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>xxxxxx</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form__field--avanzada">
-                            <h3>Colostomía</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Canalización de acceso periférico</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Oxigenoterapia</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Tipos de aislamientos</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Catéter venoso central</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Aspiración de secreciones</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Traqueostomía</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Bomba de infusión</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>Asitencia COVID</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field--avanzada">
-                            <h3>xxxxxx</h3>
-                            <div>
-                                <div class="form__field">
-                                    <label for="signosVitalesP">Práctico</label>
-                                    <select name="signosVitalesP" id="signosVitalesP">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                                <div class="form__field">
-                                    <label for="signosVitalesT">Teórico</label>
-                                    <select name="signosVitalesT" id="signosVitalesT">
-                                        <option value="bajo">bajo</option>
-                                        <option value="otro">otro</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+
+                            <?php if ($i%2==0){ ?>
+                                <div style="width: 100%;float: left;"></div>
+                            <?php } ?>
+
+                        <?php $i++; } ?>
                     </div>
                 </form>
             </div>
 
         </section>
     </div>
-
 </main>
 <!-- <script src="<?php echo __ROOT__; ?>/intranet/assets/js/index.js"></script> -->
+
+<style type="text/css">
+    .form__field--avanzada{
+        float: left;
+        width: 50%;
+        padding: 10px 15px;
+    }
+</style>
