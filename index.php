@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-     define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    //  define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -81,7 +81,13 @@ Flight::route('/paciente/@id', function ($id) {
     $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
     $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/paciente', ['title' => 'Paciente', 'header' => 'headerPaciente',"patient"=>$patient,"ailments"=>$ailments,"headerName"=>$patient['name']]);
+    Flight::render('dashboard/paciente', [
+        'title' => 'Paciente', 
+        'header' => 'headerPaciente',
+        "patient"=>$patient,
+        "ailments"=>$ailments,
+        "headerName"=>$patient['name']
+    ]);
 });
 
 Flight::route('/prestadoras', function () {
@@ -241,7 +247,11 @@ Flight::route('/add/prestadora', function () {
     $provider_skills = $admin->nurses->GetAllProvidersSkills();
 
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/prestadora', ['title' => 'Agregar - Prestadora', 'header' => 'headerAddPrestadora',"provider_skills"=>$provider_skills]);
+    Flight::render('dashboard/add/prestadora',[
+        'title' => 'Agregar - Prestadora', 
+        'header' => 'headerAddPrestadora',
+        "provider_skills"=>$provider_skills
+    ]);
 });
 
 // Rutas relacionadas a asignacionTECA
