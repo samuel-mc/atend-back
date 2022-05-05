@@ -186,7 +186,14 @@ ul.bitacora__navbar--escalas {
     grid-template-columns: repeat(2, 1fr);
 }
 
-.form__field.form__field--doble div {
+.form__field.form__field--triple {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.form__field.form__field--doble div,
+.form__field.form__field--triple div {
     display: flex;
     flex-direction: column;
 }
