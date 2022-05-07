@@ -105,11 +105,7 @@
 
                 <div class="header__side--right">
                     <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
-                    <nav>
-                        <ul>
-                            <li><a href="#">Acreditar Pago</a></li>
-                        </ul>
-                    </nav>
+                    <button class="button button--primary" onclick="showModalAcreditarPago(this)"> Acreditar Pago</button>
                 </div>
             </section>
         </header>'; // Ya quedó

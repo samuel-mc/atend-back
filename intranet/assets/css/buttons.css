@@ -111,7 +111,12 @@ a.button--aside{
     margin: 24px auto 12px;
     display: flex;
     justify-content: center;
-    
+}
+
+.main__modal input.button--submit {
+    background-color: var(--primary-white);
+    border: none;
+    color: var(--primary-black);
 }
 
 .buttonEditar {

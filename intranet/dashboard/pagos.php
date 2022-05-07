@@ -66,3 +66,102 @@
         </footer>
     </section>
 </main>
+
+<script>
+    let showingAcreditarPago = false;
+    const modalAcreditarPago = document.createElement('div');
+    modalAcreditarPago.classList.add('main__modal', 'main__modal--edit');
+    modalAcreditarPago.innerHTML = `
+        <header class="main__modal--header modal__acreditar-pago">
+            <div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarCosto()"
+                    id="buttonCloseModalEditarCosto"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <h2>Acreditar pago</h2>
+        </header>
+        <form id="formAcreditarPago">
+            <div>
+                <label for="cantidad">Cantidad del pago</label>
+                <input id="cantidad" name="cantidad" type="number" placeholder="Cantidad">
+            </div>
+            <div>
+                <label for="idCliente">Cliente</label>
+                <select name="idCliente" id="idCliente">
+                    <option value="101010">Mario Vargas</option>
+                    <option value="101011">otro</option>
+                    <option value="101012">otro</option>
+                </select>
+            </div>
+            <div>
+                <label for="idPaciente">Paciente</label>
+                <select name="idPaciente" id="idPaciente">
+                    <option value="101010">Mario Vargas</option>
+                    <option value="101011">Otro</option>
+                    <option value="101012">Otro</option>
+                </select>
+            </div>
+            <div>
+                <label for="idBanco">Banco</label>
+                <select name="idBanco" id="idBanco">
+                    <option value="101010">BBVA</option>
+                    <option value="101011">Otro</option>
+                    <option value="101012">Otro</option>
+                </select>
+            </div>
+            <div>
+                <label for="idMetodo">Método</label>
+                <select name="idMetodo" id="idMetodo">
+                    <option value="101010">Tranferencia</option>
+                    <option value="101011">Efectivo</option>
+                    <option value="101012">Otro</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="comentario">Comentario</label>
+                <input id="comentario" name="comentario" type="text" placeholder="Un comenterio">
+            </div>
+
+            <div>
+                <input class="button button--primary button--submit" type="submit" value="Guardar">
+            </div>
+
+        </form>
+        `;
+
+        function showModalAcreditarPago(element) {
+            if (!showingAcreditarPago) {
+                element.parentNode.appendChild(modalAcreditarPago);
+                showingAcreditarPago = true;
+            }
+            const formAcreditarPago = document.getElementById('formAcreditarPago');
+            formAcreditarPago.addEventListener('submit',(e) => submitForm(e, formAcreditarPago));
+        }
+
+        function closeModalEditarCosto() {
+            const buttonCloseModalEditarCosto = document.getElementById('buttonCloseModalEditarCosto');
+            const formAcreditarPago = document.getElementById('formAcreditarPago');
+            formAcreditarPago.removeEventListener('submit', (e) => submitForm(e, formAcreditarPago));
+            showingAcreditarPago = false;
+            buttonCloseModalEditarCosto.parentNode.parentNode.parentNode.remove();
+        }
+
+        function submitForm(e, form) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            let data = {}
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log(data);
+            closeModalEditarCosto();
+        }
+
+
+
+</script>

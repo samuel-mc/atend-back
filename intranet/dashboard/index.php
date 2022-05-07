@@ -168,12 +168,6 @@
             <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
                 <input type="hidden" name="idCosto" id="idCosto" value="${idCosto}">
                 <input type="hidden" name="aplica" id="aplica" value="${aplica}">
-                <!-- <label for="aplica">Aplica a</label>
-                    <select name="aplica" id="aplica">
-                        <option value="0">Cliente</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
-                    </select> -->
 
                 <div>
                     <label for="recurrencia">Recurrencia</label>

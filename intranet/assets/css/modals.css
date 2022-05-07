@@ -97,3 +97,11 @@
     top: 60px;
     right: 0;
 }
+
+/* *****************************************
+******* Modal Acreditar pago ***************
+******************************************* */
+.modal__acreditar-pago > div {
+    display: flex;
+    justify-content: end;
+}

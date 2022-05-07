@@ -71,11 +71,18 @@ div.header {
     align-items: center;
     justify-content: flex-end;
     font-size: var(--md);
+    position: relative;
 }
 
 .header__side--right button {
     height: var(--lg);
     width: var(--lg);
+}
+.header__side--right .button--primary {
+    height: 100%;
+    width: auto;
+    display: flex;
+    align-items: center;
 }
 
 .header__side--right ul {
