@@ -9,7 +9,7 @@
             </section>
 
             <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar" onclick="showModalFiltrar(this)">
+                <button class="button button--primary button--filter" onclick="showModal()" id="buttonFiltrar">
                     <i class="fa-solid fa-filter"></i>
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
@@ -17,6 +17,68 @@
                 <button class="button button--circle button--primary">
                     <i class="fa-solid fa-download"></i>
                 </button>
+                <div class="main__modal main__modal--filtrar" id="modalFiltrado">
+                    <div>
+                        <button
+                            class="button button--primary button--circle"
+                            onclick="closeModal()"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </div>
+                    <form id="formFiltrado">
+                        <div>
+                            <label for="fechaFiltro">Fecha</label>
+                            <input type="date" name="fechaFiltro" id="fechaFiltro">
+                        </div>
+                        
+                        <div>
+                            <label for="clienteFiltro">Cliente</label>
+                            <select name="clienteFiltro" id="clienteFiltro">
+                                <option value="0">Seleccionar cliente</option>
+                                <option value="1">Cliente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="pacienteFiltro">Paciente</label>
+                            <select name="pacienteFiltro" id="pacienteFiltro">
+                                <option value="0">Seleccionar paciente</option>
+                                <option value="1">Paciente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="servicioFiltro">Servicio</label>
+                            <select name="servicioFiltro" id="servicioFiltro">
+                                <option value="0">Seleccionar servicio</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="prestadorFiltro">Prestador</label>
+                            <select name="prestadorFiltro" id="prestadorFiltro">
+                                <option value="0">Seleccionar prestador</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="estatusFiltro">Estatus</label>
+                            <select name="estatusFiltro" id="estatusFiltro">
+                                <option value="0">Seleccionar estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button button--primary">Filtrar</button>
+                    </form>
+                </div>
             </section>
         </header>
 
@@ -82,10 +144,12 @@
 
 
 <script> //Script para desplegar los datos en la tabla
+    let servicios = [];
     $.ajax({
         url: 'bridge/routes.php?action=get_services_table',
         type: 'GET',
         success: function(data) {
+            servicios = JSON.parse(data);
             console.log(JSON.parse(data));
             fillindexTable(JSON.parse(data));
         }
@@ -245,4 +309,68 @@
             }
         });
     }
+</script>
+
+<script> //Script para manejar el filtro de la tabla
+    const modalFiltrado = document.getElementById('modalFiltrado');
+    modalFiltrado.style.display = 'none';
+    function showModal() {
+        modalFiltrado.style.display = 'block';
+    }
+    function closeModal() {
+        modalFiltrado.style.display = 'none';
+    }
+    
+    let fechaFiltro = null;
+    let clienteFiltro = null;
+    let pacienteFiltro = null;
+    let servicioFiltro = null;
+    let prestadorFiltro = null;
+    let estatusFiltro = null;
+    const formFiltrado = document.getElementById('formFiltrado');
+    formFiltrado.addEventListener('submit', (event) => {
+        event.preventDefault();
+        fechaFiltro = document.getElementById('fechaFiltro').value;
+        clienteFiltro = document.getElementById('clienteFiltro').value;
+        pacienteFiltro = document.getElementById('pacienteFiltro').value;
+        servicioFiltro = document.getElementById('servicioFiltro').value;
+        prestadorFiltro = document.getElementById('prestadorFiltro').value;
+        estatusFiltro = document.getElementById('estatusFiltro').value;
+        console.log(fechaFiltro, clienteFiltro, pacienteFiltro, servicioFiltro, prestadorFiltro, estatusFiltro);
+        let servicioFiltrados = [...servicios];
+        if (fechaFiltro !== '') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.date.split(' ').includes(fechaFiltro);
+            });
+        }
+        if (clienteFiltro !== '0') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.client.id === parseInt(clienteFiltro)
+            });
+        }
+        if (pacienteFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.patient.id === parseInt(pacienteFiltro);
+            });
+        };
+        if (servicioFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.service.id === parseInt(servicioFiltro);
+            });
+        }
+        if (prestadorFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.provider.id === parseInt(prestadorFiltro);
+            });
+        }
+        if (estatusFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.status === estatusFiltro;
+            });
+        }
+
+        console.log("servicioFiltrados", servicioFiltrados);
+        fillindexTable(servicioFiltrados);
+    });
+
 </script>

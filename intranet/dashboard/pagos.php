@@ -161,7 +161,4 @@
             console.log(data);
             closeModalEditarCosto();
         }
-
-
-
 </script>
