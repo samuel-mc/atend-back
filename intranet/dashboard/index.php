@@ -371,6 +371,7 @@
 
         console.log("servicioFiltrados", servicioFiltrados);
         fillindexTable(servicioFiltrados);
+        closeModal();
     });
 
 </script>
