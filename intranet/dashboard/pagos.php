@@ -6,7 +6,7 @@
             </section>
 
             <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar">
+                <button class="button button--primary button--filter" onclick="showModal()" id="buttonFiltrar">
                     <i class="fa-solid fa-filter"></i>
                     Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
@@ -14,6 +14,59 @@
                 <button class="button button--circle button--primary">
                     <i class="fa-solid fa-download"></i>
                 </button>
+                <div class="main__modal main__modal--filtrar" id="modalFiltrado">
+                    <div>
+                        <button
+                            class="button button--primary button--circle"
+                            onclick="closeModal()"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </div>
+                    <form id="formFiltrado">
+                        <div>
+                            <label for="fechaFiltro">Fecha</label>
+                            <input type="date" name="fechaFiltro" id="fechaFiltro">
+                        </div>
+
+                        <div>
+                            <label for="pacienteFiltro">Paciente</label>
+                            <select name="pacienteFiltro" id="pacienteFiltro">
+                                <option value="0">Seleccionar paciente</option>
+                                <option value="1">Paciente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="bancoFiltro">Banco</label>
+                            <select name="bancoFiltro" id="bancoFiltro">
+                                <option value="0">Seleccionar banco</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="metodoFiltro">Metodo</label>
+                            <select name="metodoFiltro" id="metodoFiltro">
+                                <option value="0">Seleccionar metodo</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="montoMinimoFiltro">Monto mínimo</label>
+                            <input type="number" name="montoMinimoFiltro" id="montoMinimoFiltro" placeholder="Monto mín.">
+                        </div>
+                        <div>
+                            <label for="montoMaximoFiltro">Monto máximo</label>
+                            <input type="number" name="montoMaximoFiltro" id="montoMaximoFiltro" placeholder="Monto máx.">
+                        </div>
+                        <button type="submit" class="button button--primary">Filtrar</button>
+                    </form>
+                </div>
             </section>
         </header>
 
@@ -30,7 +83,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
             <?php foreach ($payments as $pay) { ?>
                 <tr>
                     <td><?php echo $pay['date']; ?></td>
@@ -161,4 +214,74 @@
             console.log(data);
             closeModalEditarCosto();
         }
+</script>
+
+<script> //Script para llenar los datos de una tabla
+    function fillTable(data) {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+        data.forEach((element) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${element.date}</td>
+                <td>${element.patient.name}</td>
+                <td>${element.bank}</td>
+                <td>${element.method}</td>
+                <td>${element.amount}</td>
+                <td>${element.comments}</td>
+                <td>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </td>
+                <td>
+                    <i class="fa-solid fa-trash"></i>
+                </td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
+</script>
+
+<script> //Script para filtrar los pagos
+    let pagos = <?php echo json_encode($payments); ?>;
+    let pagosFiltrados = [...pagos];
+    const modalFiltrado = document.getElementById('modalFiltrado');
+    modalFiltrado.style.display = 'none';
+    function showModal() {
+        modalFiltrado.style.display = 'block';
+    }
+    function closeModal() {
+        modalFiltrado.style.display = 'none';
+    }
+
+    const formFiltrado = document.getElementById('formFiltrado');
+    formFiltrado.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let fechaFiltro = document.getElementById('fechaFiltro').value;
+        let pacienteFiltro = document.getElementById('pacienteFiltro').value;
+        let bancoFiltro = document.getElementById('bancoFiltro').value;
+        let metodoFiltro = document.getElementById('metodoFiltro').value;
+        let montoMinimoFiltro = document.getElementById('montoMinimoFiltro').value;
+        let montoMaximoFiltro = document.getElementById('montoMaximoFiltro').value;
+        
+        if (fechaFiltro != '') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.date.split(" ").includes(fechaFiltro));
+        }
+        if (pacienteFiltro != '0') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.patient.id == pacienteFiltro);
+        }
+        if (bancoFiltro != '0') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.bank == bancoFiltro);
+        }
+        if (metodoFiltro != '0') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.method == metodoFiltro);
+        }
+        if (montoMinimoFiltro != '') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.amount >= montoMinimoFiltro);
+        }
+        if (montoMaximoFiltro != '') {
+            pagosFiltrados = pagosFiltrados.filter(pago => pago.amount <= montoMaximoFiltro);
+        }
+        fillTable(pagosFiltrados);
+        closeModal();
+    });
 </script>

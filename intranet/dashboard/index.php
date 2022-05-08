@@ -320,24 +320,18 @@
     function closeModal() {
         modalFiltrado.style.display = 'none';
     }
-    
-    let fechaFiltro = null;
-    let clienteFiltro = null;
-    let pacienteFiltro = null;
-    let servicioFiltro = null;
-    let prestadorFiltro = null;
-    let estatusFiltro = null;
+
     const formFiltrado = document.getElementById('formFiltrado');
     formFiltrado.addEventListener('submit', (event) => {
         event.preventDefault();
-        fechaFiltro = document.getElementById('fechaFiltro').value;
-        clienteFiltro = document.getElementById('clienteFiltro').value;
-        pacienteFiltro = document.getElementById('pacienteFiltro').value;
-        servicioFiltro = document.getElementById('servicioFiltro').value;
-        prestadorFiltro = document.getElementById('prestadorFiltro').value;
-        estatusFiltro = document.getElementById('estatusFiltro').value;
-        console.log(fechaFiltro, clienteFiltro, pacienteFiltro, servicioFiltro, prestadorFiltro, estatusFiltro);
+        let fechaFiltro = document.getElementById('fechaFiltro').value;
+        let clienteFiltro = document.getElementById('clienteFiltro').value;
+        let pacienteFiltro = document.getElementById('pacienteFiltro').value;
+        let servicioFiltro = document.getElementById('servicioFiltro').value;
+        let prestadorFiltro = document.getElementById('prestadorFiltro').value;
+        let estatusFiltro = document.getElementById('estatusFiltro').value;
         let servicioFiltrados = [...servicios];
+        
         if (fechaFiltro !== '') {
             servicioFiltrados = servicios.filter(servicio => {
                 return servicio.date.split(' ').includes(fechaFiltro);
