@@ -105,3 +105,14 @@
     display: flex;
     justify-content: end;
 }
+
+/* *****************************************
+******* Modal editar pago ***************
+******************************************* */
+.modal__pago {
+    left: -200px;
+}
+
+.modal__pago::before {
+    border: 0px;
+}

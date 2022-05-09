@@ -136,3 +136,14 @@ a.button--aside{
     border-bottom: 1px solid #111;
     cursor: pointer;
 }
+
+.button--edit {
+    background-color: var(--primary-white);
+    border: none;
+    cursor: pointer;
+}
+
+.button--edit:hover {
+    opacity: 0.4;
+    transition: var(--in);
+}

@@ -76,7 +76,16 @@
                                 <option value="101012">Foo</option>
                             </select>
                         </div>
-                        <button type="submit" class="button button--primary">Filtrar</button>
+                        <div class="form__field form__field--doble">
+                            <button type="submit" class="button button--primary">Filtrar</button>
+                            <button 
+                                type="button" 
+                                class="button button--primary button--circle" 
+                                onclick="resetFiltros()"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
@@ -179,20 +188,35 @@
                     <td>${element.service_type}</td>
                     <td>${element.provider.name} ${element.provider.lastname}</td>
                     <td class="td__editable">
-                        $ ${element.cost.cost ? element.cost.cost : '0'}
-                        <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">
+                        <span id="tdCosto${element.cost.id}">
+                            $ ${element.cost.cost ? element.cost.cost : '0'}
+                        </span>
+                        <button
+                            onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
-                        ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
+                        <span>
+                        $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                        </span>
+                        <button 
+                            onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
-                        ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">
+                        <span>
+                        $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                        </span>
+                        <button
+                            onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
@@ -244,7 +268,7 @@
     
                 <div>
                     <label for="monto">Monto</label>
-                    <input id="monto" name="monto" type="text" value="${costo}">
+                    <input id="monto${idCosto}" name="monto" type="text" value="${costo}">
                 </div>
     
                 <div>
@@ -277,35 +301,47 @@
      */
     const handleEditSubmit = (event) => {
         event.preventDefault();
+        const idCosto = document.getElementById('idCosto').value;
         const aplica = document.getElementById('aplica'); // Esta variable determina el valor del "aplica a" (ya sea cliente, eca o extras);
         const recurrencia = document.getElementById('recurrencia');
-        const monto = document.getElementById('monto');
+        const monto = document.getElementById(`monto${idCosto}`);
         const comentario = document.getElementById('comentario');
         
         let data = {
             recurrency: recurrencia.value,
             reason: $("#comentario").val(),
-            id: idCosto.value
+            id: idCosto
         }
         data[aplica.value] = monto.value;
-        console.log(data);
         $.ajax({
             url: 'bridge/routes.php?action=update_cost',
             type: 'GET',
             data,
             success: function(resp) {
-                console.log(event.target)
                 alert('Información actualizada');
-                event.target.parentNode.remove();
                 showingModalEditarCosto = false;
-                if (aplica.cost === 'cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'eca_cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'extra_cost') {
-                    aplica.cost = monto.value;
+                if (aplica.value === 'cost') {
+                    // document.getElementById('tdCosto' + idCosto).innerHTML = `$ ${monto.value}`;
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'eca_cost') {
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.eca_cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'extra_cost') {
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.extra_cost = monto.value;
+                        }
+                    });
                 }
-                //window.location.reload();
+                event.target.parentNode.remove();
+                fillindexTable(servicios);
             }
         });
     }
@@ -320,6 +356,17 @@
     function closeModal() {
         modalFiltrado.style.display = 'none';
     }
+    function resetFiltros() {
+        document.getElementById('fechaFiltro').value = '';
+        document.getElementById('clienteFiltro').value = '0';
+        document.getElementById('pacienteFiltro').value = '0';
+        document.getElementById('servicioFiltro').value = '0';
+        document.getElementById('prestadorFiltro').value = '0';
+        document.getElementById('estatusFiltro').value = '0';
+        fillindexTable(servicios);
+        closeModal();
+    }
+
 
     const formFiltrado = document.getElementById('formFiltrado');
     formFiltrado.addEventListener('submit', (event) => {

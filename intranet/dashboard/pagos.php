@@ -64,7 +64,16 @@
                             <label for="montoMaximoFiltro">Monto máximo</label>
                             <input type="number" name="montoMaximoFiltro" id="montoMaximoFiltro" placeholder="Monto máx.">
                         </div>
-                        <button type="submit" class="button button--primary">Filtrar</button>
+                        <div class="form__field form__field--doble">
+                            <button type="submit" class="button button--primary">Filtrar</button>
+                            <button 
+                                type="button" 
+                                class="button button--primary button--circle"
+                                onclick="resetForm()"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
@@ -83,24 +92,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
-            <?php foreach ($payments as $pay) { ?>
-                <tr>
-                    <td><?php echo $pay['date']; ?></td>
-                    <td><?php echo $pay['patient']['name']; ?></td>
-                    <td><?php echo $pay['bank']; ?></td>
-                    <td><?php echo $pay['method']; ?></td>
-                    <td>$<?php echo $pay['amount']; ?></td>
-                    <td><?php echo $pay['comments']; ?></td>
-                    <td>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </td>
-                    <td>
-                        <i class="fa-solid fa-trash"></i>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
+            <tbody id="tableBody"> </tbody>
         </table>
 
         <footer class="main__footer">
@@ -217,6 +209,9 @@
 </script>
 
 <script> //Script para llenar los datos de una tabla
+    let pagos = <?php echo json_encode($payments); ?>;
+    console.log("pagos", pagos);
+
     function fillTable(data) {
         const tableBody = document.getElementById('tableBody');
         tableBody.innerHTML = '';
@@ -229,21 +224,27 @@
                 <td>${element.method}</td>
                 <td>${element.amount}</td>
                 <td>${element.comments}</td>
-                <td>
-                    <i class="fa-solid fa-pen-to-square"></i>
+                <td class="td__editable">
+                    <button 
+                        class="button--edit" 
+                        onclick="handleEditar(this, ${element.id}, '${element.date}', ${element.patient.id}, '${element.bank}', '${element.method}', ${element.amount}, '${element.comments}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
                 </td>
                 <td>
-                    <i class="fa-solid fa-trash"></i>
+                    <button class="button--edit">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </td>
             `;
             tableBody.appendChild(tr);
         });
     }
+
+    fillTable(pagos);
 </script>
 
 <script> //Script para filtrar los pagos
-    let pagos = <?php echo json_encode($payments); ?>;
-    let pagosFiltrados = [...pagos];
     const modalFiltrado = document.getElementById('modalFiltrado');
     modalFiltrado.style.display = 'none';
     function showModal() {
@@ -252,17 +253,17 @@
     function closeModal() {
         modalFiltrado.style.display = 'none';
     }
-
+    
     const formFiltrado = document.getElementById('formFiltrado');
     formFiltrado.addEventListener('submit', (e) => {
         e.preventDefault();
+        let pagosFiltrados = [...pagos];
         let fechaFiltro = document.getElementById('fechaFiltro').value;
         let pacienteFiltro = document.getElementById('pacienteFiltro').value;
         let bancoFiltro = document.getElementById('bancoFiltro').value;
         let metodoFiltro = document.getElementById('metodoFiltro').value;
         let montoMinimoFiltro = document.getElementById('montoMinimoFiltro').value;
         let montoMaximoFiltro = document.getElementById('montoMaximoFiltro').value;
-        
         if (fechaFiltro != '') {
             pagosFiltrados = pagosFiltrados.filter(pago => pago.date.split(" ").includes(fechaFiltro));
         }
@@ -284,4 +285,96 @@
         fillTable(pagosFiltrados);
         closeModal();
     });
+
+    function resetForm() {
+        document.getElementById('fechaFiltro').value = '';
+        document.getElementById('pacienteFiltro').value = '0';
+        document.getElementById('bancoFiltro').value = '0';
+        document.getElementById('metodoFiltro').value = '0';
+        document.getElementById('montoMinimoFiltro').value = '';
+        document.getElementById('montoMaximoFiltro').value = '';
+        fillTable(pagos);
+        closeModal();
+    }
+</script>
+
+<script> //Script para editar un pago
+    const handleEditar = (button, idPago, fecha, paciente, banco, metodo, monto, comentarios) => {
+        const modalEditarPago = document.createElement('div');
+        modalEditarPago.classList.add('main__modal', 'main__modal--edit', 'modal__pago');
+        modalEditarPago.setAttribute('id', 'modalEdit');
+
+        modalEditarPago.innerHTML = `
+            <div>
+                <div>
+                    <button
+                        class="button button--primary button--circle"
+                        onclick="closeModalEditarPago(this)"
+                    >
+                        <i class="fa-solid fa-x"></i>
+                    </button>
+                </div>
+            </div>
+            <form id="formEditarPago">
+                <input type="hidden" name="idPago" id="idPago" value="${idPago}">
+
+                <div>
+                    <label for="fechaPago">Fecha</label>
+                    <input id="fechaPago" name="fechaPago" type="date" value="${fecha.split(" ")[0]}">
+                </div>
+
+                <div>
+                    <label for="paciente">Paciente</label>
+                    <select name="paciente" id="paciente">
+                        <option value="0">Ninguno</option>
+                        <option value="1" ${paciente === 1 ? 'selected' : ''}>Paciente Primero</option>
+                        <option value="2" ${paciente === 2 ? 'selected' : ''}>Paciente Segundo</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="bancoPago">Banco</label>
+                    <input id="bancoPago" name="bancoPago" type="text" value="${banco}">
+                </div>
+
+                <div>
+                    <label for="metodoPago">Método</label>
+                    <input id="metodoPago" name="metodoPago" type="text" value="${metodo}">
+                </div>
+
+                <div>
+                    <label for="montoPago">Monto</label>
+                    <input id="montoPago" name="montoPago" type="number" value="${monto}">
+                </div>
+
+                <div>
+                    <label for="comentarioPago">Comentario</label>
+                    <input name="comentarioPago" id="comentarioPago" type="text" value="${comentarios}">
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>`;
+        button.parentNode.appendChild(modalEditarPago);
+
+        formEditarPago = document.getElementById('formEditarPago');
+        formEditarPago.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const idPago = document.getElementById('idPago').value;
+            const fechaPago = document.getElementById('fechaPago').value;
+            const pacientePago = document.getElementById('paciente').value;
+            const bancoPago = document.getElementById('bancoPago').value;
+            const metodoPago = document.getElementById('metodoPago').value;
+            const montoPago = document.getElementById('montoPago').value;
+            const comentarioPago = document.getElementById('comentarioPago').value;
+
+            alert("Pago editado correctamente");
+            
+        });
+    }
+
+    const closeModalEditarPago = (button) => {
+        button.parentNode.parentNode.parentNode.remove();
+    }
+
 </script>

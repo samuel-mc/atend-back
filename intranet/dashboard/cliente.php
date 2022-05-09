@@ -464,20 +464,30 @@
                     <?php echo $botonEditar; ?>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.cost ? element.cost.cost : '$ 0'}
-                    <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">    
+                    $ ${element.cost.cost ? element.cost.cost : '$ 0'}
+                    <button 
+                        onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})"
+                        class="button--edit"
+                    >    
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
-                    <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
+                    $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                    <button 
+                        onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
+                        class="button--edit"
+
+                    >
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
-                    <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">    
+                    $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                    <button 
+                        onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
+                        class="button--edit"
+                    >    
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
@@ -582,23 +592,34 @@
             id: idCosto.value
         }
         data[aplica.value] = monto.value;
-        console.log(data);
         $.ajax({
             url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_cost',
             type: 'GET',
             data,
             success: function(resp) {
-                console.log(event.target)
                 alert('Información actualizada');
-                event.target.parentNode.remove();
                 showingModalEditarCosto = false;
-                if (aplica.cost === 'cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'eca_cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'extra_cost') {
-                    aplica.cost = monto.value;
+                if(aplica.value === 'cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.cost = monto.value;
+                        }
+                    });
+                } else if(aplica.value === 'eca_cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.eca_cost = monto.value;
+                        }
+                    });
+                } else if(aplica.value === 'extra_cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.extra_cost = monto.value;
+                        }
+                    });
                 }
+                event.target.parentNode.remove();
+                fillindexTable(pacientes);
                 //window.location.reload();
             }
         });
@@ -696,6 +717,7 @@
         }
         console.log("pacientesFiltrados", pacientesFiltrados);
         fillindexTable(pacientesFiltrados);
+
         closeModal();
     });
 </script>
