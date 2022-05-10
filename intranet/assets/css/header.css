@@ -167,3 +167,10 @@ section.header--bottom-container.header__enfermera {
     justify-content: space-between;
     align-items: center;
 }
+
+.header .button--clear-search.button--transparent {
+    width: 8px;
+}
+.header .button--clear-search.button--transparent i{
+    color: var(--danger-red);
+}

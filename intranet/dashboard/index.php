@@ -416,3 +416,27 @@
     });
 
 </script>
+
+<script> //Script para la funcionalidad de la barra de búsqueda.
+    const searchButton = document.getElementById('searchButton');
+    searchButton.style.display = 'none';
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (event) => {
+        let searchValue = event.target.value;
+        console.log(searchValue);
+        let servicioFiltrados = [...servicios];
+        if (searchValue !== '') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.client.name.toLowerCase().includes(searchValue.toLowerCase())
+            });
+        }
+        searchButton.style.display = 'flex';
+        fillindexTable(servicioFiltrados);
+    });
+    const clearSearch = () => {
+        searchInput.value = '';
+        searchButton.style.display = 'none';
+        fillindexTable(servicios);
+    };
+</script>

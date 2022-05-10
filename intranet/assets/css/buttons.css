@@ -35,10 +35,11 @@ a.button {
 .button--transparent {
     border: none;
     background-color: transparent;
-    height: var(--lg);
+    /* height: var(--lg); */
     transition: var(--out);
-    width: var(--lg);
+    /* width: var(--lg); */
     font-size: var(--lg);
+
 }
 
 .button--transparent:hover i {

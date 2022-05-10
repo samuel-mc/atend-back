@@ -15,16 +15,23 @@
                 <div class="header__side--left">
                     <div class="header__search-bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text">
+                        <input type="text" id="searchInput" name="searchInput">
+                        <button
+                            id="searchButton"
+                            onclick="clearSearch()"
+                            class="button button--clear-search button--transparent"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
                     </div>
-                    <a 
+                    <a
                         class="button button--primary button--circle"
                         href="'.__ROOT__.'/add/servicio"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
                     <h3>Nuevo cliente</h3>
-                </div>        
+                </div>
                 <div class="header__side--right">
                     <button class="button--transparent">
                         <i class="fa-solid fa-bell"></i>
