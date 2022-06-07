@@ -17,7 +17,7 @@
             </section>
 
             <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar">
+                <button class="button button--primary button--filter" onclick="showModal()" id="buttonFiltrar">
                     <i class="fa-solid fa-filter"></i>
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
@@ -25,6 +25,59 @@
                 <button class="button button--circle button--primary">
                     <i class="fa-solid fa-download"></i>
                 </button>
+                <div class="main__modal main__modal--filtrar" id="modalFiltrado">
+                    <div>
+                        <button
+                            class="button button--primary button--circle"
+                            onclick="closeModal()"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </div>
+                    <form id="formFiltrado">
+                        <div>
+                            <label for="fechaFiltro">Fecha</label>
+                            <input type="date" name="fechaFiltro" id="fechaFiltro">
+                        </div>
+
+                        <div>
+                            <label for="pacienteFiltro">Paciente</label>
+                            <select name="pacienteFiltro" id="pacienteFiltro">
+                                <option value="0">Seleccionar paciente</option>
+                                <option value="1">Paciente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="servicioFiltro">Servicio</label>
+                            <select name="servicioFiltro" id="servicioFiltro">
+                                <option value="0">Seleccionar servicio</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="prestadorFiltro">Prestador</label>
+                            <select name="prestadorFiltro" id="prestadorFiltro">
+                                <option value="0">Seleccionar prestador</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="estatusFiltro">Estatus</label>
+                            <select name="estatusFiltro" id="estatusFiltro">
+                                <option value="0">Seleccionar estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button button--primary">Filtrar</button>
+                    </form>
+                </div>
             </section>
         </header>
 
@@ -376,6 +429,7 @@
 
 
 <script>
+    let pacientes = [];
     $.ajax({
         url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=get_services_by_client',
         type: 'GET',
@@ -383,6 +437,7 @@
             client_id:<?php echo $client['id']; ?>
         },
         success: function(data) {
+            pacientes = JSON.parse(data);
             console.log(JSON.parse(data));
             fillindexTable(JSON.parse(data));
         }
@@ -409,20 +464,30 @@
                     <?php echo $botonEditar; ?>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.cost ? element.cost.cost : '$ 0'}
-                    <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">    
+                    $ ${element.cost.cost ? element.cost.cost : '$ 0'}
+                    <button 
+                        onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})"
+                        class="button--edit"
+                    >    
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
-                    <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
+                    $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                    <button 
+                        onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
+                        class="button--edit"
+
+                    >
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
                 <td class="td__editable">
-                    ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
-                    <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">    
+                    $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                    <button 
+                        onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
+                        class="button--edit"
+                    >    
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
@@ -527,23 +592,34 @@
             id: idCosto.value
         }
         data[aplica.value] = monto.value;
-        console.log(data);
         $.ajax({
             url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_cost',
             type: 'GET',
             data,
             success: function(resp) {
-                console.log(event.target)
                 alert('Información actualizada');
-                event.target.parentNode.remove();
                 showingModalEditarCosto = false;
-                if (aplica.cost === 'cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'eca_cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'extra_cost') {
-                    aplica.cost = monto.value;
+                if(aplica.value === 'cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.cost = monto.value;
+                        }
+                    });
+                } else if(aplica.value === 'eca_cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.eca_cost = monto.value;
+                        }
+                    });
+                } else if(aplica.value === 'extra_cost') {
+                    pacientes.forEach(element => {
+                        if(element.id == idCosto.value) {
+                            element.cost.extra_cost = monto.value;
+                        }
+                    });
                 }
+                event.target.parentNode.remove();
+                fillindexTable(pacientes);
                 //window.location.reload();
             }
         });
@@ -588,4 +664,60 @@
         }
     } 
 
+</script>
+
+<script> //Script para filtrar los pacientes de la
+    const modalFiltrado = document.getElementById('modalFiltrado');
+    modalFiltrado.style.display = 'none';
+    function showModal() {
+        modalFiltrado.style.display = 'block';
+    }
+    function closeModal() {
+        modalFiltrado.style.display = 'none';
+    }
+
+    let fechaFiltro = null;
+    let pacienteFiltro = null;
+    let servicioFiltro = null;
+    let prestadorFiltro = null;
+    let estatusFiltro = null;
+    const formFiltrado = document.getElementById('formFiltrado');
+    formFiltrado.addEventListener('submit', (event) => {
+        event.preventDefault();
+        fechaFiltro = document.getElementById('fechaFiltro').value;
+        pacienteFiltro = document.getElementById('pacienteFiltro').value;
+        servicioFiltro = document.getElementById('servicioFiltro').value;
+        prestadorFiltro = document.getElementById('prestadorFiltro').value;
+        estatusFiltro = document.getElementById('estatusFiltro').value;
+        let pacientesFiltrados = [...pacientes];
+        if (fechaFiltro !== '') {
+            pacientesFiltrados = pacientesFiltrados.filter(paciente => {
+                return paciente.date.split(' ').includes(fechaFiltro);
+            });
+        }
+        if (pacienteFiltro !== '0') {
+            pacientesFiltrados = pacientesFiltrados.filter(paciente => {
+                return paciente.patient.id === parseInt(pacienteFiltro);
+            });
+        };
+        if (servicioFiltro !== '0') {
+            pacientesFiltrados = pacientesFiltrados.filter(paciente => {
+                return paciente.service.id === parseInt(servicioFiltro);
+            });
+        }
+        if (prestadorFiltro !== '0') {
+            pacientesFiltrados = pacientesFiltrados.filter(paciente => {
+                return paciente.provider.id === parseInt(prestadorFiltro);
+            });
+        }
+        if (estatusFiltro !== '0') {
+            pacientesFiltrados = pacientesFiltrados.filter(paciente => {
+                return paciente.status === estatusFiltro;
+            });
+        }
+        console.log("pacientesFiltrados", pacientesFiltrados);
+        fillindexTable(pacientesFiltrados);
+
+        closeModal();
+    });
 </script>

@@ -9,7 +9,7 @@
             </section>
 
             <section>
-                <button class="button button--primary button--filter" id="buttonFiltrar" onclick="showModalFiltrar(this)">
+                <button class="button button--primary button--filter" onclick="showModal()" id="buttonFiltrar">
                     <i class="fa-solid fa-filter"></i>
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
@@ -17,6 +17,77 @@
                 <button class="button button--circle button--primary">
                     <i class="fa-solid fa-download"></i>
                 </button>
+                <div class="main__modal main__modal--filtrar" id="modalFiltrado">
+                    <div>
+                        <button
+                            class="button button--primary button--circle"
+                            onclick="closeModal()"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </div>
+                    <form id="formFiltrado">
+                        <div>
+                            <label for="fechaFiltro">Fecha</label>
+                            <input type="date" name="fechaFiltro" id="fechaFiltro">
+                        </div>
+                        
+                        <div>
+                            <label for="clienteFiltro">Cliente</label>
+                            <select name="clienteFiltro" id="clienteFiltro">
+                                <option value="0">Seleccionar cliente</option>
+                                <option value="1">Cliente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="pacienteFiltro">Paciente</label>
+                            <select name="pacienteFiltro" id="pacienteFiltro">
+                                <option value="0">Seleccionar paciente</option>
+                                <option value="1">Paciente1</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="servicioFiltro">Servicio</label>
+                            <select name="servicioFiltro" id="servicioFiltro">
+                                <option value="0">Seleccionar servicio</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="prestadorFiltro">Prestador</label>
+                            <select name="prestadorFiltro" id="prestadorFiltro">
+                                <option value="0">Seleccionar prestador</option>
+                                <option value="101011">Foo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="estatusFiltro">Estatus</label>
+                            <select name="estatusFiltro" id="estatusFiltro">
+                                <option value="0">Seleccionar estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="101012">Foo</option>
+                            </select>
+                        </div>
+                        <div class="form__field form__field--doble">
+                            <button type="submit" class="button button--primary">Filtrar</button>
+                            <button 
+                                type="button" 
+                                class="button button--primary button--circle" 
+                                onclick="resetFiltros()"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </section>
         </header>
 
@@ -82,10 +153,12 @@
 
 
 <script> //Script para desplegar los datos en la tabla
+    let servicios = [];
     $.ajax({
         url: 'bridge/routes.php?action=get_services_table',
         type: 'GET',
         success: function(data) {
+            servicios = JSON.parse(data);
             console.log(JSON.parse(data));
             fillindexTable(JSON.parse(data));
         }
@@ -115,20 +188,35 @@
                     <td>${element.service_type}</td>
                     <td>${element.provider?(element.provider.name + element.provider.lastname):"Sin asignar"}</td>
                     <td class="td__editable">
-                        $ ${element.cost.cost ? element.cost.cost : '0'}
-                        <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">
+                        <span id="tdCosto${element.cost.id}">
+                            $ ${element.cost.cost ? element.cost.cost : '0'}
+                        </span>
+                        <button
+                            onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
-                        ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})">
+                        <span>
+                        $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                        </span>
+                        <button 
+                            onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
                     <td class="td__editable">
-                        ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
-                        <button onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})">
+                        <span>
+                        $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                        </span>
+                        <button
+                            onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
+                            class="button--edit"
+                        >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </td>
@@ -168,12 +256,6 @@
             <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
                 <input type="hidden" name="idCosto" id="idCosto" value="${idCosto}">
                 <input type="hidden" name="aplica" id="aplica" value="${aplica}">
-                <!-- <label for="aplica">Aplica a</label>
-                    <select name="aplica" id="aplica">
-                        <option value="0">Cliente</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
-                    </select> -->
 
                 <div>
                     <label for="recurrencia">Recurrencia</label>
@@ -186,7 +268,7 @@
     
                 <div>
                     <label for="monto">Monto</label>
-                    <input id="monto" name="monto" type="text" value="${costo}">
+                    <input id="monto${idCosto}" name="monto" type="text" value="${costo}">
                 </div>
     
                 <div>
@@ -219,36 +301,142 @@
      */
     const handleEditSubmit = (event) => {
         event.preventDefault();
+        const idCosto = document.getElementById('idCosto').value;
         const aplica = document.getElementById('aplica'); // Esta variable determina el valor del "aplica a" (ya sea cliente, eca o extras);
         const recurrencia = document.getElementById('recurrencia');
-        const monto = document.getElementById('monto');
+        const monto = document.getElementById(`monto${idCosto}`);
         const comentario = document.getElementById('comentario');
         
         let data = {
             recurrency: recurrencia.value,
             reason: $("#comentario").val(),
-            id: idCosto.value
+            id: idCosto
         }
         data[aplica.value] = monto.value;
-        console.log(data);
         $.ajax({
             url: 'bridge/routes.php?action=update_cost',
             type: 'GET',
             data,
             success: function(resp) {
-                console.log(event.target)
                 alert('Información actualizada');
-                event.target.parentNode.remove();
                 showingModalEditarCosto = false;
-                if (aplica.cost === 'cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'eca_cost') {
-                    aplica.cost = monto.value;
-                } else if (aplica.cost === 'extra_cost') {
-                    aplica.cost = monto.value;
+                if (aplica.value === 'cost') {
+                    // document.getElementById('tdCosto' + idCosto).innerHTML = `$ ${monto.value}`;
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'eca_cost') {
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.eca_cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'extra_cost') {
+                    servicios.forEach(element => {
+                        if (element.cost.id === parseInt(idCosto)) {
+                            element.cost.extra_cost = monto.value;
+                        }
+                    });
                 }
-                //window.location.reload();
+                event.target.parentNode.remove();
+                fillindexTable(servicios);
             }
         });
     }
+</script>
+
+<script> //Script para manejar el filtro de la tabla
+    const modalFiltrado = document.getElementById('modalFiltrado');
+    modalFiltrado.style.display = 'none';
+    function showModal() {
+        modalFiltrado.style.display = 'block';
+    }
+    function closeModal() {
+        modalFiltrado.style.display = 'none';
+    }
+    function resetFiltros() {
+        document.getElementById('fechaFiltro').value = '';
+        document.getElementById('clienteFiltro').value = '0';
+        document.getElementById('pacienteFiltro').value = '0';
+        document.getElementById('servicioFiltro').value = '0';
+        document.getElementById('prestadorFiltro').value = '0';
+        document.getElementById('estatusFiltro').value = '0';
+        fillindexTable(servicios);
+        closeModal();
+    }
+
+
+    const formFiltrado = document.getElementById('formFiltrado');
+    formFiltrado.addEventListener('submit', (event) => {
+        event.preventDefault();
+        let fechaFiltro = document.getElementById('fechaFiltro').value;
+        let clienteFiltro = document.getElementById('clienteFiltro').value;
+        let pacienteFiltro = document.getElementById('pacienteFiltro').value;
+        let servicioFiltro = document.getElementById('servicioFiltro').value;
+        let prestadorFiltro = document.getElementById('prestadorFiltro').value;
+        let estatusFiltro = document.getElementById('estatusFiltro').value;
+        let servicioFiltrados = [...servicios];
+        
+        if (fechaFiltro !== '') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.date.split(' ').includes(fechaFiltro);
+            });
+        }
+        if (clienteFiltro !== '0') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.client.id === parseInt(clienteFiltro)
+            });
+        }
+        if (pacienteFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.patient.id === parseInt(pacienteFiltro);
+            });
+        };
+        if (servicioFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.service.id === parseInt(servicioFiltro);
+            });
+        }
+        if (prestadorFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.provider.id === parseInt(prestadorFiltro);
+            });
+        }
+        if (estatusFiltro !== '0') {
+            servicioFiltrados = servicioFiltrados.filter(servicio => {
+                return servicio.status === estatusFiltro;
+            });
+        }
+
+        console.log("servicioFiltrados", servicioFiltrados);
+        fillindexTable(servicioFiltrados);
+        closeModal();
+    });
+
+</script>
+
+<script> //Script para la funcionalidad de la barra de búsqueda.
+    const searchButton = document.getElementById('searchButton');
+    searchButton.style.display = 'none';
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (event) => {
+        let searchValue = event.target.value;
+        console.log(searchValue);
+        let servicioFiltrados = [...servicios];
+        if (searchValue !== '') {
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.client.name.toLowerCase().includes(searchValue.toLowerCase())
+            });
+        }
+        searchButton.style.display = 'flex';
+        fillindexTable(servicioFiltrados);
+    });
+    const clearSearch = () => {
+        searchInput.value = '';
+        searchButton.style.display = 'none';
+        fillindexTable(servicios);
+    };
 </script>

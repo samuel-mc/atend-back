@@ -71,11 +71,18 @@ div.header {
     align-items: center;
     justify-content: flex-end;
     font-size: var(--md);
+    position: relative;
 }
 
 .header__side--right button {
     height: var(--lg);
     width: var(--lg);
+}
+.header__side--right .button--primary {
+    height: 100%;
+    width: auto;
+    display: flex;
+    align-items: center;
 }
 
 .header__side--right ul {
@@ -159,4 +166,11 @@ section.header--bottom-container.header__enfermera {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header .button--clear-search.button--transparent {
+    width: 8px;
+}
+.header .button--clear-search.button--transparent i{
+    color: var(--danger-red);
 }

@@ -1,3 +1,6 @@
+.main__content.main__abono {
+    min-width: 700px;
+}
 .section--top {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -43,4 +46,35 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.text--red {
+    color: var(--danger-red);
+}
+
+.text--green {
+    color: var(--ligth-green);
+}
+
+.form__span {
+    font-size: var(--sm);
+    color: var(--light-gray);
+}
+
+.abono__header {
+    margin-bottom: 32px;
+}
+
+.abono__total {
+    margin-top: 60px;
+}
+
+.abono__confirmacion {
+    margin: 100px auto;
+    text-align: center;
+    font-size: var(--md);
+}
+
+.abono__confirmacion p {
+    margin: 24px;
 }

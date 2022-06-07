@@ -367,6 +367,14 @@ Flight::route('/dashboard/cliente', function () {
         'asideActive' => 'clientes'
     ]);
 });
+Flight::route('/dashboard/cliente/abono', function () {
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('dashboard/cliente/abono', [
+        'title' => 'Hacer un abono',
+        'header' => 'headerAbonos',
+        'asideActive' => 'clientes'
+    ]);
+});
 
 /*Flight::route('/dashboard/recept-vials/@id',function($id){
     $id = str_replace(".", "", $id);

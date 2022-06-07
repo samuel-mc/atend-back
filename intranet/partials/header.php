@@ -15,16 +15,23 @@
                 <div class="header__side--left">
                     <div class="header__search-bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text">
+                        <input type="text" id="searchInput" name="searchInput">
+                        <button
+                            id="searchButton"
+                            onclick="clearSearch()"
+                            class="button button--clear-search button--transparent"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
                     </div>
-                    <a 
+                    <a
                         class="button button--primary button--circle"
                         href="'.__ROOT__.'/add/servicio"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
                     <h3>Nuevo cliente</h3>
-                </div>        
+                </div>
                 <div class="header__side--right">
                     <button class="button--transparent">
                         <i class="fa-solid fa-bell"></i>
@@ -105,11 +112,7 @@
 
                 <div class="header__side--right">
                     <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h2>
-                    <nav>
-                        <ul>
-                            <li><a href="#">Acreditar Pago</a></li>
-                        </ul>
-                    </nav>
+                    <button class="button button--primary" onclick="showModalAcreditarPago(this)"> Acreditar Pago</button>
                 </div>
             </section>
         </header>'; // Ya quedó
@@ -389,6 +392,30 @@
             </div>
         </section>
     </header>';
+    $headerAbonos = 
+    '<header class="header">
+        <section class="header--top-container">
+            <div class="header__side--left">
+                <a class="button button--transparent" href="../cliente">
+                    <i class="fa-solid fa-angle-left"></i>
+                </a>
+                <h2>Hacer un bono</h2>
+            </div>
+            <div class="header__side--right">
+                <button class="button--transparent">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z"></path>
+                    </svg>
+                </button>
+                <img class="header__photo" src="http://localhost/backend/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
+                <button class="button--transparent">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </header>';
 
     switch ($header) {
         case 'headerIndex':
@@ -432,6 +459,9 @@
             break;
         case 'headerClienteDashboard':
             echo $headerClienteDashboard;
+            break;
+        case 'headerAbonos':
+            echo $headerAbonos;
             break;
         default:
             echo $headerIndex;

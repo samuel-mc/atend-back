@@ -35,10 +35,11 @@ a.button {
 .button--transparent {
     border: none;
     background-color: transparent;
-    height: var(--lg);
+    /* height: var(--lg); */
     transition: var(--out);
-    width: var(--lg);
+    /* width: var(--lg); */
     font-size: var(--lg);
+
 }
 
 .button--transparent:hover i {
@@ -111,7 +112,12 @@ a.button--aside{
     margin: 24px auto 12px;
     display: flex;
     justify-content: center;
-    
+}
+
+.main__modal input.button--submit {
+    background-color: var(--primary-white);
+    border: none;
+    color: var(--primary-black);
 }
 
 .buttonEditar {
@@ -130,4 +136,15 @@ a.button--aside{
     border: none;
     border-bottom: 1px solid #111;
     cursor: pointer;
+}
+
+.button--edit {
+    background-color: var(--primary-white);
+    border: none;
+    cursor: pointer;
+}
+
+.button--edit:hover {
+    opacity: 0.4;
+    transition: var(--in);
 }
