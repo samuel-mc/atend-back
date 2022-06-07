@@ -394,7 +394,7 @@
             table += `<tr>
                 <td>
                     <button class="buttonEditarFecha">
-                        ${element.date}
+                        ${element.date.split(" ")[0]}
                     </button>
                 </td>
                 <td>${element.id}</td>
@@ -405,7 +405,7 @@
                 </td>
                 <td>${element.service_type}</td>
                 <td>
-                    ${element.provider.name} ${element.provider.lastname}
+                    ${element.provider?(element.provider.name+" "+element.provider.lastname):"Por asignar"}
                     <?php echo $botonEditar; ?>
                 </td>
                 <td class="td__editable">

@@ -7,7 +7,7 @@
 			$values = "";
 			foreach ($items as $field => $value) {
 				$fields = $fields.$field.",";
-				if (strpos($value,"()")===false)
+				if ($value!=null && strpos($value,"()")===false)
 					$values = $values."'".$value."',";
 				else
 					$values = $values." ".$value.",";

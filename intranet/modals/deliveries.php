@@ -866,9 +866,18 @@
                         },
                         success:function() {
                             setCompleted("step_2");
-                            if (on_end!=null)
-                                on_end(res)                  
-                            sendInfoToStore(id);  
+                            setCompleted("step_3");
+                            setCompleted("step_4");
+
+                            $("#success_container").removeClass("d-none");
+                            $("#delivery_container").addClass("d-none");
+                            setTimeout(function() {
+                                reload(); 
+                            },5000);
+
+                            //if (on_end!=null)
+                            //    on_end(res)                  
+                            //sendInfoToStore(id);  
                         }
                     });
                 }

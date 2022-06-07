@@ -103,7 +103,7 @@
                 <tr>
                     <td>
                         <button class="buttonEditarFecha">
-                            ${element.date}
+                            ${element.date.split(" ")[0]}
                         </button>
                     </td>
                     <td>${element.id}</td>
@@ -113,7 +113,7 @@
                         </a>
                     </td>
                     <td>${element.service_type}</td>
-                    <td>${element.provider.name} ${element.provider.lastname}</td>
+                    <td>${element.provider?(element.provider.name + element.provider.lastname):"Sin asignar"}</td>
                     <td class="td__editable">
                         $ ${element.cost.cost ? element.cost.cost : '0'}
                         <button onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})">

@@ -13,8 +13,8 @@ class Data
 
 	public $database = array(
 		"host" => "127.0.0.1",
-		"name" => "admin_logisticatest",
-		"user" => "admin_logistica",
+		"name" => "admin_atend",
+		"user" => "admin_atend",
 		"password" => "Shiosaki.0",
 	);
 

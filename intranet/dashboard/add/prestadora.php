@@ -22,61 +22,61 @@
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="nombrePrestadora">Nombre</label>
-                            <input type="text" value="Marcela" id="nombrePrestadora" name="nombrePrestadora">
+                            <input type="text" value="Marcela" id="nombrePrestadora" name="name">
                         </div>
 
                         <div>
                             <label for="apellidosPrestadora">Apellidos</label>
-                            <input type="text" value="Pérez Chico" name="apellidosPrestadora" id="apellidosPrestadora">
+                            <input type="text" value="Pérez Chico" name="lastname" id="apellidosPrestadora">
                         </div>
                     </div>
                     <div class="form__field">
                         <label for="fechaDeNacimiento">Fecha de naciemiento (opcional)</label>
-                        <input type="date" value="1991-05-01" name="fechaDeNacimiento" id="fechaDeNacimiento">
+                        <input type="date" value="1991-05-01" name="birthdate" id="fechaDeNacimiento">
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="altura">Altura (opcional)</label>
-                            <input type="number" value="164" id="altura" name="altura">
+                            <input type="number" value="164" id="altura" name="height">
                         </div>
                         <div>
                             <label for="peso">Peso (opcional)</label>
-                            <input type="number" value="71" id="peso" name="peso">
+                            <input type="number" value="71" id="peso" name="weight">
                         </div>
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="telFijo">Teléfono fijo (opcional)</label>
-                            <input type="tel" value="55501890" name="telFijo" id="telFijo">
+                            <input type="tel" value="55501890" name="phone" id="telFijo">
                         </div>
                         <div>
                             <label for="telCelular">Celular</label>
-                            <input type="tel" value="5572859306" name="telCelular" id="telCelular">
+                            <input type="tel" value="5572859306" name="mobile" id="telCelular">
                         </div>
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="mail">Mail</label>
-                            <input type="mail" value="marcelap@gmail.com" id="main" name="mail">
+                            <input type="mail" value="marcelap@gmail.com" id="main" name="email">
                         </div>
                         <div>
                             <label for="contraseñaAtend">Contraseña Atend</label>
-                            <input type="text" value="marc79@*a" id="contraseñaAtend" name="contraseñaAtend">
+                            <input type="text" value="marc79@*a" id="contraseñaAtend" name="password">
                         </div>
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="sexo">Sexo</label>
-                            <select name="sexo" id="sexo">
-                                <option value="femenino">Femenino</option>
-                                <option value="masculino">Masculino</option>
+                            <select name="gender" id="sexo">
+                                <option value="1">Femenino</option>
+                                <option value="2">Masculino</option>
                             </select>
                         </div>
                         <div>
                             <label for="disponibilidad">Disponibilidad</label>
-                            <select name="disponibilidad" id="disponibilidad">
-                                <option value="diario">Diario</option>
-                                <option value="otro">Otro</option>
+                            <select name="availability" id="disponibilidad">
+                                <option value="1">Diario</option>
+                                <option value="2">Otro</option>
                             </select>
                         </div>
                     </div>
@@ -95,21 +95,21 @@
                     </div>
                     <div class="form__field">
                         <label for="perfilProfesional">Perfil profesional</label>
-                        <input type="text" value="Enfermera General" name="perfilProfesional" id="perfilProfesional">
+                        <input type="text" value="Enfermera General" name="professional_profile" id="perfilProfesional">
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="perfilAtend">Perfil Atend</label>
-                            <select name="perfilAtend" id="perfilAtend">
-                                <option value="auxiliar">Auxiliar</option>
-                                <option value="otro">Otro</option>
+                            <select name="atend_profile_id" id="perfilAtend">
+                                <option value="1">Auxiliar</option>
+                                <option value="2">Otro</option>
                             </select>
                         </div>
                         <div>
                             <label for="nivel">Nivel</label>
-                            <select name="nivel" id="nivel">
-                                <option value="auxiliar">Avanzada</option>
-                                <option value="otro">Otro</option>
+                            <select name="level" id="nivel">
+                                <option value="1">Avanzada</option>
+                                <option value="2">Otro</option>
                             </select>
                         </div>
                     </div>
@@ -300,7 +300,7 @@
         console.log(data);
 
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
             data: data,
             success: function(res){
                 console.log(res)

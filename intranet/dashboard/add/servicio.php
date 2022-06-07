@@ -425,6 +425,11 @@
             </div>
         </section> -->
 
+        <?php  
+            $date = new DateTime();
+            $date = $date->format('Y-m-d')
+        ?>
+
         <section class="main__content main__add--cotainer">
             <header class="main__header--servicios">
                 <h1>Información de Servicio</h1>
@@ -434,27 +439,28 @@
                     <div>
                         <div class="form__field">
                             <label for="apellidosCliente">Fecha de Inicio</label>
-                            <input type="date" value="2020-05-01" name="fechaInicio" id="fechaInicio">
+                            <input type="date" value="<?php echo $date; ?>" min="<?php echo $date; ?>" name="fechaInicio" id="fechaInicio">
                         </div>
 
                         <div class="form__field">
                             <label for="apellidosCliente">Fecha de terminación (opcional)</label>
-                            <input type="date" name="fechaFin" id="fechaFin">
+                            <input type="date" min="<?php echo $date; ?>" name="fechaFin" id="fechaFin">
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="sexoInfoServicio">Sexo ECA</label>
                                 <select name="sexoInfoServicio" id="sexoInfoServicio">
-                                    <option value="femenino">Femenino</option>
-                                    <option value="masculino">Masculino</option>
+                                    <option value="1">Femenino</option>
+                                    <option value="2">Masculino</option>
                                 </select>
                             </div>
                             <div>
                                 <label for="sexo">Tipo de Servcio</label>
                                 <select name="tipoDeServicio" id="tipoDeServicio">
-                                    <option value="enfermeriaGral">Enfermería Gral.</option>
-                                    <option value="otro">Otro</option>
+                                    <?php foreach ($service_types as $serv): ?>
+                                    <option value="<?php echo $serv['id']; ?>"><?php echo $serv['name']; ?></option>        
+                                    <?php endforeach ?>    
                                 </select>
                             </div>
                         </div>
@@ -462,15 +468,20 @@
                         <div class="form__field">
                             <label for="tipoDeCuidado">Tipo de Cuidado</label>
                             <select name="tipoDeCuidado" id="tipoDeCuidado">
-                                <option value="oncologico">Oncológico</option>
-                                <option value="otro">Otro</option>
+                                <?php foreach ($care_types as $care): ?>    
+                                <option value="<?php echo $care['id']; ?>"><?php echo $care['name']; ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="duracion">Duración</label>
-                                <input type="text" value="12 horas" name="duracion" id="duracion">
+                                <select id="duracion">
+                                    <?php foreach ($durations as $dur): ?>
+                                        <option value="<?php echo $dur['id']; ?>"><?php echo $dur['name']; ?></option>
+                                    <?php endforeach ?>
+                                </select>
                             </div>
 
                             <div>
@@ -484,8 +495,9 @@
                         <div class="form__field">
                             <label for="complexion">Complexión</label>
                             <select name="complexion" id="complexion">
-                                <option value="indiferente">Indiferente</option>
-                                <option value="otro">Otro</option>
+                                <?php foreach ($complexions as $comp): ?>
+                                    <option value="<?php echo $comp['id']; ?>"><?php echo $comp['name']; ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 
@@ -512,37 +524,38 @@
                         <div class="form__field">
                             <label for="frecDelServicio">Frecuencia del Servicio</label>
                             <select name="frecDelServicio" id="frecDelServicio">
+                                <option value="3">Servicio único</option>
                                 <option value="0">Otro</option>
                                 <option value="1">Lunes a Viernes</option>
                                 <option value="2">Todos los días</option>
                             </select>
                             <div class="frecDelServicio--otro">
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="lunes" name="lunes" value="lunes">
+                                    <input type="checkbox" id="freq_day_1" name="lunes" value="lunes">
                                     <label for="lunes"> Lunes</label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="martes" name="martes" value="martes">
+                                    <input type="checkbox" id="freq_day_2" name="martes" value="martes">
                                     <label for="martes"> Martes </label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="miercoles" name="miercoles" value="miercoles">
+                                    <input type="checkbox" id="freq_day_3" name="miercoles" value="miercoles">
                                     <label for="miercoles"> Miércoles </label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="jueves" name="jueves" value="jueves">
+                                    <input type="checkbox" id="freq_day_4" name="jueves" value="jueves">
                                     <label for="jueves"> Jueves </label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="viernes" name="viernes" value="viernes">
+                                    <input type="checkbox" id="freq_day_5" name="viernes" value="viernes">
                                     <label for="viernes"> Viernes </label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="sabado" name="sabado" value="sabado">
+                                    <input type="checkbox" id="freq_day_6" name="sabado" value="sabado">
                                     <label for="sabado"> Sábado </label><br>
                                 </div>
                                 <div class="field__checkbox">
-                                    <input type="checkbox" id="domingo" name="domingo" value="domingo">
+                                    <input type="checkbox" id="freq_day_7" name="domingo" value="domingo">
                                     <label for="domingo"> Domingo </label><br>
                                 </div>
                             </div>
@@ -567,6 +580,8 @@
 </main>
 
 <script> //Script que desplega los dias de las semana si el user selecciona otro
+    document.querySelector('.frecDelServicio--otro').style.display = 'none';
+    
     const frecDelServicio = document.getElementById('frecDelServicio');
     frecDelServicio.addEventListener('change', (e) => {
         if (e.target.value === '0') {
@@ -578,7 +593,7 @@
 </script>
 
 <script> //Script para manejar el submit de los formularios
-    let client_id = <?php echo (isset($client) ? $client["id"] : 0); ?>;
+    let client_id = <?php echo (isset($client) ? $client["id"] : 1); ?>;
 
     // Manejo del formulario "Cliente"
     const formInfoCliente = document.querySelector('#formInfoCliente');
@@ -773,27 +788,21 @@
         const precioEca = $("#precioEca").val();
         const frecDelServicio = $("#frecDelServicio").val();
         const diasFrecuencia = [];
-        if (frecDelServicio === 0) {
-            if ($("#lunes").is(":checked")) {
-                diasFrecuencia.push(1);
+        if (frecDelServicio == 0) {
+            for (var i = 1; i < 8; i++) {
+                if ($("#freq_day_"+i).is(":checked")) {
+                    diasFrecuencia.push(i);
+                }
             }
-            if ($("#martes").is(":checked")) {
-                diasFrecuencia.push(2);
-            }
-            if ($("#miercoles").is(":checked")) {
-                diasFrecuencia.push(3);
-            }
-            if ($("#jueves").is(":checked")) {
-                diasFrecuencia.push(4);
-            }
-            if ($("#viernes").is(":checked")) {
-                diasFrecuencia.push(5);
-            }
-            if ($("#sabado").is(":checked")) {
-                diasFrecuencia.push(6);
-            }
-            if ($("#domingo").is(":checked")) {
-                diasFrecuencia.push(7);
+        }else{
+            if (frecDelServicio == 1){
+                for (var i = 1; i < 6; i++) {
+                    diasFrecuencia.push(i);
+                } 
+            }else{
+                for (var i = 1; i < 8; i++) {
+                    diasFrecuencia.push(i);
+                } 
             }
         }
         const costo = $("#costo").val();
@@ -803,11 +812,11 @@
             client_id,
             start_date:fechaInicio,
             end_date:fechaFin,
-            eca_sex: sexoInfoServicio,
+            provider_gender: sexoInfoServicio,
             service_type: tipoDeServicio,
-            care_type: tipoDeCuidado,
+            care_type_id: tipoDeCuidado,
             duration: duracion,
-            entry: entrada,
+            schedule: entrada,
             complexion_id: complexion,
             insurance: calParaSeguro === 'si' ? 1 : 0,
             cost: precioCliente,
@@ -817,13 +826,13 @@
         };
 
         console.log(infoServicio);
-        // $.ajax({
-        //     // url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
-        //     data:infoServicio,
-        //     success: function(res) {
-        //         console.log(res)
-        //     }
-        // })
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
+            data:infoServicio,
+            success: function(res) {
+                console.log(JSON.parse(res))
+            }
+        })
     });
 </script>
 

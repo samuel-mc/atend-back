@@ -7,6 +7,7 @@
 	$router = new Router;
 
 	$router->Group("services",[
+		"save_new_service"=>"SaveService",
 		"get_services_table"=>"GetTable",
 		"get_services_by_client"=>"GetByClientId",
 		"get_services_by_patient"=>"GetByPatientId",
@@ -33,6 +34,10 @@
 		]
 	);
 
+	$router->Group("nurses",[
+		"save_new_provider"=>"NewNurse"
+		]
+	);
 
 
 

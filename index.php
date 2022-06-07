@@ -8,10 +8,10 @@ $whitelist = array(
     '::1'
 );
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
-    define('__ROOT__', "");
+    define('__ROOT__', "https://attend.mx/atend-back");
 }else{
-    define('__ROOT__', "http://localhost/backend");
-    //  define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    //define('__ROOT__', "http://localhost/backend");
+    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -43,13 +43,15 @@ Flight::route('/pagos/@id', function ($id) {
     $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
+    $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
     Flight::render('dashboard/pagos', [
         'title' => 'Historial De Pagos', 
         'header' => 'headerPagos',
         "client" => $client,
         "headerName"=>$client['name'],
-        "payments"=>$payments
+        "payments"=>$payments,
+        "balance"=>$balance['amount']
     ]);
 });
 
@@ -203,6 +205,10 @@ Flight::route('/add/servicio/', function () {
     $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
     $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
     $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+    $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+    $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+    $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
+    $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
     Flight::set('flight.views.path', 'intranet');
     Flight::render(
         'dashboard/add/servicio', [
@@ -212,6 +218,10 @@ Flight::route('/add/servicio/', function () {
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
             "ailments"=>$ailments,
+            "service_types"=>$service_types,
+            "care_types"=>$care_types,
+            "complexions"=>$complexions,
+            "durations"=>$durations,
             "client"=>null
         ]);
 });
