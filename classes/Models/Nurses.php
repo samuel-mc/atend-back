@@ -57,7 +57,21 @@
 
 		public function GetRecommendedProvider(Request $data)
 		{
-			
+			$serv = $this->GetById(self::TABLE_SERVICES,$data->get("service_id"));
+			$gen = $serv['provider_gender']==0?"(gender = 1 || gender = 2)":"(gender = ".$serv['provider_gender'].")";
+			$pos_prov = $this->ViewList(self::TABLE_PROVIDERS,$gen." AND atend_profile_id = ".$serv['service_type']);
+			$recommended = array();
+			$not_recommended = array();
+			foreach ($pos_prov as $prov) {
+				$se = $this->GetByCondition(self::TABLE_SERVICES,"provider_id = ".$prov['id']." AND DATE(date) = DATE('".$serv['date']."')");
+				if ($se!=null){
+					$not_recommended[] = $prov;
+				}else{
+					$recommended[] = $prov;
+				}
+			}
+
+			return ["recommended"=>$recommended,"not_recommended"=>$not_recommended];
 		}
 
 	}
