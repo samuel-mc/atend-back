@@ -44,6 +44,9 @@
             </section>
         </header>'; //Ya quedó
 
+    $headerLogin = ''; 
+
+
     $headerCliente =
         '<header class="header" id="header">
             <section class="header--top-container">
@@ -445,6 +448,9 @@
     switch ($header) {
         case 'headerIndex':
             echo $headerIndex;
+            break;
+        case 'headerLogin':
+            echo $headerLogin;
             break;
         case 'headerCliente':
             echo $headerCliente;
