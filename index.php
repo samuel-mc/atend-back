@@ -14,121 +14,172 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
-//session_start();
+session_start();
+
 /*Flight::route('/', function () {
     Flight::redirect('admin/login');
 });*/
 
-Flight::route('/', function () {
+Flight::route('/login', function () {
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/index', ['title' => 'Dashboard', 'header' => 'headerIndex']);
+    Flight::render('account/login', ['title' => 'Login', 'header' => 'headerLogin',"isEnfermera"=>true]);
+});
+
+Flight::route('/', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/index', ['title' => 'Dashboard', 'header' => 'headerIndex']);
+    }else{
+        Flight::redirect("/login");
+    }
 });
 
 Flight::route('/cliente/@id', function ($id) {
-    $admin = new Model;
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
 
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render(
-        'dashboard/cliente', [
-            'title' => 'Cliente', 
-            'header' => 'headerCliente',
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render(
+            'dashboard/cliente', [
+                'title' => 'Cliente', 
+                'header' => 'headerCliente',
+                "client" => $client,
+                "headerName"=>$client['name'],
+                "idClient"=>$client['id']
+            ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
+Flight::route('/pagos/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
+        $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/pagos', [
+            'title' => 'Historial De Pagos', 
+            'header' => 'headerPagos',
+            "client" => $client,
+            "headerName"=>$client['name'],
+            "payments"=>$payments,
+            "balance"=>$balance['amount']
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
+Flight::route('/pagosPaciente/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){ 
+        $admin = new Model;
+        $patients = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+        $payments = $admin->payments->GetByPatient(new Request(["patient_id"=>$id]));
+        $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente',"headerName"=>$patients['name'],"payments"=>$payments,"balance"=>$balance['amount']]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
+Flight::route('/servicios/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model();
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/servicios', [
+            'title' => 'Servicios', 
+            'header' => 'headerServicios', 
+            'admin' => $admin,
             "client" => $client,
             "headerName"=>$client['name'],
             "idClient"=>$client['id']
         ]);
-});
-
-Flight::route('/pagos/@id', function ($id) {
-    $admin = new Model;
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
-    $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
-    $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagos', [
-        'title' => 'Historial De Pagos', 
-        'header' => 'headerPagos',
-        "client" => $client,
-        "headerName"=>$client['name'],
-        "payments"=>$payments,
-        "balance"=>$balance['amount']
-    ]);
-});
-
-Flight::route('/pagosPaciente/@id', function ($id) {
-    $admin = new Model;
-    $patients = $admin->patients->GetPatientById(new Request(["id"=>$id]));
-    $payments = $admin->payments->GetByPatient(new Request(["patient_id"=>$id]));
-    $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente',"headerName"=>$patients['name'],"payments"=>$payments,"balance"=>$balance['amount']]);
-});
-
-Flight::route('/servicios/@id', function ($id) {
-    $admin = new Model();
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/servicios', [
-        'title' => 'Servicios', 
-        'header' => 'headerServicios', 
-        'admin' => $admin,
-        "client" => $client,
-        "headerName"=>$client['name'],
-        "idClient"=>$client['id']
-    ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/paciente/@id', function ($id) {
-    $admin = new Model;
-    $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
-    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/paciente', [
-        'title' => 'Paciente', 
-        'header' => 'headerPaciente',
-        "patient"=>$patient,
-        "ailments"=>$ailments,
-        "headerName"=>$patient['name']
-    ]);
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+        $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/paciente', [
+            'title' => 'Paciente', 
+            'header' => 'headerPaciente',
+            "patient"=>$patient,
+            "ailments"=>$ailments,
+            "headerName"=>$patient['name']
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/prestadoras', function () {
-    $admin = new Model;
-    Flight::set('flight.views.path', 'intranet');
-    $providers = $admin->nurses->List();
-    Flight::render('dashboard/prestadoras', [
-        'title' => 'Prestadoras', 
-        'header' => 'headerPrestadoras',
-        'asideActive' => 'enfermeras',
-        "providers" => $providers
-    ]);
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        Flight::set('flight.views.path', 'intranet');
+        $providers = $admin->nurses->List();
+        Flight::render('dashboard/prestadoras', [
+            'title' => 'Prestadoras', 
+            'header' => 'headerPrestadoras',
+            'asideActive' => 'enfermeras',
+            "providers" => $providers
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 // Rutas relacionadas a las bitacoras
 Flight::route('/bitacora/@id', function ($id) {
-    Flight::redirect("/bitacora/".$id."/ingresos");
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        Flight::redirect("/bitacora/".$id."/ingresos");
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 // Rutas relacionadas a las bitacoras
 Flight::route('/bitacora/@id/@type', function ($id,$type) {
-    Flight::set('flight.views.path', 'intranet');
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){   
+        Flight::set('flight.views.path', 'intranet');
+        $admin = new Model;
+        $table = [
+            "apoyo"=>"binnacle_breath_help",
+            "ingresos"=>"binnacle_io",
+            "movilizaciones"=>"binnacle_movements",
+            "signos"=>"binnacle_vital_signs",
+            "medicamentos"=>"binnacle_drugs",
+            "evaluacion"=>"scale_pain",
+            "pupilar"=>"scale_pupilar",
+            "glasgow"=>"scale_glasgow",
+            "perimetros"=>"scale_perimeters",
+            "norton"=>"scale_norton"
+        ];
 
-    $admin = new Model;
-    $table = [
-        "apoyo"=>"binnacle_breath_help",
-        "ingresos"=>"binnacle_io",
-        "movilizaciones"=>"binnacle_movements",
-        "signos"=>"binnacle_vital_signs",
-        "medicamentos"=>"binnacle_drugs",
-        "evaluacion"=>"scale_pain",
-        "pupilar"=>"scale_pupilar",
-        "glasgow"=>"scale_glasgow",
-        "perimetros"=>"scale_perimeters",
-        "norton"=>"scale_norton"
-    ];
-
-    $data = $admin->binnacle->GetData($id,$table[$type]);
-    Flight::render('dashboard/bitacora/'.$type, ['title' => 'Bitácora', 'header' => 'headerBitacora', "data"=>$data]);
+        $data = $admin->binnacle->GetData($id,$table[$type]);
+        Flight::render('dashboard/bitacora/'.$type, ['title' => 'Bitácora', 'header' => 'headerBitacora', "data"=>$data]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 /*Flight::route('/bitacora/ingresosYEgresos', function () {
@@ -181,93 +232,119 @@ Flight::route('/bitacora/norton', function () {
 
 // Rutas relacionadas a las funcionalidades de agregar
 Flight::route('/add/servicio/@id', function ($id) {
-    $admin = new Model;
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
-    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
-    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
-    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
-    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render(
-        'dashboard/add/servicio', [
-            'title' => 'Agregar - Servicio',
-            'header' => 'headerAdd',
-            "billing_schemes"=>$billing_schemes,
-            "billing_regimes"=>$billing_regimes,
-            "billing_uses"=>$billing_uses,
-            "ailments"=>$ailments,
-            "client"=>$client
-        ]);
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+        $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+        $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+        $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render(
+            'dashboard/add/servicio', [
+                'title' => 'Agregar - Servicio',
+                'header' => 'headerAdd',
+                "billing_schemes"=>$billing_schemes,
+                "billing_regimes"=>$billing_regimes,
+                "billing_uses"=>$billing_uses,
+                "ailments"=>$ailments,
+                "client"=>$client
+            ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 Flight::route('/add/servicio/', function () {
-    $admin = new Model;
-    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
-    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
-    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
-    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
-    $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
-    $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
-    $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
-    $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render(
-        'dashboard/add/servicio', [
-            'title' => 'Agregar - Servicio',
-            'header' => 'headerAdd',
-            "billing_schemes"=>$billing_schemes,
-            "billing_regimes"=>$billing_regimes,
-            "billing_uses"=>$billing_uses,
-            "ailments"=>$ailments,
-            "service_types"=>$service_types,
-            "care_types"=>$care_types,
-            "complexions"=>$complexions,
-            "durations"=>$durations,
-            "client"=>null
-        ]);
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+        $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+        $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+        $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+        $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+        $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+        $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
+        $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render(
+            'dashboard/add/servicio', [
+                'title' => 'Agregar - Servicio',
+                'header' => 'headerAdd',
+                "billing_schemes"=>$billing_schemes,
+                "billing_regimes"=>$billing_regimes,
+                "billing_uses"=>$billing_uses,
+                "ailments"=>$ailments,
+                "service_types"=>$service_types,
+                "care_types"=>$care_types,
+                "complexions"=>$complexions,
+                "durations"=>$durations,
+                "client"=>null
+            ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/add/paciente/@id', function ($id) {
-    $admin = new Model;
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
-    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
-    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
-    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
-    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render(
-        'dashboard/add/servicio', [
-            'title' => 'Agregar - Servicio',
-            'header' => 'headerAdd',
-            "billing_schemes"=>$billing_schemes,
-            "billing_regimes"=>$billing_regimes,
-            "billing_uses"=>$billing_uses,
-            "ailments"=>$ailments,
-            "client"=>$client,
-            "add" => 'paciente'
-        ]);
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+        $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+        $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+        $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render(
+            'dashboard/add/servicio', [
+                'title' => 'Agregar - Servicio',
+                'header' => 'headerAdd',
+                "billing_schemes"=>$billing_schemes,
+                "billing_regimes"=>$billing_regimes,
+                "billing_uses"=>$billing_uses,
+                "ailments"=>$ailments,
+                "client"=>$client,
+                "add" => 'paciente'
+            ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/add/paciente', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/paciente', ['title' => 'Agregar - Paciente', 'header' => 'headerBitacora']);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/add/paciente', ['title' => 'Agregar - Paciente', 'header' => 'headerBitacora']);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/add/prestadora', function () {
-    $admin = new Model;
-    $provider_skills = $admin->nurses->GetAllProvidersSkills();
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $provider_skills = $admin->nurses->GetAllProvidersSkills();
 
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/add/prestadora',[
-        'title' => 'Agregar - Prestadora', 
-        'header' => 'headerAddPrestadora',
-        "provider_skills"=>$provider_skills
-    ]);
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/add/prestadora',[
+            'title' => 'Agregar - Prestadora', 
+            'header' => 'headerAddPrestadora',
+            "provider_skills"=>$provider_skills
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 // Rutas relacionadas a asignacionTECA
 Flight::route('/asignacionECA', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/asignacionECA', ['title' => 'Asignacion ECA', 'header' => 'headerECA']);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/asignacionECA', ['title' => 'Asignacion ECA', 'header' => 'headerECA']);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 /* ----------------------------------------------------------------
@@ -276,104 +353,148 @@ Flight::route('/asignacionECA', function () {
 
 // Rutas relacionadas a asignacionTECA
 Flight::route('/enfermera', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/index', [
-        'title' => 'El nombre de la enfermera', 
-        'header' => 'headerEnfermeras',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/index', [
+            'title' => 'El nombre de la enfermera', 
+            'header' => 'headerEnfermeras',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/servicios', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/servicios', [
-        'title' => 'Servicio', 
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/servicios', [
+            'title' => 'Servicio', 
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/ingresosYEgresos', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/ingresosYEgresos', [
-        'title' => 'Ingresos y egresos', 
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/ingresosYEgresos', [
+            'title' => 'Ingresos y egresos', 
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/signosVitales', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/signosVitales', [
-        'title' => 'Signos vitales',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/signosVitales', [
+            'title' => 'Signos vitales',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/movilizaciones', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/movilizaciones', [
-        'title' => 'Movilizaciones',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/movilizaciones', [
+            'title' => 'Movilizaciones',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/apoyoRespiratorio', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/apoyoRespiratorio', [
-        'title' => 'Apoyo Respiratorio',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/apoyoRespiratorio', [
+            'title' => 'Apoyo Respiratorio',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/medicamentos', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/medicamentos', [
-        'title' => 'Medicamentos',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/medicamentos', [
+            'title' => 'Medicamentos',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/escalas', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/escalas', [
-        'title' => 'Escalas',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/escalas', [
+            'title' => 'Escalas',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/enfermera/terminar', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('nursers/terminar', [
-        'title' => 'Terminar',
-        'header' => 'headerEnfermeraServicios',
-        'isEnfermera' => true
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/terminar', [
+            'title' => 'Terminar',
+            'header' => 'headerEnfermeraServicios',
+            'isEnfermera' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 /* ----------------------------------------------------------------
  * -----------------  Sección que ve el cliente  ------------------
  * ---------------------------------------------------------------- */
 Flight::route('/dashboard/cliente', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/cliente/index', [
-        'title' => 'Nombre del cliente',
-        'header' => 'headerClienteDashboard',
-        'asideActive' => 'clientes'
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/cliente/index', [
+            'title' => 'Nombre del cliente',
+            'header' => 'headerClienteDashboard',
+            'asideActive' => 'clientes'
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 Flight::route('/dashboard/cliente/abono', function () {
-    Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/cliente/abono', [
-        'title' => 'Hacer un abono',
-        'header' => 'headerAbonos',
-        'asideActive' => 'clientes'
-    ]);
+    if ($user!=null && $user['type']==1){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/cliente/abono', [
+            'title' => 'Hacer un abono',
+            'header' => 'headerAbonos',
+            'asideActive' => 'clientes'
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 /*Flight::route('/dashboard/recept-vials/@id',function($id){
@@ -410,12 +531,6 @@ Flight::route('/admin/restore', function () {
     Flight::set('flight.views.path', 'intranet');
     Flight::render('account/restore', ['title' => 'Nueva contraseña', "options"=>["navbar"=>false]]);
 });
-
-Flight::route('/admin/logout', function () {
-    session_destroy();
-    Flight::redirect("admin/login");
-});
-
 
 Flight::route('/admin/deliveries(/@type)(/@id)', function ($type,$id) {
     $admin = new Model;
@@ -481,6 +596,12 @@ Flight::route('/admin/stock', function () {
     Flight::render('account/users', ['title' => 'Usuarios',"css"=>$css,"js"=>$js]);
     Flight::modal("users");
 });*/
+
+
+Flight::route('/logout', function () {
+    session_destroy();
+    Flight::redirect("/login");
+});
 
 
 Flight::start();
