@@ -32,7 +32,7 @@
     margin: 0;
 }
 
-.main__modal--edit::before {
+/* .main__modal--edit::before {
     border-right: 10px solid transparent;
     border-top: 10px solid transparent;
     border-left: 10px solid transparent;
@@ -43,7 +43,7 @@
     position: absolute;
     top: -20px;
     width: 0;
-}
+} */
 
 .main__modal > form > div {
     display: flex;
@@ -64,9 +64,9 @@
     padding: 8px 0;
 }
 
-/* ::-webkit-calendar-picker-indicator {
+::-webkit-calendar-picker-indicator {
     filter: invert(1);
-} */
+}
 
 .main__modal .button--submit {
     width: 100px;

@@ -26,7 +26,7 @@
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="button button--circle button--primary">
+                <button class="button button--circle button--primary" onclick="generarPdf()" >
                     <i class="fa-solid fa-download"></i>
                 </button>
                 <div class="main__modal main__modal--filtrar" id="modalFiltrado">
@@ -48,8 +48,11 @@
                             <label for="clienteFiltro">Cliente</label>
                             <select name="clienteFiltro" id="clienteFiltro">
                                 <option value="0">Seleccionar cliente</option>
-                                <option value="1">Cliente1</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($clients as $cliente) {
+                                        echo '<option value="'.$cliente['id'].'">'.$cliente['name']. ' ' .$cliente['lastname'].'</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -57,8 +60,11 @@
                             <label for="pacienteFiltro">Paciente</label>
                             <select name="pacienteFiltro" id="pacienteFiltro">
                                 <option value="0">Seleccionar paciente</option>
-                                <option value="1">Paciente1</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($patients as $paciente) {
+                                        echo '<option value="'.$paciente['id'].'">'.$paciente['name']. '</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -66,8 +72,11 @@
                             <label for="servicioFiltro">Servicio</label>
                             <select name="servicioFiltro" id="servicioFiltro">
                                 <option value="0">Seleccionar servicio</option>
-                                <option value="101011">Foo</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($service_types as $servicio) {
+                                        echo '<option value="'.$servicio['id'].'">'.$servicio['name'].'</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -75,8 +84,11 @@
                             <label for="prestadorFiltro">Prestador</label>
                             <select name="prestadorFiltro" id="prestadorFiltro">
                                 <option value="0">Seleccionar prestador</option>
-                                <option value="101011">Foo</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($providers as $prestador) {
+                                        echo '<option value="'.$prestador['id'].'">'.$prestador['name'].'</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -84,8 +96,10 @@
                             <label for="estatusFiltro">Estatus</label>
                             <select name="estatusFiltro" id="estatusFiltro">
                                 <option value="0">Seleccionar estatus</option>
-                                <option value="1">Activo</option>
-                                <option value="101012">Foo</option>
+                                <?php foreach($service_status as $status) {
+                                        echo '<option value="'.$status['id'].'">'.$status['name'].'</option>';
+                                    }   
+                                ?>
                             </select>
                         </div>
                         <div class="form__field form__field--doble">
@@ -103,7 +117,7 @@
             </section>
         </header>
 
-        <table class="main__table">
+        <table class="main__table" id="tablaServicios">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -145,6 +159,7 @@
                 </tr>
             </tbody>
         </table>
+        <div id="elementH"></div>
 
         <footer class="main__footer">
             <div class="footer__progress--number">
@@ -198,11 +213,11 @@
                         </a>
                     </td>
                     <td>${element?.service?.name} - ${element?.duration}</td>
-                    <td>
+                    <td class="td__editable">
                         ${element.provider?(element.provider.name+" "+element.provider.lastname):"Por asignar"}
                         <button 
                             class="buttonEditar"
-                            onclick="editarPrestador(this)"
+                            onclick="editarPrestador(this, ${element.id})"
                         >
                             <i class="fa-solid fa-pencil"></i>
                         </button>
@@ -341,7 +356,6 @@
                 alert('Información actualizada');
                 showingModalEditarCosto = false;
                 if (aplica.value === 'cost') {
-                    // document.getElementById('tdCosto' + idCosto).innerHTML = `$ ${monto.value}`;
                     servicios.forEach(element => {
                         if (element.cost.id === parseInt(idCosto)) {
                             element.cost.cost = monto.value;
@@ -416,7 +430,7 @@
         };
         if (servicioFiltro !== '0') {
             servicioFiltrados = servicioFiltrados.filter(servicio => {
-                return servicio.service.id === parseInt(servicioFiltro);
+                return servicio.service_type === parseInt(servicioFiltro);
             });
         }
         if (prestadorFiltro !== '0') {
@@ -426,7 +440,7 @@
         }
         if (estatusFiltro !== '0') {
             servicioFiltrados = servicioFiltrados.filter(servicio => {
-                return servicio.status === estatusFiltro;
+                return servicio.service_status === parseInt(estatusFiltro);
             });
         }
 
@@ -448,7 +462,15 @@
         let servicioFiltrados = [...servicios];
         if (searchValue !== '') {
             servicioFiltrados = servicios.filter(servicio => {
-                return servicio.client.name.toLowerCase().includes(searchValue.toLowerCase())
+                return (servicio?.client?.name + ' ' + servicio?.client?.lastname).toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.patient?.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.service?.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    (servicio?.provider?.name + ' ' + servicio?.provider?.lastname).toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.duration.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.date.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.cost.toString().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.eca_cost.toString().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.extra_cost.toString().includes(searchValue.toLowerCase())
             });
         }
         searchButton.style.display = 'flex';
@@ -496,45 +518,83 @@
                 return servicio.date.split(' ')[0] > FECHA_HOY_STRING;
             });
         }
-
         fillindexTable(servicioFiltrados);
-    }    
+    }
 </script>
 
 <script> // Script para manejar la edicion de prestadora
     const prestadoras = <?php echo json_encode($providers); ?>;
-    console.log(prestadoras);
+    let estaEditandoPrestador = false;
 
-    const editarPrestador = (element) => {
+    const editarPrestador = (element, idServicio) => {
         console.log('editPrestador');
+        if (estaEditandoPrestador) {
+            return;
+        }
         const modalEditandoPrestado = document.createElement('div');
-        modalEditandoPrestado.classList.add('modal');
-        modalEditandoPrestado.classList.add('modal-editando-prestador');
-        modalEditandoPrestado.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Editar Prestador</h2>
-                    <button class="modal-close-button" onclick="closeModal()">X</button>
-                </div>
-                <div class="modal-body">
-                    <form id="formEditandoPrestador">
-                        <div class="form-group">
-                            <label for="prestador">Prestador</label>
-                            <select class="form-control" id="prestador">
-                                <option value="0">Seleccione una prestadora</option>
-                                ${prestadoras.map(prestadora => `
-                                    <option value="${prestadora.id}">${prestadora.name}</option>
-                                `).join('')}
-                            </select>
-                        </div>
-                    </form>
-                </div>
+        modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
+        modalEditandoPrestado.innerHTML = `            
+            <div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarPrestadora(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
             </div>
+            <form id="formEditandoPrestador" onsubmit="handlePrestadorSubmit(event)">
+                <input type="hidden" name="idServicio" value="${idServicio}">
+                <div class="form-group">
+                    <label for="prestador">Prestador</label>
+                    <select class="form-control" id="nuevoPrestador">
+                        <option value="0">Seleccione una prestadora</option>
+                        ${prestadoras.map(prestadora => `
+                            <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
+                        `).join('')}
+                    </select>
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
         `;
         element.parentNode.appendChild(modalEditandoPrestado);
-
-
+        estaEditandoPrestador = true;
     }
 
+    const closeModalEditarPrestadora = (element) => {
+        element.parentNode.parentNode.remove();
+        estaEditandoPrestador = false;
+    }
+
+    const handlePrestadorSubmit = (event) => {
+        event.preventDefault();
+        const nuevoPrestador = event.target.nuevoPrestador.value;
+        const idServicio = event.target.idServicio.value;
+        const provider = prestadoras.filter(prestadora => prestadora.id === parseInt(nuevoPrestador));
+
+        console.log("provider", provider);
+
+        const data = {
+            id: idServicio,
+            provider_id: nuevoPrestador
+        }
+
+        $.ajax({
+            url: 'bridge/routes.php?action=update_provider',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                closeModalEditarPrestadora(event.target.parentNode);
+                servicios.forEach(element => {
+                    if (element.id === parseInt(idServicio)) {
+                        element.provider = provider[0];
+                    }
+                });
+                fillindexTable(servicios);
+            }
+        });
+    }
 
 </script>

@@ -11,7 +11,8 @@
 		"get_services_table"=>"GetTable",
 		"get_services_by_client"=>"GetByClientId",
 		"get_services_by_patient"=>"GetByPatientId",
-		"update_cost"=>"SaveCosts"
+		"update_cost"=>"SaveCosts",
+		"update_provider"=>"SaveProvider"
 		]
 	);
 

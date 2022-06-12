@@ -23,25 +23,42 @@ Flight::route('/', function () {
     $admin = new Model;
     Flight::set('flight.views.path', 'intranet');
     $providers = $admin->nurses->List();
+    $patients = $admin->patients->List();
+    $clients = $admin->clients->List();
+    $service_types = $admin->services->GetServiceTypes();
+    $service_status = $admin->services->GetServiceStatus();
     Flight::render('dashboard/index', [
         'title' => 'Dashboard', 
         'header' => 'headerIndex',
-        'providers' => $providers
+        'providers' => $providers,
+        'clients' => $clients,
+        'patients' => $patients,
+        'service_types' => $service_types,
+        'service_types' => $service_types,
+        'service_status' => $service_status
+
     ]);
 });
 
 Flight::route('/cliente/@id', function ($id) {
     $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
-
+    $patients = $admin->patients->List();
+    $providers = $admin->nurses->List();
+    $service_types = $admin->services->GetServiceTypes();
+    $service_status = $admin->services->GetServiceStatus();
     Flight::set('flight.views.path', 'intranet');
     Flight::render(
         'dashboard/cliente', [
             'title' => 'Cliente', 
             'header' => 'headerCliente',
-            "client" => $client,
-            "headerName"=>$client['name'] . " " . $client['lastname'],
-            "idClient"=>$client['id']
+            'client' => $client,
+            'headerName'=>$client['name'] . " " . $client['lastname'],
+            'idClient'=>$client['id'],
+            'patients' => $patients,
+            'service_types' => $service_types,
+            'providers' => $providers,
+            'service_status' => $service_status
         ]);
 });
 

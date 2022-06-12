@@ -17,6 +17,12 @@
 			return $cl;
 		}
 
+		public function List()
+		{
+			$cl = $this->ViewList(self::TABLE_CLIENTS);
+			return $cl;
+		}
+
 		public function NewClient(Request $data)
 		{
 			$fullname = $data->get("name")." ".$data->get("lastname");

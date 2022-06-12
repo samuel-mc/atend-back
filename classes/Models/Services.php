@@ -5,20 +5,11 @@
 		{
 			parent::__construct();
 		}
-
 		//frequency: "0"
 		
-
-		
-
-
 		public function SaveService(Request $data)
 		{
-
-
 			$user_id = 1;
-
-
 			$data->put("status",1);
 			$d = $data->extract(["client_id","patient_id","service_type","provider_id","service_status","duration","schedule","insurance","complexion_id","care_type_id","provider_gender","status"]);			
 
@@ -58,8 +49,6 @@
 					"user_id"=>$user_id
 				]);
 			}
-
-
 			return $ds;
 		}
 
@@ -115,10 +104,26 @@
 			return $res;
 		}
 
+		public function GetServiceTypes()
+		{
+			return $this->ViewList(self::TABLE_CAT_SERVICE_TYPES);
+		}
+
+		public function GetServiceStatus()
+		{
+			return $this->ViewList(self::TABLE_CAT_STATUS);
+		}
+
 		public function SaveCosts(Request $data)
 		{	
 			$d = $data->extract(["cost","eca_cost","extra_cost","reason"]);
 			return $this->Save(self::TABLE_SERVICE_COSTS,$d,$data->id);
+		}
+		
+		public function SaveProvider(Request $data)
+		{	
+			$d = $data->extract(["provider_id"]);
+			return $this->Save(self::TABLE_SERVICES,$d,$data->id);
 		}
 	}
 

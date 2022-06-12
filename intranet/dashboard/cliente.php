@@ -1,11 +1,3 @@
-<?php
-    $botonEditar = '
-    <button class="buttonEditar">
-        <i class="fa-solid fa-pencil"></i>
-    </button>
-    ';
-?>
-
 <main class="main">
     <section class="main__content" id="main">
         <header class="main__header--servicios">
@@ -34,7 +26,7 @@
                         Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="button button--circle button--primary">
+                <button class="button button--circle button--primary" onclick="generarPdf()">
                     <i class="fa-solid fa-download"></i>
                 </button>
                 <div class="main__modal main__modal--filtrar" id="modalFiltrado">
@@ -56,8 +48,11 @@
                             <label for="pacienteFiltro">Paciente</label>
                             <select name="pacienteFiltro" id="pacienteFiltro">
                                 <option value="0">Seleccionar paciente</option>
-                                <option value="1">Paciente1</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($patients as $paciente) {
+                                        echo '<option value="'.$paciente['id'].'">'.$paciente['name']. '</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -65,8 +60,11 @@
                             <label for="servicioFiltro">Servicio</label>
                             <select name="servicioFiltro" id="servicioFiltro">
                                 <option value="0">Seleccionar servicio</option>
-                                <option value="101011">Foo</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($service_types as $servicio) {
+                                        echo '<option value="'.$servicio['id'].'">'.$servicio['name'].'</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -74,8 +72,11 @@
                             <label for="prestadorFiltro">Prestador</label>
                             <select name="prestadorFiltro" id="prestadorFiltro">
                                 <option value="0">Seleccionar prestador</option>
-                                <option value="101011">Foo</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($providers as $prestador) {
+                                        echo '<option value="'.$prestador['id'].'">'.$prestador['name'].'</option>';
+                                    }
+                                ?>
                             </select>
                         </div>
 
@@ -83,17 +84,28 @@
                             <label for="estatusFiltro">Estatus</label>
                             <select name="estatusFiltro" id="estatusFiltro">
                                 <option value="0">Seleccionar estatus</option>
-                                <option value="1">Activo</option>
-                                <option value="101012">Foo</option>
+                                <?php foreach($service_status as $status) {
+                                        echo '<option value="'.$status['id'].'">'.$status['name'].'</option>';
+                                    }   
+                                ?>
                             </select>
                         </div>
-                        <button type="submit" class="button button--primary">Filtrar</button>
+                        <div class="form__field form__field--doble">
+                            <button type="submit" class="button button--primary">Filtrar</button>
+                            <button 
+                                type="button" 
+                                class="button button--primary button--circle" 
+                                onclick="resetFiltros()"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
         </header>
 
-        <table class="main__table">
+        <table class="main__table" id="tablaServicios">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -116,23 +128,23 @@
                     <td>Enf Gral –12hrs </td>
                     <td>
                         Jane Doe
-                        <?php echo $botonEditar; ?>
+                        #aquiVaUnBotonEditar
                     </td>
                     <td>
                         $1,500
-                        <?php echo $botonEditar; ?>
+                         #aquiVaUnBotonEditar
                     </td>
                     <td>
                         $ 500
-                        <?php echo $botonEditar; ?>
+                         #aquiVaUnBotonEditar
                     </td>
                     <td>
                         $ 120
-                        <?php echo $botonEditar; ?>
+                         #aquiVaUnBotonEditar
                     </td>
                     <td class="main__table--estatus">
                         <span class="disable"> ● </span> Sin registro 
-                        <?php echo $botonEditar; ?>
+                         #aquiVaUnBotonEditar
                     </td>
                     <td>
                         <i class="fa-solid fa-trash-can"></i>
@@ -471,9 +483,14 @@
                     </a>
                 </td>
                 <td>${element.service?.name} - ${element.duration}</td>
-                <td>
+                <td class="td__editable">
                     ${element.provider?(element.provider.name+" "+element.provider.lastname):"Por asignar"}
-                    <?php echo $botonEditar; ?>
+                    <button 
+                        class="buttonEditar"
+                        onclick="editarPrestador(this, ${element.id})"
+                    >
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
                 </td>
                 <td class="td__editable">
                     $ ${element.cost.cost ? element.cost.cost : '$ 0'}
@@ -678,7 +695,7 @@
 
 </script>
 
-<script> //Script para filtrar los pacientes de la
+<script> //Script para filtrar los pacientes
     const modalFiltrado = document.getElementById('modalFiltrado');
     modalFiltrado.style.display = 'none';
     function showModal() {
@@ -724,7 +741,7 @@
         }
         if (estatusFiltro !== '0') {
             pacientesFiltrados = pacientesFiltrados.filter(paciente => {
-                return paciente.status === estatusFiltro;
+                return paciente.service_status === parseInt(estatusFiltro);
             });
         }
         console.log("pacientesFiltrados", pacientesFiltrados);
@@ -732,6 +749,16 @@
 
         closeModal();
     });
+
+    function resetFiltros() {
+        document.getElementById('fechaFiltro').value = '';
+        document.getElementById('pacienteFiltro').value = '0';
+        document.getElementById('servicioFiltro').value = '0';
+        document.getElementById('prestadorFiltro').value = '0';
+        document.getElementById('estatusFiltro').value = '0';
+        fillindexTable(pacientes);
+        closeModal();
+    }
 </script>
 
 <script>
@@ -763,7 +790,81 @@
                 return servicio.date.split(' ')[0] > FECHA_HOY_STRING;
             });
         }
-
         fillindexTable(servicioFiltrados);
-    }    
+    }
+</script>
+
+<script> // Script para manejar la edicion de prestadora    
+    const prestadoras = <?php echo json_encode($providers); ?>;
+    let estaEditandoPrestador = false;
+
+    const editarPrestador = (element, idServicio) => {
+        console.log('editPrestador');
+        if (estaEditandoPrestador) {
+            return;
+        }
+        const modalEditandoPrestado = document.createElement('div');
+        modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
+        modalEditandoPrestado.innerHTML = `            
+            <div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarPrestadora(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form id="formEditandoPrestador" onsubmit="handlePrestadorSubmit(event)">
+                <input type="hidden" name="idServicio" value="${idServicio}">
+                <div class="form-group">
+                    <label for="prestador">Prestador</label>
+                    <select class="form-control" id="nuevoPrestador">
+                        <option value="0">Por asignar</option>
+                        ${prestadoras.map(prestadora => `
+                            <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
+                        `).join('')}
+                    </select>
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
+        `;
+        element.parentNode.appendChild(modalEditandoPrestado);
+        estaEditandoPrestador = true;
+    }
+
+    const closeModalEditarPrestadora = (element) => {
+        element.parentNode.parentNode.remove();
+        estaEditandoPrestador = false;
+    }
+
+    const handlePrestadorSubmit = (event) => {
+        event.preventDefault();
+        const nuevoPrestador = event.target.nuevoPrestador.value;
+        const idServicio = event.target.idServicio.value;
+        const provider = prestadoras.filter(prestadora => prestadora.id === parseInt(nuevoPrestador));
+
+        const data = {
+            id: idServicio,
+            provider_id: nuevoPrestador
+        }
+
+        $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_provider',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                closeModalEditarPrestadora(event.target.parentNode);
+                pacientes.forEach(element => {
+                    if (element.id === parseInt(idServicio)) {
+                        element.provider = provider[0];
+                    }
+                });
+                fillindexTable(pacientes);
+            }
+        });
+    }
+
 </script>

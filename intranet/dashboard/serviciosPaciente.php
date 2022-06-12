@@ -16,9 +16,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                         <path
                             d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+
                     </svg>
                 </button>
-                <button class="button button--circle button--primary">
+                <button class="button button--circle button--primary" onclick="generarPdf()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                         <path
@@ -28,7 +29,7 @@
             </section>
         </header>
 
-        <table class="main__table">
+        <table class="main__table" id="tablaServicios">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -42,81 +43,6 @@
                 </tr>
             </thead>
             <tbody id="serviciosTable">
-                <!-- <tr>
-                    <td>
-                        <button class="buttonEditarFecha">
-                            21.03.2021
-                        </button>
-                    </td>
-                    <td>000 – 00</td>
-                    <td>Enf Gral –12hrs </td>
-                    <td>
-                        Jane Doe
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $1,500
-                        <a>    
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 500
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 120
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="./bitacora">
-                            Ver Bitácora
-                        </a>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        <button class="buttonEditarFecha">
-                            21.03.2021
-                        </button>
-                    </td>
-                    <td>000 – 00</td>
-                    <td>Enf Gral –12hrs </td>
-                    <td>
-                        Jane Doe
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $1,500
-                        <a>    
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 500
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 120
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        N/A
-                    </td>
-                </tr> -->
             </tbody>
         </table>
 
