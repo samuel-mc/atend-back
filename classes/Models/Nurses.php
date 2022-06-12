@@ -55,6 +55,11 @@
 			return $this->ViewList(self::TABLE_PROVIDER_SKILLS);
 		}
 
+		public function GetRecommendedProvider(Request $data)
+		{
+			
+		}
+
 	}
 
 ?>

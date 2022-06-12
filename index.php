@@ -288,6 +288,7 @@ Flight::route('/add/servicio/', function () {
 });
 
 Flight::route('/add/paciente/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         $admin = new Model;
         $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
@@ -313,6 +314,7 @@ Flight::route('/add/paciente/@id', function ($id) {
 });
 
 Flight::route('/add/paciente', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/add/paciente', ['title' => 'Agregar - Paciente', 'header' => 'headerBitacora']);
@@ -322,6 +324,7 @@ Flight::route('/add/paciente', function () {
 });
 
 Flight::route('/add/prestadora', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         $admin = new Model;
         $provider_skills = $admin->nurses->GetAllProvidersSkills();
@@ -339,6 +342,7 @@ Flight::route('/add/prestadora', function () {
 
 // Rutas relacionadas a asignacionTECA
 Flight::route('/asignacionECA', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/asignacionECA', ['title' => 'Asignacion ECA', 'header' => 'headerECA']);
@@ -353,6 +357,7 @@ Flight::route('/asignacionECA', function () {
 
 // Rutas relacionadas a asignacionTECA
 Flight::route('/enfermera', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/index', [
@@ -366,6 +371,7 @@ Flight::route('/enfermera', function () {
 });
 
 Flight::route('/enfermera/servicios', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/servicios', [
@@ -379,6 +385,7 @@ Flight::route('/enfermera/servicios', function () {
 });
 
 Flight::route('/enfermera/ingresosYEgresos', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/ingresosYEgresos', [
@@ -392,6 +399,7 @@ Flight::route('/enfermera/ingresosYEgresos', function () {
 });
 
 Flight::route('/enfermera/signosVitales', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/signosVitales', [
@@ -405,6 +413,7 @@ Flight::route('/enfermera/signosVitales', function () {
 });
 
 Flight::route('/enfermera/movilizaciones', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/movilizaciones', [
@@ -418,6 +427,7 @@ Flight::route('/enfermera/movilizaciones', function () {
 });
 
 Flight::route('/enfermera/apoyoRespiratorio', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/apoyoRespiratorio', [
@@ -431,6 +441,7 @@ Flight::route('/enfermera/apoyoRespiratorio', function () {
 });
 
 Flight::route('/enfermera/medicamentos', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/medicamentos', [
@@ -444,6 +455,7 @@ Flight::route('/enfermera/medicamentos', function () {
 });
 
 Flight::route('/enfermera/escalas', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/escalas', [
@@ -457,6 +469,7 @@ Flight::route('/enfermera/escalas', function () {
 });
 
 Flight::route('/enfermera/terminar', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/terminar', [
@@ -473,6 +486,7 @@ Flight::route('/enfermera/terminar', function () {
  * -----------------  Sección que ve el cliente  ------------------
  * ---------------------------------------------------------------- */
 Flight::route('/dashboard/cliente', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/cliente/index', [
@@ -485,6 +499,7 @@ Flight::route('/dashboard/cliente', function () {
     }
 });
 Flight::route('/dashboard/cliente/abono', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/cliente/abono', [
