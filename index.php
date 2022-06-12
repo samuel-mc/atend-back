@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "https://attend.mx/atend-back");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 //session_start();
@@ -20,8 +20,14 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 });*/
 
 Flight::route('/', function () {
+    $admin = new Model;
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/index', ['title' => 'Dashboard', 'header' => 'headerIndex']);
+    $providers = $admin->nurses->List();
+    Flight::render('dashboard/index', [
+        'title' => 'Dashboard', 
+        'header' => 'headerIndex',
+        'providers' => $providers
+    ]);
 });
 
 Flight::route('/cliente/@id', function ($id) {
@@ -34,7 +40,7 @@ Flight::route('/cliente/@id', function ($id) {
             'title' => 'Cliente', 
             'header' => 'headerCliente',
             "client" => $client,
-            "headerName"=>$client['name'],
+            "headerName"=>$client['name'] . " " . $client['lastname'],
             "idClient"=>$client['id']
         ]);
 });
@@ -64,17 +70,18 @@ Flight::route('/pagosPaciente/@id', function ($id) {
     Flight::render('dashboard/pagosPaciente', ['title' => 'Historial De Pagos - Paciente', 'header' => 'headerPagosPaciente',"headerName"=>$patients['name'],"payments"=>$payments,"balance"=>$balance['amount']]);
 });
 
-Flight::route('/servicios/@id', function ($id) {
+Flight::route('/servicios-paciente/@id', function ($id) {
+    //Ruta donde se muestran los servicios de un paciente.
     $admin = new Model();
-    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+    $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/servicios', [
+    Flight::render('dashboard/serviciosPaciente', [
         'title' => 'Servicios', 
         'header' => 'headerServicios', 
         'admin' => $admin,
-        "client" => $client,
-        "headerName"=>$client['name'],
-        "idClient"=>$client['id']
+        "patient" => $patient,
+        "headerName"=>$patient['name'],
+        "idClient"=>$patient['id']
     ]);
 });
 
@@ -186,6 +193,10 @@ Flight::route('/add/servicio/@id', function ($id) {
     $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
     $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
     $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+    $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+    $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
+    $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
     $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
     Flight::set('flight.views.path', 'intranet');
     Flight::render(
@@ -196,9 +207,59 @@ Flight::route('/add/servicio/@id', function ($id) {
             "billing_regimes"=>$billing_regimes,
             "billing_uses"=>$billing_uses,
             "ailments"=>$ailments,
+            "service_types"=>$service_types,
+            "care_types"=>$care_types,
+            "durations"=>$durations,
+            "complexions"=>$complexions,
             "client"=>$client
         ]);
 });
+
+Flight::route('/add/nuevo-cliente', function() {
+    $admin = new Model;
+    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render(
+        'dashboard/add/nuevoCliente', [
+            'title' => 'Agregar Cliente',
+            "billing_schemes"=>$billing_schemes,
+            "billing_uses"=>$billing_uses,
+            "billing_regimes"=>$billing_regimes,
+            'header' => 'headerAdd',
+
+        ]);
+});
+
+Flight::route('/add/servicio-paciente/@id', function ($id) {
+    //Ruta para agregar el servicio a un paciente
+    $admin = new Model;
+    $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+    $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+    $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+    $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
+    $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
+
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render(
+        'dashboard/add/servicioPaciente', [
+            'title' => 'Agregar - Servicio',
+            'header' => 'headerAddServicioPaciente',
+            'patient' => $patient ,
+            // "billing_schemes"=>$billing_schemes,
+            // "billing_regimes"=>$billing_regimes,
+            // "billing_uses"=>$billing_uses,
+            // "ailments"=>$ailments,
+            "service_types"=>$service_types,
+            "care_types"=>$care_types,
+            "durations"=>$durations,
+            "complexions"=>$complexions,
+            // "client"=>$client
+        ]);
+});
+
 Flight::route('/add/servicio/', function () {
     $admin = new Model;
     $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
@@ -232,6 +293,10 @@ Flight::route('/add/paciente/@id', function ($id) {
     $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
     $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
     $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+    $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+    $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
+    $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
     $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
     Flight::set('flight.views.path', 'intranet');
     Flight::render(
@@ -243,6 +308,10 @@ Flight::route('/add/paciente/@id', function ($id) {
             "billing_uses"=>$billing_uses,
             "ailments"=>$ailments,
             "client"=>$client,
+            "service_types"=>$service_types,
+            "care_types"=>$care_types,
+            "durations"=>$durations,
+            "complexions"=>$complexions,
             "add" => 'paciente'
         ]);
 });

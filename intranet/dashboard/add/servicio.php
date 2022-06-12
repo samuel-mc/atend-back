@@ -425,172 +425,8 @@
             </div>
         </section> -->
 
-        <?php  
-            $date = new DateTime();
-            $date = $date->format('Y-m-d')
-        ?>
-
-        <section class="main__content main__add--cotainer">
-            <header class="main__header--servicios">
-                <h1>Información de Servicio</h1>
-            </header>
-            <div>
-                <form class="form__info-paciente" id="formInfoServicio">
-                    <div>
-                        <div class="form__field">
-                            <label for="apellidosCliente">Fecha de Inicio</label>
-                            <input type="date" value="<?php echo $date; ?>" min="<?php echo $date; ?>" name="fechaInicio" id="fechaInicio">
-                        </div>
-
-                        <div class="form__field">
-                            <label for="apellidosCliente">Fecha de terminación (opcional)</label>
-                            <input type="date" min="<?php echo $date; ?>" name="fechaFin" id="fechaFin">
-                        </div>
-
-                        <div class="form__field form__field--doble">
-                            <div>
-                                <label for="sexoInfoServicio">Sexo ECA</label>
-                                <select name="sexoInfoServicio" id="sexoInfoServicio">
-                                    <option value="1">Femenino</option>
-                                    <option value="2">Masculino</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="sexo">Tipo de Servcio</label>
-                                <select name="tipoDeServicio" id="tipoDeServicio">
-                                    <?php foreach ($service_types as $serv): ?>
-                                    <option value="<?php echo $serv['id']; ?>"><?php echo $serv['name']; ?></option>        
-                                    <?php endforeach ?>    
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="tipoDeCuidado">Tipo de Cuidado</label>
-                            <select name="tipoDeCuidado" id="tipoDeCuidado">
-                                <?php foreach ($care_types as $care): ?>    
-                                <option value="<?php echo $care['id']; ?>"><?php echo $care['name']; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-
-                        <div class="form__field form__field--doble">
-                            <div>
-                                <label for="duracion">Duración</label>
-                                <select id="duracion">
-                                    <?php foreach ($durations as $dur): ?>
-                                        <option value="<?php echo $dur['id']; ?>"><?php echo $dur['name']; ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="entrada">Entrada</label>
-                                <input type="text" value="8:00 am" name="entrada" id="entrada">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="form__field">
-                            <label for="complexion">Complexión</label>
-                            <select name="complexion" id="complexion">
-                                <?php foreach ($complexions as $comp): ?>
-                                    <option value="<?php echo $comp['id']; ?>"><?php echo $comp['name']; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="calParaSeguro">Calificada para seguro</label>
-                            <select name="calParaSeguro" id="calParaSeguro">
-                                <option value="si">Sí</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="precioCliente">Precio Cliente</label>
-                            <input type="number" value="1950" id="precioCliente" name="precioCliente">
-                        </div>
-
-                        <div class="form__field">
-                            <label for="precioEca">Precio ECA</label>
-                            <input type="number" value="750" id="precioEca" name="precioEca">
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="form__field">
-                            <label for="frecDelServicio">Frecuencia del Servicio</label>
-                            <select name="frecDelServicio" id="frecDelServicio">
-                                <option value="3">Servicio único</option>
-                                <option value="0">Otro</option>
-                                <option value="1">Lunes a Viernes</option>
-                                <option value="2">Todos los días</option>
-                            </select>
-                            <div class="frecDelServicio--otro">
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_1" name="lunes" value="lunes">
-                                    <label for="lunes"> Lunes</label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_2" name="martes" value="martes">
-                                    <label for="martes"> Martes </label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_3" name="miercoles" value="miercoles">
-                                    <label for="miercoles"> Miércoles </label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_4" name="jueves" value="jueves">
-                                    <label for="jueves"> Jueves </label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_5" name="viernes" value="viernes">
-                                    <label for="viernes"> Viernes </label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_6" name="sabado" value="sabado">
-                                    <label for="sabado"> Sábado </label><br>
-                                </div>
-                                <div class="field__checkbox">
-                                    <input type="checkbox" id="freq_day_7" name="domingo" value="domingo">
-                                    <label for="domingo"> Domingo </label><br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="submit" class="button button--primary button--submit" value="Guardar">
-
-                </form>
-            </div>
-        </section>
-
-        <!-- <section class="main__buttons">
-            <div>
-                <button class="button button--primary button--circle">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <h3>Nuevo servicio</h3>
-            </div>
-        </section> -->
-
     </div>
 </main>
-
-<script> //Script que desplega los dias de las semana si el user selecciona otro
-    document.querySelector('.frecDelServicio--otro').style.display = 'none';
-    
-    const frecDelServicio = document.getElementById('frecDelServicio');
-    frecDelServicio.addEventListener('change', (e) => {
-        if (e.target.value === '0') {
-            document.querySelector('.frecDelServicio--otro').style.display = 'block';
-        } else {
-            document.querySelector('.frecDelServicio--otro').style.display = 'none';
-        }
-    });
-</script>
 
 <script> //Script para manejar el submit de los formularios
     let client_id = <?php echo (isset($client) ? $client["id"] : 1); ?>;
@@ -769,6 +605,7 @@
                 console.log(res)
             }
         })
+        alert("Información del paciente guardada correctamente");
     });
 
     // Manejo del formulario "Informacion del servicio"
@@ -833,6 +670,7 @@
                 console.log(JSON.parse(res))
             }
         })
+        alert("Servicio guardado correctamente");
     });
 </script>
 

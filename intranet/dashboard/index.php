@@ -3,9 +3,21 @@
         <header class="main__header--servicios">
             <section>
                 <h2>Servicios</h2>
-                <button class="button button--primary">Activos</button>
-                <button class="button button--primary active">Futuros</button>
-                <button class="button button--primary">Pasados</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('activos')";
+                    id="botonActivos"
+                >Activos</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('futuros')";
+                    id="botonFuturos"
+                >Futuros</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('pasados')";
+                    id="botonPasados"
+                >Pasados</button>
             </section>
 
             <section>
@@ -175,24 +187,32 @@
             table += `
                 <tr>
                     <td>
-                        <button class="buttonEditarFecha">
+                        <button class="buttonEditarFecha" onclick="editFecha()">
                             ${element.date.split(" ")[0]}
                         </button>
                     </td>
                     <td>${element.id}</td>
                     <td>
                         <a href="./cliente/${element.client.id}">
-                            ${element.client.name}
+                            ${element.client.name} ${element.client.lastname}
                         </a>
                     </td>
-                    <td>${element.service_type}</td>
-                    <td>${element.provider?(element.provider.name + element.provider.lastname):"Sin asignar"}</td>
+                    <td>${element?.service?.name} - ${element?.duration}</td>
+                    <td>
+                        ${element.provider?(element.provider.name+" "+element.provider.lastname):"Por asignar"}
+                        <button 
+                            class="buttonEditar"
+                            onclick="editarPrestador(this)"
+                        >
+                            <i class="fa-solid fa-pencil"></i>
+                        </button>
+                    </td>
                     <td class="td__editable">
-                        <span id="tdCosto${element.cost.id}">
-                            $ ${element.cost.cost ? element.cost.cost : '0'}
+                        <span id="tdCosto${element?.cost?.id}">
+                            $ ${element?.cost?.cost ? element.cost.cost : '0'}
                         </span>
                         <button
-                            onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost.cost})"
+                            onclick="showEditarModal(this, 'cost', ${element?.id}, ${element?.cost?.cost})"
                             class="button--edit"
                         >
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -200,10 +220,10 @@
                     </td>
                     <td class="td__editable">
                         <span>
-                        $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                        $ ${element?.cost?.eca_cost ? element?.cost?.eca_cost : '$0'}
                         </span>
                         <button 
-                            onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
+                            onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost?.eca_cost})"
                             class="button--edit"
                         >
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -211,10 +231,10 @@
                     </td>
                     <td class="td__editable">
                         <span>
-                        $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                        $ ${element?.cost?.extra_cost ? element?.cost?.extra_cost : '0'}
                         </span>
                         <button
-                            onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
+                            onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost?.extra_cost})"
                             class="button--edit"
                         >
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -439,4 +459,82 @@
         searchButton.style.display = 'none';
         fillindexTable(servicios);
     };
+</script>
+
+<script> //Script para manejar el editado de la fecha
+    const editFecha = () => {
+        console.log('editFecha');
+    }
+</script>
+
+<script>
+    const filtrarServicioPorEstatus = (estatus) => {
+        let servicioFiltrados = [...servicios];
+        const FECHA_HOY = new Date();
+        const FECHA_HOY_STRING = FECHA_HOY.getFullYear() + '-0' + (FECHA_HOY.getMonth() + 1) + '-' + FECHA_HOY.getDate();        
+
+        if (estatus === 'activos') {
+            botonActivos.classList.add('active');
+            botonFuturos.classList.remove('active');
+            botonPasados.classList.remove('active');
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.date.split(' ')[0] === FECHA_HOY_STRING;
+
+            });
+        } else if (estatus === 'pasados') {
+            botonActivos.classList.remove('active');
+            botonFuturos.classList.remove('active');
+            botonPasados.classList.add('active');
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.date.split(' ')[0] < FECHA_HOY_STRING;
+            });
+        } else if (estatus === 'futuros') {
+            botonActivos.classList.remove('active');
+            botonFuturos.classList.add('active');
+            botonPasados.classList.remove('active');
+            servicioFiltrados = servicios.filter(servicio => {
+                return servicio.date.split(' ')[0] > FECHA_HOY_STRING;
+            });
+        }
+
+        fillindexTable(servicioFiltrados);
+    }    
+</script>
+
+<script> // Script para manejar la edicion de prestadora
+    const prestadoras = <?php echo json_encode($providers); ?>;
+    console.log(prestadoras);
+
+    const editarPrestador = (element) => {
+        console.log('editPrestador');
+        const modalEditandoPrestado = document.createElement('div');
+        modalEditandoPrestado.classList.add('modal');
+        modalEditandoPrestado.classList.add('modal-editando-prestador');
+        modalEditandoPrestado.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Editar Prestador</h2>
+                    <button class="modal-close-button" onclick="closeModal()">X</button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditandoPrestador">
+                        <div class="form-group">
+                            <label for="prestador">Prestador</label>
+                            <select class="form-control" id="prestador">
+                                <option value="0">Seleccione una prestadora</option>
+                                ${prestadoras.map(prestadora => `
+                                    <option value="${prestadora.id}">${prestadora.name}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        element.parentNode.appendChild(modalEditandoPrestado);
+
+
+    }
+
+
 </script>

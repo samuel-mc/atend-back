@@ -25,7 +25,7 @@
 			$data->put("status",1);
 			$d = $data->extract(["user_id","type_id","name","lastname","phone","email","require_billing","comments","photo"]);
 			$cl = $this->Insert(self::TABLE_CLIENTS,$d,"all");
-			return $cl; 
+			return $cl;
 		}
 
 		public function SaveClient(Request $data)

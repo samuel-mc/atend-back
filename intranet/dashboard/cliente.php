@@ -11,9 +11,21 @@
         <header class="main__header--servicios">
             <section>
                 <h2>Servicios</h2>
-                <button class="button button--primary">Activos</button>
-                <button class="button button--primary active">Futuros</button>
-                <button class="button button--primary">Pasados</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('activos')";
+                    id="botonActivos"
+                >Activos</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('futuros')";
+                    id="botonFuturos"
+                >Futuros</button>
+                <button 
+                    class="button button--primary"
+                    onclick="filtrarServicioPorEstatus('pasados')";
+                    id="botonPasados"
+                >Pasados</button>
             </section>
 
             <section>
@@ -454,11 +466,11 @@
                 </td>
                 <td>${element.id}</td>
                 <td>
-                    <a href="<?php echo __ROOT__; ?>/paciente/${element.patient.id}">
-                        ${element.patient.name}
+                    <a href="<?php echo __ROOT__; ?>/servicios-paciente/${element.patient?.id}">
+                        ${element.patient?.name}
                     </a>
                 </td>
-                <td>${element.service_type}</td>
+                <td>${element.service?.name} - ${element.duration}</td>
                 <td>
                     ${element.provider?(element.provider.name+" "+element.provider.lastname):"Por asignar"}
                     <?php echo $botonEditar; ?>
@@ -720,4 +732,38 @@
 
         closeModal();
     });
+</script>
+
+<script>
+    const filtrarServicioPorEstatus = (estatus) => {
+        let servicioFiltrados = [...pacientes];
+        const FECHA_HOY = new Date();
+        const FECHA_HOY_STRING = FECHA_HOY.getFullYear() + '-0' + (FECHA_HOY.getMonth() + 1) + '-' + FECHA_HOY.getDate();        
+
+        if (estatus === 'activos') {
+            botonActivos.classList.add('active');
+            botonFuturos.classList.remove('active');
+            botonPasados.classList.remove('active');
+            servicioFiltrados = pacientes.filter(servicio => {
+                return servicio.date.split(' ')[0] === FECHA_HOY_STRING;
+
+            });
+        } else if (estatus === 'pasados') {
+            botonActivos.classList.remove('active');
+            botonFuturos.classList.remove('active');
+            botonPasados.classList.add('active');
+            servicioFiltrados = pacientes.filter(servicio => {
+                return servicio.date.split(' ')[0] < FECHA_HOY_STRING;
+            });
+        } else if (estatus === 'futuros') {
+            botonActivos.classList.remove('active');
+            botonFuturos.classList.add('active');
+            botonPasados.classList.remove('active');
+            servicioFiltrados = pacientes.filter(servicio => {
+                return servicio.date.split(' ')[0] > FECHA_HOY_STRING;
+            });
+        }
+
+        fillindexTable(servicioFiltrados);
+    }    
 </script>

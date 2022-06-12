@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody id="serviciosTable">
-                <tr>
+                <!-- <tr>
                     <td>
                         <button class="buttonEditarFecha">
                             21.03.2021
@@ -116,50 +116,7 @@
                     <td>
                         N/A
                     </td>
-                </tr>
-                
-                <?php for ($i = 0; $i < 10; $i++) { ?>
-                <!-- <tr>
-                    <td>
-                        <button class="buttonEditarFecha">
-                            21.03.2021
-                        </button>
-                    </td>
-                    <td>000 – 00</td>
-                    <td>Enf Gral –12hrs </td>
-                    <td>
-                        Jane Doe
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $1,500
-                        <a>    
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 500
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        $ 120
-                        <a>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="./bitacora">
-                            Ver Bitácora
-                        </a>
-                    </td>
                 </tr> -->
-                <?php } ?>
-
-
             </tbody>
         </table>
 
@@ -179,3 +136,69 @@
         </footer>
     </section>
 </main>
+
+<script>
+    const paciente = <?php echo json_encode($patient); ?>;
+    console.log(paciente);
+
+    const serviciosTable = document.getElementById('serviciosTable');
+
+    const fillServicesTable = (service) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <button class="buttonEditarFecha">
+                    ${service.date}
+                </button>
+            </td>
+            <td>${service.id}</td>
+            <td>${service.service_type.name} – ${service.duration.name} </td>
+            <td>
+                ${service.provider ? service.provider.name + service.provider.lastname : 'N/A'}
+                <a>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </td>
+            <td>
+                $ ${service.costs.cost}
+                <a>    
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </td>
+            <td>
+                $ ${service.costs.eca_cost}
+                <a>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </td>
+            <td>
+                $ ${service.costs.extra_cost}
+                <a>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+            </td>
+            <td>
+                <a href="./bitacora">
+                    Ver Bitácora
+                </a>
+            </td>
+        `;
+        serviciosTable.appendChild(row);
+    }
+
+    if (paciente.services) {
+        paciente.services.forEach(service => {
+            fillServicesTable(service);
+        });
+    } else {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td colspan="8">
+                <p>
+                    No hay servicios registrados
+                </p>
+            </td>
+        `;
+        serviciosTable.appendChild(row);
+    }
+</script>

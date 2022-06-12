@@ -51,7 +51,22 @@
 				$pat['address']['municipality'] = $this->getById(self::TABLE_CAT_MUNICIPALITIES,$pat["address"]['zipcode']['municipality_id']);
 			}
 			$pat['doctor'] = $this->getById(self::TABLE_DOCTORS,$pat['doctor_id']);
-			$pat['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS,"id IN ".$pat['ailments']);
+			$pat['services'] = $this->ViewList(self::TABLE_SERVICES,"patient_id IN (".$pat['id'].")");
+			
+			foreach ($pat['services'] as $key => $value) {
+				$pat['services'][$key]['provider'] = $this->getById(self::TABLE_PROVIDERS, $value['id']);
+				if($pat['services'][$key]['service_type'] != null) {
+					$pat['services'][$key]['service_type'] = $this->getById(self::TABLE_CAT_SERVICE_TYPES, $pat['services'][$key]['service_type']);
+				}
+				$pat['services'][$key]['duration'] = $this->getById(self::TABLE_CAT_SERVICE_DURATIONS, $pat['services'][$key]['duration']);
+				$pat['services'][$key]['costs'] = $this->GetByCondition(self::TABLE_SERVICE_COSTS, "service_id = " . $pat['services'][$key]['id']);
+
+			}
+
+
+			if ($pat['ailments']){
+				$pat['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS,"id IN ".$pat['ailments']); 
+			}
 			return $pat;
 		}
 
