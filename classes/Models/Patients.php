@@ -54,7 +54,7 @@
 			$pat['services'] = $this->ViewList(self::TABLE_SERVICES,"patient_id IN (".$pat['id'].")");
 			
 			foreach ($pat['services'] as $key => $value) {
-				$pat['services'][$key]['provider'] = $this->getById(self::TABLE_PROVIDERS, $value['id']);
+				$pat['services'][$key]['provider'] = $this->getById(self::TABLE_PROVIDERS, $value['provider_id']);
 				if($pat['services'][$key]['service_type'] != null) {
 					$pat['services'][$key]['service_type'] = $this->getById(self::TABLE_CAT_SERVICE_TYPES, $pat['services'][$key]['service_type']);
 				}

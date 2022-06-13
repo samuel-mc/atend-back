@@ -104,6 +104,16 @@
 			return $res;
 		}
 
+		public function GetClientBalance(Request $request) {
+			$balance = $this -> ViewList(self::TABLE_CLIENT_BALANCE, "client_id = " . $request->get("client_id"));
+			return $balance;
+		}
+
+		public function GetPatientBalance(Request $request) {
+			$balance = $this -> ViewList(self::TABLE_CLIENT_BALANCE, "patient_id = " . $request->get("patient_id"));
+			return $balance;
+		}
+
 		public function GetServiceTypes()
 		{
 			return $this->ViewList(self::TABLE_CAT_SERVICE_TYPES);
@@ -124,6 +134,17 @@
 		{	
 			$d = $data->extract(["provider_id"]);
 			return $this->Save(self::TABLE_SERVICES,$d,$data->id);
+		}
+
+		public function SaveStatus (Request $data)
+		{
+			$d = $data->extract(["status"]);
+			return $this->Save(self::TABLE_SERVICES,$d,$data->id);
+		}
+
+		public function DeleteService(Request $data)
+		{
+			$this->DeleteRowById(self::TABLE_SERVICES, $data->id);
 		}
 	}
 

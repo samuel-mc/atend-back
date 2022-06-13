@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use function GuzzleHttp\Promise\coroutine;
+
 	class QueryBuilder
 	{
 		public function insert($table,$items)
@@ -98,6 +101,12 @@
 			}else{
 				return "true";
 			}
+		}
+
+		public function delete($table, $conditions)
+		{
+			$query = "DELETE FROM $table WHERE $conditions";
+			return $query;
 		}
 	}
 

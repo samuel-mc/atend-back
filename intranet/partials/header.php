@@ -81,11 +81,13 @@
                     <h3>Nuevo paciente</h3>
                 </section>
                 <section class="header__side--right">
-                    <h3 class="button button--primary active">Saldo: $'.(isset($balance)?$balance:00).'</h3>
+                    <h3 class="button button--primary active">
+                        Saldo: <span id="saldoCliente" style="margin-left: 4px;"></span>
+                    </h3>
                     <nav>
                         <ul>
                             <li><a href="'.__ROOT__.'/pagos/'.(isset($client)?$client['id']:0).'">Pagos</a></li>
-                            <li><a href="#">Facturas</a></li>
+                            <li><a href="'.__ROOT__.'/facturas/'.(isset($client)?$client['id']:0).'">Facturas</a></li>
                         </ul>
                     </nav>
                 </section>
@@ -186,7 +188,9 @@
                     <h3>Nuevo servicio</h3>
                 </section>
                 <section class="header__side--right">
-                    <h3 class="button button--primary active">Saldo: $14,500.00</h3>
+                    <h3 class="button button--primary active">
+                        Saldo: <span id="saldoPaciente" style="margin-left: 4px;"></span>
+                    </h3>
                     <nav>
                         <ul>
                             <li><a href="./pagos">Pagos</a></li>

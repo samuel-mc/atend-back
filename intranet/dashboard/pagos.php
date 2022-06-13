@@ -11,7 +11,7 @@
                     Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="button button--circle button--primary">
+                <button class="button button--circle button--primary" onclick="generarPdf()">
                     <i class="fa-solid fa-download"></i>
                 </button>
                 <div class="main__modal main__modal--filtrar" id="modalFiltrado">
@@ -79,7 +79,7 @@
             </section>
         </header>
 
-        <table class="main__table">
+        <table class="main__table" id="tablaServicios">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -218,7 +218,7 @@
         data.forEach((element) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${element.date}</td>
+                <td>${element.date.split(" ")[0]}</td>
                 <td>${element.patient.name}</td>
                 <td>${element.bank}</td>
                 <td>${element.method}</td>
@@ -226,13 +226,14 @@
                 <td>${element.comments}</td>
                 <td class="td__editable">
                     <button 
-                        class="button--edit" 
-                        onclick="handleEditar(this, ${element.id}, '${element.date}', ${element.patient.id}, '${element.bank}', '${element.method}', ${element.amount}, '${element.comments}')">
+                        class="button--edit"
+                        onclick="handleEditarPago(this, ${element.id}, '${element.date}', '${element.bank}', ${element.amount}, '${element.comments}')"
+                    >
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </td>
                 <td>
-                    <button class="button--edit">
+                    <button class="button--edit" onclick="handleEliminarPago(${element.id})">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>
@@ -299,7 +300,10 @@
 </script>
 
 <script> //Script para editar un pago
-    const handleEditar = (button, idPago, fecha, paciente, banco, metodo, monto, comentarios) => {
+    const metodos = <?php echo json_encode($methods); ?>;
+    const pacientes = <?php echo json_encode($patients); ?>;
+    console.log("metodos", metodos);
+    const handleEditarPago = (button, idPago, fecha, banco, monto, comentario) => {
         const modalEditarPago = document.createElement('div');
         modalEditarPago.classList.add('main__modal', 'main__modal--edit', 'modal__pago');
         modalEditarPago.setAttribute('id', 'modalEdit');
@@ -326,36 +330,41 @@
                 <div>
                     <label for="paciente">Paciente</label>
                     <select name="paciente" id="paciente">
-                        <option value="0">Ninguno</option>
-                        <option value="1" ${paciente === 1 ? 'selected' : ''}>Paciente Primero</option>
-                        <option value="2" ${paciente === 2 ? 'selected' : ''}>Paciente Segundo</option>
+                        ${pacientes.map(paciente => `
+                            <option value="${paciente.id}">${paciente.name}</option>
+                        `).join('')}
                     </select>
                 </div>
 
                 <div>
                     <label for="bancoPago">Banco</label>
-                    <input id="bancoPago" name="bancoPago" type="text" value="${banco}">
+                    <input id="bancoPago" name="bancoPago" type="text" value="${banco}" required>
                 </div>
 
                 <div>
                     <label for="metodoPago">Método</label>
-                    <input id="metodoPago" name="metodoPago" type="text" value="${metodo}">
+                    <select name="metodoPago" id="metodoPago">                        
+                        ${metodos.map(metodo => `
+                            <option value="${metodo.id}">${metodo.name}</option>
+                        `).join('')}
+                    </select>
                 </div>
 
                 <div>
                     <label for="montoPago">Monto</label>
-                    <input id="montoPago" name="montoPago" type="number" value="${monto}">
+                    <input id="montoPago" name="montoPago" type="number" value="${monto}" required>
                 </div>
 
                 <div>
                     <label for="comentarioPago">Comentario</label>
-                    <input name="comentarioPago" id="comentarioPago" type="text" value="${comentarios}">
+                    <input name="comentarioPago" id="comentarioPago" type="text" value="${comentario}" required>
                 </div>
                 <button type="submit" class="button button--primary button--submit">
                     Guardar
                 </button>
             </form>`;
-        button.parentNode.appendChild(modalEditarPago);
+
+        button.parentNode.appendChild(modalEditarPago);       
 
         formEditarPago = document.getElementById('formEditarPago');
         formEditarPago.addEventListener('submit', (e) => {
@@ -368,8 +377,27 @@
             const montoPago = document.getElementById('montoPago').value;
             const comentarioPago = document.getElementById('comentarioPago').value;
 
-            alert("Pago editado correctamente");
-            
+            const data = {
+                id: idPago,
+                date: fechaPago,
+                patient_id: pacientePago,
+                bank: bancoPago,
+                method_id: metodoPago,
+                amount: montoPago,
+                comment: comentarioPago
+            };
+
+            console.log(e.target);
+
+            $.ajax({
+                url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_client_payment',
+                type: 'GET',
+                data,
+                success: function(resp) {
+                    alert('Se guardo correctamente');
+                    formEditarPago.parentNode.remove();
+                }
+            });
         });
     }
 
@@ -378,3 +406,21 @@
     }
 
 </script>
+
+<script> //Script para eliminar un pago
+    const handleEliminarPago = (id) => {        
+        if (confirm('¿Está seguro de eliminar este pago?')) {
+            $.ajax({
+                url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=delete_client_payment',
+                type: 'GET',
+                data: {
+                    id
+                },
+                success: function(resp) {
+                    alert('Paciente eliminado');
+                }
+            });
+        }
+    }
+</script>
+

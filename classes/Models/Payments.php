@@ -39,6 +39,15 @@
 			$balance = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,"patient_id = ".$request->get("patient_id"));
 			return $balance;
 		}
-	}
 
+		public function GetPaymentMethods()
+		{
+			$res = array();
+			$methods = $this->ViewList(self::TABLE_CAT_PAYMENT_METHODS);
+			foreach ($methods as $method) {
+				$res[] = $method;
+			}
+			return $res;
+		}
+	}
 ?>

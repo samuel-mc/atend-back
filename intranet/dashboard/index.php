@@ -533,7 +533,7 @@
         }
         const modalEditandoPrestado = document.createElement('div');
         modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
-        modalEditandoPrestado.innerHTML = `            
+        modalEditandoPrestado.innerHTML = `       
             <div>
                 <button
                     class="button button--primary button--circle"
@@ -586,13 +586,13 @@
             data,
             success: function(resp) {
                 alert('Información actualizada');
-                closeModalEditarPrestadora(event.target.parentNode);
                 servicios.forEach(element => {
                     if (element.id === parseInt(idServicio)) {
                         element.provider = provider[0];
                     }
                 });
                 fillindexTable(servicios);
+                closeModalEditarPrestadora(event.target.parentNode);
             }
         });
     }

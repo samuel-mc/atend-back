@@ -502,7 +502,7 @@
                     </button>
                 </td>
                 <td class="td__editable">
-                    $ ${element.cost.eca_cost ? element.cost.eca_cost : '$0'}
+                    $ ${element.cost.eca_cost ? element.cost.eca_cost : '0'}
                     <button 
                         onclick="showEditarModal(this, 'eca_cost', ${element?.id}, ${element?.cost.eca_cost})"
                         class="button--edit"
@@ -512,7 +512,7 @@
                     </button>
                 </td>
                 <td class="td__editable">
-                    $ ${element.cost.extra_cost ? element.cost.extra_cost : '$0'}
+                    $ ${element.cost.extra_cost ? element.cost.extra_cost : '0'}
                     <button 
                         onclick="showEditarModal(this, 'extra_cost', ${element?.id}, ${element?.cost.extra_cost})"
                         class="button--edit"
@@ -522,12 +522,14 @@
                 </td>
                 <td class="td__editable main__table--estatus">
                     <span class="disable"> ● </span> ${element.status.name} 
-                    <button class="buttonEditar" onclick="showStatusModal(this, '${element.status.name}', '${element.status.id}')">
+                    <button class="buttonEditar" onclick="showStatusModal(this, ${element?.id})">
                         <i class="fa-solid fa-pencil"></i>
                     </button>
                 </td>
                 <td>
-                    <i class="fa-solid fa-trash-can"></i>
+                    <button class="buttonEditar" onclick="eliminarServicio(${element.id})">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 </td>
             </tr>`;
         });
@@ -657,8 +659,8 @@
 
 <script> //Script para editar el status del pacientes.
     let showingModalEditarStatus = false;
-    function showStatusModal(boton, estatusName, estatusId) {
-        console.log(estatusName);
+    function showStatusModal(boton, idServicio) {
+        console.log('llegó', idServicio);
         const modalEditarStatus = document.createElement("div");
         modalEditarStatus.classList.add('main__modal', 'main__modal--edit');
         modalEditarStatus.setAttribute('id', 'modalEdit');
@@ -671,15 +673,15 @@
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>
-            <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
-                <input type="hidden" name="aplica" id="aplica" value="hidden"> 
-
+            <form id="formEditarCosto" onsubmit="handleUpdateStatus(event)">
+                <input type="hidden" name="idServicio" id="idServicio" value="${idServicio}"> 
                 <div>
-                    <label for="status">Estatus</label>
-                    <select name="status" id="status">
-                        <option value="${estatusId}">${estatusName}</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
+                    <label for="newStatus">Estatus</label>
+                    <select name="newStatus" id="newStatus">
+                        <?php foreach($service_status as $status) {
+                                echo '<option value="'.$status['id'].'">'.$status['name'].'</option>';
+                            }   
+                        ?>
                     </select>
                 </div>
                 <button type="submit" class="button button--primary button--submit">
@@ -691,7 +693,40 @@
             boton.parentNode.appendChild(modalEditarStatus);
             showingModalEditarCosto = true;
         }
-    } 
+    };
+    const handleUpdateStatus = (event) => {
+        event.preventDefault();
+        const statuses = <?php echo json_encode($service_status); ?>;
+
+        const newStatus = document.getElementById('newStatus').value;
+        const idServicio = document.getElementById('idServicio').value;
+        const status = statuses.filter(status => status.id == parseInt(newStatus))[0];
+
+        const data = {
+            id: idServicio,
+            status: newStatus
+        }
+
+        console.log(status);
+
+        $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_status',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                pacientes.forEach(element => {
+                    if (element.id === parseInt(idServicio)) {
+                        element.status = status;
+                    }
+                });
+                showingModalEditarCosto = false;
+                event.target.parentNode.remove();
+                fillindexTable(pacientes);
+            }
+        });
+
+    }
 
 </script>
 
@@ -761,7 +796,7 @@
     }
 </script>
 
-<script>
+<script> //Script para filtrar los pacientes por status
     const filtrarServicioPorEstatus = (estatus) => {
         let servicioFiltrados = [...pacientes];
         const FECHA_HOY = new Date();
@@ -805,7 +840,7 @@
         }
         const modalEditandoPrestado = document.createElement('div');
         modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
-        modalEditandoPrestado.innerHTML = `            
+        modalEditandoPrestado.innerHTML = `
             <div>
                 <button
                     class="button button--primary button--circle"
@@ -866,5 +901,35 @@
             }
         });
     }
+
+</script>
+
+<script> //Script para eliminar un paciente
+    const eliminarServicio = (id) => {
+        console.log('eliminarServicio: ', id);
+        if (confirm('¿Está seguro de eliminar este servicio?')) {
+            $.ajax({
+                url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=delete_service',
+                type: 'GET',
+                data: {
+                    id
+                },
+                success: function(resp) {
+                    alert('Paciente eliminado');
+                    pacientes = pacientes.filter(paciente => paciente.id !== id);
+                    fillindexTable(pacientes);
+                }
+            });
+        }
+    }
+</script>
+
+<script> //Script para mostrar el saldo de un cliente
+    const clientBalance = <?php echo json_encode($client_balance); ?>;
+    let saldo = 0;
+    clientBalance?.forEach(element => {
+        saldo += parseFloat(element?.amount);
+    });
+    document.getElementById('saldoCliente').innerHTML = ` $${saldo}`;
 
 </script>

@@ -202,6 +202,14 @@ class Admin
 		return $r;
 	}
 
+	public function DeleteRowById($table, $cond) //query para eliminar por id
+	{
+		$res = array();
+		$res['query'] = $this->query->delete($table, "id = " . $cond);
+		$this->RunQuery($res['query']);
+		return $res;
+	}
+
 	public function Success($data)
 	{
 		return $data;

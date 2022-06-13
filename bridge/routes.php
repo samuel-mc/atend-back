@@ -11,8 +11,11 @@
 		"get_services_table"=>"GetTable",
 		"get_services_by_client"=>"GetByClientId",
 		"get_services_by_patient"=>"GetByPatientId",
+		"get_client_balance"=>"GetClientBalance",
 		"update_cost"=>"SaveCosts",
-		"update_provider"=>"SaveProvider"
+		"update_provider"=>"SaveProvider",
+		"update_status"=>"SaveStatus",
+		"delete_service"=>"DeleteService"
 		]
 	);
 
@@ -20,7 +23,11 @@
 		"save_new_client"=>"NewClient",
 		"update_client"=>"SaveClient",
 		"save_new_billing_info"=>"NewBillingInfo",
-		"update_billing_info"=>"SaveBillingInfo"
+		"update_billing_info"=>"SaveBillingInfo",
+		"save_new_billing_receives"=>"NewBillingReceives",
+		"get_billing_receives"=>"GetBillingReceives",
+		"update_client_payment"=>"SaveClientPayment",
+		"delete_client_payment"=>"DeleteClientPayment",
 		]
 	);
 
@@ -40,9 +47,6 @@
 		"save_new_provider"=>"NewNurse"
 	]);
 
-
-
-
 	$router->New("newUser", "users/Save"); //email, password
 	$router->New("login", "users/Login"); //email, password
 	$router->New("getUsers", "users/List");
@@ -54,11 +58,7 @@
 	$router->New("getPatients", "patients/List");
 	$router->New("deletePatient", "patients/Delete");
 
-
-
-
 	$router->New("getPatientHistory", "patients/GetDeliveryHistory"); // u_id
-
 
 	$router->New("getSummaryLog", "summary/GetLog"); // drug_id, type (1|2)
 	$router->New("summaryEntrance", "summary/RegisterEntrance"); //drug_id, quantity, annexed (nombre del archivo adjunto)

@@ -79,26 +79,29 @@
             </td>
             <td>${service.id}</td>
             <td>${service.service_type.name} – ${service.duration.name} </td>
-            <td>
-                ${service.provider ? service.provider.name + service.provider.lastname : 'N/A'}
+            <td class="td__editable">
+                ${service.provider ? service.provider.name + ' ' + service.provider.lastname : 'Sin asignar'}
+                <button 
+                    class="button--edit"
+                    onclick="editarPrestador(this, ${service.id})"
+                >
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
+            </td>
+            <td>                
+                $ ${service.costs.cost ? service.costs.cost : '0'}
                 <a>
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
             </td>
             <td>
-                $ ${service.costs.cost}
-                <a>    
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-            </td>
-            <td>
-                $ ${service.costs.eca_cost}
+                $ ${service.costs.eca_cost ? service.costs.eca_cost : '0'}
                 <a>
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
             </td>
             <td>
-                $ ${service.costs.extra_cost}
+                $ ${service.costs.extra_cost ? service.costs.extra_cost : '0'}
                 <a>
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
@@ -127,4 +130,90 @@
         `;
         serviciosTable.appendChild(row);
     }
+</script>
+
+<script> // Script para manejar la edicion de prestadora
+    const prestadoras = <?php echo json_encode($providers); ?>;
+    let estaEditandoPrestador = false;
+
+    const editarPrestador = (element, idServicio) => {
+        console.log('editPrestador');
+        if (estaEditandoPrestador) {
+            return;
+        }
+        const modalEditandoPrestado = document.createElement('div');
+        modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
+        modalEditandoPrestado.innerHTML = `
+            <div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarPrestadora(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form id="formEditandoPrestador" onsubmit="handlePrestadorSubmit(event)">
+                <input type="hidden" name="idServicio" value="${idServicio}">
+                <div class="form-group">
+                    <label for="prestador">Prestador</label>
+                    <select class="form-control" id="nuevoPrestador">
+                        <option value="0">Sin asignar</option>
+                        ${prestadoras.map(prestadora => `
+                            <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
+                        `).join('')}
+                    </select>
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
+        `;
+        element.parentNode.appendChild(modalEditandoPrestado);
+        estaEditandoPrestador = true;
+    }
+
+    const closeModalEditarPrestadora = (element) => {
+        element.parentNode.parentNode.remove();
+        estaEditandoPrestador = false;
+    }
+
+    const handlePrestadorSubmit = (event) => {
+        event.preventDefault();
+        const nuevoPrestador = event.target.nuevoPrestador.value;
+        const idServicio = event.target.idServicio.value;
+        const provider = prestadoras.filter(prestadora => prestadora.id === parseInt(nuevoPrestador));
+
+        const data = {
+            id: idServicio,
+            provider_id: nuevoPrestador
+        }
+
+        $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_provider',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                closeModalEditarPrestadora(event.target.parentNode);
+                pacientes.forEach(element => {
+                    if (element.id === parseInt(idServicio)) {
+                        element.provider = provider[0];
+                    }
+                });
+                fillindexTable(pacientes);
+            }
+        });
+    }
+</script>
+
+<script>
+    const patientBalance = <?php echo json_encode($patient_balance); ?>;
+    console.log(patientBalance);
+    let saldoPaciente = 0;
+    patientBalance?.forEach(balance => {
+        saldoPaciente += balance?.amount;
+    });
+    document.getElementById('saldoPaciente').innerHTML = `
+        $ ${saldoPaciente}
+    `;
 </script>

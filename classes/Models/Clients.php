@@ -73,7 +73,29 @@
 			$this->Save(self::TABLE_ADDRESSES,$add,$add_id);
 		}
 
+		public function NewBillingReceives(Request $data)
+		{
+			$d = $data->extract(["start_period", "end_period", "emisor", "amount", "file_1", "file_2"]);
+			$billing_receives = $this->Insert(self::TABLE_BILLING_RECEIVES,$d,"all");
+			return $billing_receives;
+		}
 		
+		public function GetBillingReceives()
+		{
+			$cl = $this->ViewList(self::TABLE_BILLING_RECEIVES);
+			return $cl;
+		}
+
+		public function SaveClientPayment(Request $data)
+		{
+			$d = $data->extract(["date", "patient_id", "bank","method_id","amount","comments"]);
+			$this->Save(self::TABLE_CLIENT_PAYMENTS,$d,$data->id);
+		}
+
+		public function DeleteClientPayment(Request $data)
+		{
+			$this->DeleteRowById(self::TABLE_CLIENT_PAYMENTS, $data->id);
+		}
 	}
 
 ?>
