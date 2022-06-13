@@ -443,7 +443,7 @@ Flight::route('/add/servicio-paciente/@id', function ($id) {
 
 Flight::route('/add/servicio/', function () {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
+    // if ($user!=null && $user['type']==1){
         $admin = new Model;
         $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
         $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
@@ -468,9 +468,9 @@ Flight::route('/add/servicio/', function () {
                 "durations"=>$durations,
                 "client"=>null
             ]);
-    }else{
-        Flight::redirect("login");
-    }
+    // }else{
+    //     Flight::redirect("login");
+    // }
 });
 
 Flight::route('/add/paciente/@id', function ($id) {

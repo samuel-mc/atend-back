@@ -25,19 +25,19 @@
                     </div>
                     <div class="form__field">
                         <label for="nombreCliente">Nombre *</label>
-                        <input type="text" value="<?php echo (isset($client) ? $client["name"]:""); ?>" id="nombreCliente">
+                        <input type="text" value="<?php echo (isset($client) ? $client["name"]:""); ?>" id="nombreCliente" required>
                     </div>
                     <div class="form__field">
                         <label for="apellidosCliente">Apellido(s) *</label>
-                        <input type="text" value="<?php echo (isset($client) ? $client["lastname"]:""); ?>" id="apellidosCliente">
+                        <input type="text" value="<?php echo (isset($client) ? $client["lastname"]:""); ?>" id="apellidosCliente" required>
                     </div>
                     <div class="form__field">
                         <label for="telefonoCliente">Teléfono *</label>
-                        <input type="number" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente">
+                        <input type="number" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente" required>
                     </div>
                     <div class="form__field">
                         <label for="mailCliente">Mail *</label>
-                        <input type="mail" value="<?php echo (isset($client) ? $client["email"]:""); ?>" id="mailCliente">
+                        <input type="mail" value="<?php echo (isset($client) ? $client["email"]:""); ?>" id="mailCliente" required>
                     </div>
                     <div class="form__field">
                         <label for="requiereFactura">Requiere Factura</label>
@@ -50,8 +50,7 @@
                         <label for="factura">Comentarios (opcional)</label>
                         <input type="text" value="<?php echo (isset($client) ? $client["comments"]:""); ?>" id="comentariosCliente">
                     </div>
-                    <input type="submit" class="button button--primary button--submit" value="Guardar">
-
+                    <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
                 </form>
             </div>
             <div class="main__content collapse" id="billing_container">
@@ -132,7 +131,7 @@
                             <label for="paisInfoFin">País</label>
                             <input type="text" value="" name="paisInfoFin" id="paisInfoFin">
                         </div>
-                        <input type="submit" class="button button--primary button--submit" value="Guardar">
+                        <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
                     </div>
                 </form>
             </div>
@@ -285,26 +284,17 @@
                                 <div id="ailments_selected"></div>
                             </div>
                         </div>
-                    </div>
-
-                    <input type="submit" class="button button--primary button--submit" value="Guardar">
+                    </div>                
+                    <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
                 </form>
             </div>
         </section>
 
-        <!-- <section class="main__content main__info-servicios" id="infoServicio">
+        <section class="main__content main__info-servicios">
             <header class="info-servicios__header">
-                <div>
-                    <h1>Información de Servicios</h1>
-                    <h3 id="serviciosResume" class="servicios__header--text">Enfermería Gral. | Oncológico | 12 hrs | 8:00am</h3>
-                </div>
-                <div>
-                    <button class="button button--transparent" id="buttonDisplayServicio">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
-                </div>
+                    <h1>Información del servicio</h1>
             </header>
-            <div class="info-servicios__body hidden" id="infoServicio">
+            <div class="info-servicios__body" 
                 <form class="form__info-paciente" id="formInfoServicio">
                     <div>
                         <div class="form__field">
@@ -420,21 +410,29 @@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" class="button button--primary button--submit" value="Guardar">
-                </form>
+                    <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
+                <!-- </form> -->
+                <div>
+                    <button 
+                        class="button button--primary" 
+                        style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;"
+                        onclick="saveClient()"
+                        type="button"
+                    >GUARDAR</button>
+                </div>
             </div>
-        </section> -->
+        </section>
 
     </div>
 </main>
 
-<script> //Script para manejar el submit de los formularios
+<!-- <script> //Script para manejar el submit de los formularios
     let client_id = <?php echo (isset($client) ? $client["id"] : 1); ?>;
 
     // Manejo del formulario "Cliente"
     const formInfoCliente = document.querySelector('#formInfoCliente');
     formInfoCliente.addEventListener('submit', (e) => {
-        e.preventDefault();        
+        e.preventDefault();
         const clienteEmpresa = $("#clienteEmpresa").is(":checked");
         const nombreCliente = $("#nombreCliente").val();
         const apellidosCliente = $("#apellidosCliente").val();
@@ -672,6 +670,227 @@
         })
         alert("Servicio guardado correctamente");
     });
+</script> -->
+
+<script>
+    let client_id = 0;
+    const saveClient = () => {        
+        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        const nombreCliente = $("#nombreCliente").val();
+        const apellidosCliente = $("#apellidosCliente").val();
+        const telefonoCliente = $("#telefonoCliente").val();
+        const mailCliente = $("#mailCliente").val();
+        const requiereFactura = $("#requiereFactura").val();
+        const comentariosCliente = $("#comentariosCliente").val();
+
+        if (nombreCliente === '' || apellidosCliente === '' || telefonoCliente === '' || mailCliente === '') {
+            alert("Se deben llenar los campos obligatorios. ");
+            return;
+        }
+
+        const razonSocial = $("#razonSocial").val();
+        const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
+        const rfc = $("#rfc").val();
+        const emailInfoFinanciera = $("#emailInfoFinanciera").val();
+        const uso = $("#uso").val();
+        const regimenDeFacturacion = $("#regimenDeFacturacion").val();
+        const calleInfoFin = $("#calleInfoFin").val();
+        const numeroExteriorInfoFin = $("#numeroExteriorInfoFin").val();
+        const numeroInteriorInfoFin = $("#numeroInteriorInfoFin").val();
+        const coloniaInfoFin = $("#coloniaInfoFin").val();
+        const delegacionInfoFin = $("#delegacionInfoFin").val();
+        const cpInfoFin = $("#cpInfoFin").val();
+        const estadoInfoFin = $("#estadoInfoFin").val();
+        const paisInfoFin = $("#paisInfoFin").val();
+
+        if (
+            razonSocial === '' || 
+            rfc === '' || 
+            emailInfoFinanciera === '' || 
+            calleInfoFin === '' || 
+            numeroExteriorInfoFin === '' || 
+            coloniaInfoFin === '' || 
+            delegacionInfoFin === '' || 
+            cpInfoFin === '' || 
+            estadoInfoFin === '' || 
+            paisInfoFin === ''
+            ) {
+            alert("Se deben llenar los campos obligatorios. ");
+            return;
+        }
+
+        const nombrePaciente = $("#nombrePaciente").val();
+        const fechaNacimiento = $("#fechaNacimiento").val();
+        const sexoPaciente = $("#sexoPaciente").val();
+        const peso = $("#peso").val();
+        const estatura = $("#estatura").val();
+        const callePaciente = $("#callePaciente").val();
+        const numeroExteriorPaciente = $("#numeroExteriorPaciente").val();
+        const numeroInteriorPaciente = $("#numeroInteriorPaciente").val();
+        const coloniaPaciente = $("#coloniaPaciente").val();
+        const delegacionPaciente = $("#delegacionPaciente").val();
+        const cpPaciente = $("#cpPaciente").val();
+        const estadoPaciente = $("#estadoPaciente").val();
+        const paisPaciente = $("#paisPaciente").val();
+        const medicoTratante = $("#medicoTratante").val();
+        const contactoDeEmergencia = $("#contactoDeEmergencia").val();
+        const telEmergencia1 = $("#telEmergencia1").val();
+        const telEmergencia2 = $("#telEmergencia2").val();
+        const diagnostico = $("#diagnostico").val();
+        const comentarioPaciente = $("#comentarioPaciente").val();
+        const alergia = $("#alergia").val();
+        const ordenMedica = $("#ordenMedica").val();
+        const requiereReanimacion = $("#requiereReanimacion").is(":checked");
+
+        let ails = "(";
+        $(ailments).each(function(index,element) {
+            ails+=element.id+",";
+        });
+        ails = ails.slice(0,-1)+")";
+
+        const infoPaciente = {
+            client_id,
+            name:nombrePaciente,
+            birthdate:fechaNacimiento,
+            gender:sexoPaciente,
+            weight:peso,
+            height:estatura,
+            street:callePaciente,
+            exterior:numeroExteriorPaciente,
+            interior:numeroInteriorPaciente,
+            suburb:coloniaPaciente,
+            townhall:delegacionPaciente,
+            zipcode:cpPaciente,
+            state:estadoPaciente,
+            paisPaciente,
+            doctor:medicoTratante,
+            emergency_contact:contactoDeEmergencia,
+            emergency_phone:telEmergencia1,
+            emergency_phone2:telEmergencia2,
+            diagnosis:diagnostico,
+            comments:comentarioPaciente,
+            allergies:alergia,
+            medical_order:ordenMedica,
+            want_reanimation:requiereReanimacion?1:0,
+            ailments: ails
+        };
+
+        console.log(infoPaciente);
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
+            data:{
+                type_id:clienteEmpresa?2:1,
+                require_billing:$("#requiereFactura").val(),
+                name:$("#nombreCliente").val(),
+                lastname:$("#apellidosCliente").val(),
+                phone:$("#telefonoCliente").val(),
+                email:$("#mailCliente").val(),
+                comments:$("#comentariosCliente").val()
+            },
+            success: function(res){
+                console.log(res);
+                let cl = JSON.parse(res);
+                client_id = cl.id;
+            }
+        });
+
+        let datos = {
+            client_id,
+            bussines_name:razonSocial,
+            billing_scheme_id:esquemaDeFacturacion,
+            rfc,
+            email:emailInfoFinanciera,
+            use_id:uso,
+            billing_regime_id:regimenDeFacturacion,
+            street:calleInfoFin,
+            exterior:numeroExteriorInfoFin,
+            interior:numeroInteriorInfoFin,
+            suburb:coloniaInfoFin,
+            zipcode:cpInfoFin,
+            state:estadoInfoFin,
+            country:paisInfoFin,
+            townhall:delegacionInfoFin
+        }
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+            data: datos,
+            success: function(res){
+                console.log(res);
+            }
+        });
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+            data:infoPaciente,
+            success: function(res) {
+                console.log(res)
+            }
+        })
+
+        const fechaInicio = $("#fechaInicio").val();
+        const fechaFin = $("#fechaFin").val();
+        const sexoInfoServicio = $("#sexoInfoServicio").val();
+        const tipoDeServicio = $("#tipoDeServicio").val();
+        const tipoDeCuidado = $("#tipoDeCuidado").val();
+        const duracion = $("#duracion").val();
+        const entrada = $("#entrada").val();
+        const complexion = $("#complexion").val();
+        const calParaSeguro = $("#calParaSeguro").val();
+        const precioCliente = $("#precioCliente").val();
+        const precioEca = $("#precioEca").val();
+        const frecDelServicio = $("#frecDelServicio").val();
+        const diasFrecuencia = [];
+        if (frecDelServicio == 0) {
+            for (var i = 1; i < 8; i++) {
+                if ($("#freq_day_"+i).is(":checked")) {
+                    diasFrecuencia.push(i);
+                }
+            }
+        }else{
+            if (frecDelServicio == 1){
+                for (var i = 1; i < 6; i++) {
+                    diasFrecuencia.push(i);
+                } 
+            }else{
+                for (var i = 1; i < 8; i++) {
+                    diasFrecuencia.push(i);
+                } 
+            }
+        }
+        const costo = $("#costo").val();
+        const comentarioServicio = $("#comentarioServicio").val();
+
+        const infoServicio = {
+            client_id,
+            start_date:fechaInicio,
+            end_date:fechaFin,
+            provider_gender: sexoInfoServicio,
+            service_type: tipoDeServicio,
+            care_type_id: tipoDeCuidado,
+            duration: duracion,
+            schedule: entrada,
+            complexion_id: complexion,
+            insurance: calParaSeguro === 'si' ? 1 : 0,
+            cost: precioCliente,
+            eca_cost: precioEca,
+            frequency: frecDelServicio,
+            frequency_days: diasFrecuencia,
+        };
+
+        console.log(infoServicio);
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
+            data:infoServicio,
+            success: function(res) {
+                console.log(JSON.parse(res))
+            }
+        })
+
+        alert("Servicio guardado correctamente");        
+        // window.location.href = "<?php echo __ROOT__; ?>/";
+    }
 </script>
 
 <script type="text/javascript">
