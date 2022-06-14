@@ -181,7 +181,7 @@
                     </div>
                     <a
                         class="button button--primary button--circle"
-                        href="/backend/add/servicio-paciente/'.(isset($idClient)?$idClient:"").'"
+                        href="'.__ROOT__.'/add/servicio-paciente/'.(isset($idClient)?$idClient:"").'"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>
@@ -193,7 +193,7 @@
                     </h3>
                     <nav>
                         <ul>
-                            <li><a href="./pagos">Pagos</a></li>
+                            <li><a href="'.__ROOT__.'/pagos">Pagos</a></li>
                             <li><a href="#">Facturas</a></li>
                         </ul>
                     </nav>

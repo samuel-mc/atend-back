@@ -16,7 +16,8 @@
 			foreach ($d as $p) {
 				$p['atend_profile'] = $this->GetById(self::TABLE_CAT_ATEND_PROFILES,$p['atend_profile_id'])['name'];
 				$p['profile_level'] = $this->GetById(self::TABLE_CAT_PROFILE_LEVEL,$p['level'])['name'];
-				$p['zone'] = $this->GetByCondition(self::TABLE_ADDRESSES,"type = 1 && related_id = ".$p['id'])['suburb'];
+				$z = $this->GetByCondition(self::TABLE_ADDRESSES,"type = 1 && related_id = ".$p['id']);
+				$p['zone'] = $z!=null?$z['suburb']:null;
 				$res[] = $p;
 			}
 			return $this->success($res);
