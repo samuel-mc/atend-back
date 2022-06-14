@@ -225,7 +225,7 @@
 
                         <div class="form__field">
                             <label for="medicoTratante">Médico Tratante </label>
-                            <input type="text" value="Mauricio López" name="medicoTratante" id="medicoTratante">
+                            <input type="text" value="" name="medicoTratante" id="medicoTratante">
                         </div>
 
                         <div class="form__field">
@@ -294,7 +294,7 @@
             <header class="info-servicios__header">
                     <h1>Información del servicio</h1>
             </header>
-            <div class="info-servicios__body" 
+            <div class="info-servicios__body">
                 <form class="form__info-paciente" id="formInfoServicio">
                     <div>
                         <div class="form__field">
@@ -335,12 +335,12 @@
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="duracionServicio">Duración</label>
-                                <input type="text" value="12 horas" name="duracionServicio" id="duracionServicio">
+                                <input type="text" value="" name="duracionServicio" id="duracionServicio">
                             </div>
 
                             <div>
                                 <label for="entrada">Entrada</label>
-                                <input type="text" value="8:00 am" name="entrada" id="entrada">
+                                <input type="text" value="" name="entrada" id="entrada">
                             </div>
                         </div>
                     </div>
@@ -364,12 +364,12 @@
 
                         <div class="form__field">
                             <label for="precioCliente">Precio Cliente</label>
-                            <input type="number" value="1950" id="precioCliente" name="precioCliente">
+                            <input type="number" value="" id="precioCliente" name="precioCliente">
                         </div>
 
                         <div class="form__field">
                             <label for="precioEca">Precio ECA</label>
-                            <input type="number" value="750" id="precioEca" name="precioEca">
+                            <input type="number" value="" id="precioEca" name="precioEca">
                         </div>
                     </div>
 
@@ -377,41 +377,45 @@
                         <div class="form__field">
                             <label for="frecDelServicio">Frecuencia del Servicio</label>
                             <select name="frecDelServicio" id="frecDelServicio">
-                                <option value="">Otro</option>
-                                <option value="1">Diariamente</option>
+                                <option value="3">Servicio único</option>
+                                <option value="0">Otro</option>
+                                <option value="1">Lunes a Viernes</option>
+                                <option value="2">Todos los días</option>
                             </select>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="lunes" name="lunes" value="lunes">
-                                <label for="lunes"> Lunes</label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="martes" name="martes" value="martes">
-                                <label for="martes"> Martes </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="miercoles" name="miercoles" value="miercoles">
-                                <label for="miercoles"> Miércoles </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="jueves" name="jueves" value="jueves">
-                                <label for="jueves"> Jueves </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="viernes" name="viernes" value="viernes">
-                                <label for="viernes"> Viernes </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="sabado" name="sabado" value="sabado">
-                                <label for="sabado"> Sábado </label><br>
-                            </div>
-                            <div class="field__checkbox">
-                                <input type="checkbox" id="domingo" name="domingo" value="domingo">
-                                <label for="domingo"> Domingo </label><br>
+                            <div class="frecDelServicio--otro">
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_1" name="lunes" value="lunes">
+                                    <label for="lunes"> Lunes</label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_2" name="martes" value="martes">
+                                    <label for="martes"> Martes </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_3" name="miercoles" value="miercoles">
+                                    <label for="miercoles"> Miércoles </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_4" name="jueves" value="jueves">
+                                    <label for="jueves"> Jueves </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_5" name="viernes" value="viernes">
+                                    <label for="viernes"> Viernes </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_6" name="sabado" value="sabado">
+                                    <label for="sabado"> Sábado </label><br>
+                                </div>
+                                <div class="field__checkbox">
+                                    <input type="checkbox" id="freq_day_7" name="domingo" value="domingo">
+                                    <label for="domingo"> Domingo </label><br>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
-                <!-- </form> -->
+                    </form>
                 <div>
                     <button 
                         class="button button--primary" 
@@ -427,7 +431,7 @@
 </main>
 
 <!-- <script> //Script para manejar el submit de los formularios
-    let client_id = <?php echo (isset($client) ? $client["id"] : 1); ?>;
+    let client_id = <?php //echo (isset($client) ? $client["id"] : 1); ?>;
 
     // Manejo del formulario "Cliente"
     const formInfoCliente = document.querySelector('#formInfoCliente');
@@ -447,7 +451,7 @@
         }
 
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
+            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
             data:{
                 type_id:clienteEmpresa?2:1,
                 require_billing:$("#requiereFactura").val(),
@@ -508,7 +512,7 @@
         }
 
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
             data:{
                 client_id,
                 bussines_name:razonSocial,
@@ -597,7 +601,7 @@
         };
         
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action="+(id!=0?"update_patient":"save_new_patient"),
+            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action="+(id!=0?"update_patient":"save_new_patient"),
             data:infoPaciente,
             success: function(res) {
                 console.log(res)
@@ -662,7 +666,7 @@
 
         console.log(infoServicio);
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
+            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
             data:infoServicio,
             success: function(res) {
                 console.log(JSON.parse(res))
@@ -672,10 +676,22 @@
     });
 </script> -->
 
+<script type="text/javascript">
+    document.querySelector('.frecDelServicio--otro').style.display = 'none';
+    const frecDelServicio = document.getElementById('frecDelServicio');
+    frecDelServicio.addEventListener('change', (e) => {
+        if (e.target.value === '0') {
+            document.querySelector('.frecDelServicio--otro').style.display = 'block';
+        } else {
+            document.querySelector('.frecDelServicio--otro').style.display = 'none';
+        }
+    });
+</script>
+
 <script>
     let client_id = 0;
     const saveClient = () => {        
-        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        
         const nombreCliente = $("#nombreCliente").val();
         const apellidosCliente = $("#apellidosCliente").val();
         const telefonoCliente = $("#telefonoCliente").val();
@@ -687,6 +703,17 @@
             alert("Se deben llenar los campos obligatorios. ");
             return;
         }
+
+        save_new_client(function() {
+            save_new_patient();
+        })
+
+        
+
+        console.log(infoPaciente);
+
+       
+
 
         const razonSocial = $("#razonSocial").val();
         const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
@@ -703,123 +730,51 @@
         const estadoInfoFin = $("#estadoInfoFin").val();
         const paisInfoFin = $("#paisInfoFin").val();
 
-        if (
-            razonSocial === '' || 
-            rfc === '' || 
-            emailInfoFinanciera === '' || 
-            calleInfoFin === '' || 
-            numeroExteriorInfoFin === '' || 
-            coloniaInfoFin === '' || 
-            delegacionInfoFin === '' || 
-            cpInfoFin === '' || 
-            estadoInfoFin === '' || 
-            paisInfoFin === ''
-            ) {
-            alert("Se deben llenar los campos obligatorios. ");
-            return;
+        if (requiereFactura==1){
+
+            if (
+                razonSocial === '' || 
+                rfc === '' || 
+                emailInfoFinanciera === '' || 
+                calleInfoFin === '' || 
+                numeroExteriorInfoFin === '' || 
+                coloniaInfoFin === '' || 
+                delegacionInfoFin === '' || 
+                cpInfoFin === '' || 
+                estadoInfoFin === '' || 
+                paisInfoFin === ''
+                ) {
+                alert("Se deben llenar los campos obligatorios. ");
+                return;
+            }
+
+            let datos = {
+                client_id,
+                bussines_name:razonSocial,
+                billing_scheme_id:esquemaDeFacturacion,
+                rfc,
+                email:emailInfoFinanciera,
+                use_id:uso,
+                billing_regime_id:regimenDeFacturacion,
+                street:calleInfoFin,
+                exterior:numeroExteriorInfoFin,
+                interior:numeroInteriorInfoFin,
+                suburb:coloniaInfoFin,
+                zipcode:cpInfoFin,
+                state:estadoInfoFin,
+                country:paisInfoFin,
+                townhall:delegacionInfoFin
+            }
+
+            $.ajax({
+                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+                data: datos,
+                success: function(res){
+                    console.log(res);
+                }
+            });
         }
 
-        const nombrePaciente = $("#nombrePaciente").val();
-        const fechaNacimiento = $("#fechaNacimiento").val();
-        const sexoPaciente = $("#sexoPaciente").val();
-        const peso = $("#peso").val();
-        const estatura = $("#estatura").val();
-        const callePaciente = $("#callePaciente").val();
-        const numeroExteriorPaciente = $("#numeroExteriorPaciente").val();
-        const numeroInteriorPaciente = $("#numeroInteriorPaciente").val();
-        const coloniaPaciente = $("#coloniaPaciente").val();
-        const delegacionPaciente = $("#delegacionPaciente").val();
-        const cpPaciente = $("#cpPaciente").val();
-        const estadoPaciente = $("#estadoPaciente").val();
-        const paisPaciente = $("#paisPaciente").val();
-        const medicoTratante = $("#medicoTratante").val();
-        const contactoDeEmergencia = $("#contactoDeEmergencia").val();
-        const telEmergencia1 = $("#telEmergencia1").val();
-        const telEmergencia2 = $("#telEmergencia2").val();
-        const diagnostico = $("#diagnostico").val();
-        const comentarioPaciente = $("#comentarioPaciente").val();
-        const alergia = $("#alergia").val();
-        const ordenMedica = $("#ordenMedica").val();
-        const requiereReanimacion = $("#requiereReanimacion").is(":checked");
-
-        let ails = "(";
-        $(ailments).each(function(index,element) {
-            ails+=element.id+",";
-        });
-        ails = ails.slice(0,-1)+")";
-
-        const infoPaciente = {
-            client_id,
-            name:nombrePaciente,
-            birthdate:fechaNacimiento,
-            gender:sexoPaciente,
-            weight:peso,
-            height:estatura,
-            street:callePaciente,
-            exterior:numeroExteriorPaciente,
-            interior:numeroInteriorPaciente,
-            suburb:coloniaPaciente,
-            townhall:delegacionPaciente,
-            zipcode:cpPaciente,
-            state:estadoPaciente,
-            paisPaciente,
-            doctor:medicoTratante,
-            emergency_contact:contactoDeEmergencia,
-            emergency_phone:telEmergencia1,
-            emergency_phone2:telEmergencia2,
-            diagnosis:diagnostico,
-            comments:comentarioPaciente,
-            allergies:alergia,
-            medical_order:ordenMedica,
-            want_reanimation:requiereReanimacion?1:0,
-            ailments: ails
-        };
-
-        console.log(infoPaciente);
-
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
-            data:{
-                type_id:clienteEmpresa?2:1,
-                require_billing:$("#requiereFactura").val(),
-                name:$("#nombreCliente").val(),
-                lastname:$("#apellidosCliente").val(),
-                phone:$("#telefonoCliente").val(),
-                email:$("#mailCliente").val(),
-                comments:$("#comentariosCliente").val()
-            },
-            success: function(res){
-                console.log(res);
-                let cl = JSON.parse(res);
-                client_id = cl.id;
-            }
-        });
-
-        let datos = {
-            client_id,
-            bussines_name:razonSocial,
-            billing_scheme_id:esquemaDeFacturacion,
-            rfc,
-            email:emailInfoFinanciera,
-            use_id:uso,
-            billing_regime_id:regimenDeFacturacion,
-            street:calleInfoFin,
-            exterior:numeroExteriorInfoFin,
-            interior:numeroInteriorInfoFin,
-            suburb:coloniaInfoFin,
-            zipcode:cpInfoFin,
-            state:estadoInfoFin,
-            country:paisInfoFin,
-            townhall:delegacionInfoFin
-        }
-
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
-            data: datos,
-            success: function(res){
-                console.log(res);
-            }
-        });
 
         $.ajax({
             url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
@@ -889,7 +844,89 @@
         })
 
         alert("Servicio guardado correctamente");        
-        // window.location.href = "<?php echo __ROOT__; ?>/";
+        // window.location.href = "<?php //echo __ROOT__; ?>/";
+    }
+</script>
+
+<script type="text/javascript">
+    function save_new_client(on_end) {
+        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
+            data:{
+                type_id:clienteEmpresa?2:1,
+                require_billing:$("#requiereFactura").val(),
+                name:$("#nombreCliente").val(),
+                lastname:$("#apellidosCliente").val(),
+                phone:$("#telefonoCliente").val(),
+                email:$("#mailCliente").val(),
+                comments:$("#comentariosCliente").val()
+            },
+            success: function(res){
+                console.log(res);
+                let cl = JSON.parse(res);
+                client_id = cl.id;
+                on_end();
+            }
+        });
+    }
+
+    function save_new_patient(on_end) {
+        const nombrePaciente = $("#nombrePaciente").val();
+        const fechaNacimiento = $("#fechaNacimiento").val();
+        const sexoPaciente = $("#sexoPaciente").val();
+        const peso = $("#peso").val();
+        const estatura = $("#estatura").val();
+        const callePaciente = $("#callePaciente").val();
+        const numeroExteriorPaciente = $("#numeroExteriorPaciente").val();
+        const numeroInteriorPaciente = $("#numeroInteriorPaciente").val();
+        const coloniaPaciente = $("#coloniaPaciente").val();
+        const delegacionPaciente = $("#delegacionPaciente").val();
+        const cpPaciente = $("#cpPaciente").val();
+        const estadoPaciente = $("#estadoPaciente").val();
+        const paisPaciente = $("#paisPaciente").val();
+        const medicoTratante = $("#medicoTratante").val();
+        const contactoDeEmergencia = $("#contactoDeEmergencia").val();
+        const telEmergencia1 = $("#telEmergencia1").val();
+        const telEmergencia2 = $("#telEmergencia2").val();
+        const diagnostico = $("#diagnostico").val();
+        const comentarioPaciente = $("#comentarioPaciente").val();
+        const alergia = $("#alergia").val();
+        const ordenMedica = $("#ordenMedica").val();
+        const requiereReanimacion = $("#requiereReanimacion").is(":checked");
+
+        let ails = "(";
+        $(ailments).each(function(index,element) {
+            ails+=element.id+",";
+        });
+        ails = ails.slice(0,-1)+")";
+
+        const infoPaciente = {
+            client_id,
+            name:nombrePaciente,
+            birthdate:fechaNacimiento,
+            gender:sexoPaciente,
+            weight:peso,
+            height:estatura,
+            street:callePaciente,
+            exterior:numeroExteriorPaciente,
+            interior:numeroInteriorPaciente,
+            suburb:coloniaPaciente,
+            townhall:delegacionPaciente,
+            zipcode:cpPaciente,
+            state:estadoPaciente,
+            paisPaciente,
+            doctor:medicoTratante,
+            emergency_contact:contactoDeEmergencia,
+            emergency_phone:telEmergencia1,
+            emergency_phone2:telEmergencia2,
+            diagnosis:diagnostico,
+            comments:comentarioPaciente,
+            allergies:alergia,
+            medical_order:ordenMedica,
+            want_reanimation:requiereReanimacion?1:0,
+            ailments: ails
+        };
     }
 </script>
 

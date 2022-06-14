@@ -1,6 +1,6 @@
 RewriteEngine On
-# RewriteBase /deskrive/attend/atend-back
-RewriteBase /backend
+RewriteBase /deskrive/attend/atend-back
+#RewriteBase /backend
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
