@@ -33,7 +33,7 @@
                     </div>
                     <div class="form__field">
                         <label for="telefonoCliente">Teléfono *</label>
-                        <input type="number" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente" required>
+                        <input type="text" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente" required>
                     </div>
                     <div class="form__field">
                         <label for="mailCliente">Mail *</label>
@@ -105,11 +105,11 @@
                     <div>
                         <div class="form__field">
                             <label for="numeroExteriorInfoFin">Número Exterior</label>
-                            <input type="number" value="" name="numeroExteriorInfoFin" id="numeroExteriorInfoFin">
+                            <input type="text" value="" name="numeroExteriorInfoFin" id="numeroExteriorInfoFin">
                         </div>
                         <div class="form__field">
                             <label for="numeroInteriorInfoFin">Número Interior</label>
-                            <input type="number" value="" name="numeroInteriorInfoFin" id="numeroInteriorInfoFin">
+                            <input type="text" value="" name="numeroInteriorInfoFin" id="numeroInteriorInfoFin">
                         </div>
                         <div class="form__field">
                             <label for="coloniaInfoFin">Colonia</label>
@@ -143,7 +143,6 @@
             </header>
             <div>
                 <form class="form__info-paciente" id="formInfoPaciente">
-
                     <input type="hidden" id="patient_id" value="<?php //echo $patient['id']; ?>">
 
                     <div>
@@ -261,7 +260,7 @@
                         </div>
                         <div class="form__field">
                             <label for="ordenMedica">Orden Médica</label>
-                            <input type="text" name="ordenMedica" id="ordenMedica">
+                            <input type="file" name="ordenMedica" id="ordenMedica">
                         </div>
                         <div class="form__field">
                             <label for="reanimacion">Reanimación </label>
@@ -335,12 +334,42 @@
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="duracionServicio">Duración</label>
-                                <input type="text" value="12 horas" name="duracionServicio" id="duracionServicio">
+                                <select name="duracionServicio" id="duracionServicio">
+                                <!-- <input type="text" value="12 horas" name="duracionServicio" id="duracionServicio"> -->
+                                    <?php foreach ($durations as $duration) { ?>
+                                        <option value="<?php echo $duration['id']; ?>"><?php echo $duration['name']; ?></option>
+                                    <?php }; ?>
+                                </select>
                             </div>
 
                             <div>
-                                <label for="entrada">Entrada</label>
-                                <input type="text" value="8:00 am" name="entrada" id="entrada">
+                                <label>Entrada</label>                                
+                                <div style="flex-direction: row;">
+                                    <select name="entradaHora" id="entradaHora">                                        
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12" selected>12</option>
+                                    </select>
+                                    <select name="entradaMinutos" id="entradaMinutos">
+                                        <option value="00" selected>00</option>
+                                        <option value="25">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                    <select name="entradaMeridiem" id="entradaMeridiem">
+                                        <option value="am" selected>am</option>
+                                        <option value="pm">pm</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -683,7 +712,12 @@
         const requiereFactura = $("#requiereFactura").val();
         const comentariosCliente = $("#comentariosCliente").val();
 
-        if (nombreCliente === '' || apellidosCliente === '' || telefonoCliente === '' || mailCliente === '') {
+        if (
+            nombreCliente === '' || 
+            apellidosCliente === '' || 
+            telefonoCliente === '' || 
+            mailCliente === ''
+        ) {
             alert("Se deben llenar los campos obligatorios. ");
             return;
         }
@@ -707,14 +741,14 @@
             razonSocial === '' || 
             rfc === '' || 
             emailInfoFinanciera === '' || 
-            calleInfoFin === '' || 
+            calleInfoFin === '' ||
             numeroExteriorInfoFin === '' || 
             coloniaInfoFin === '' || 
             delegacionInfoFin === '' || 
             cpInfoFin === '' || 
             estadoInfoFin === '' || 
             paisInfoFin === ''
-            ) {
+        ) {
             alert("Se deben llenar los campos obligatorios. ");
             return;
         }
@@ -835,7 +869,7 @@
         const tipoDeServicio = $("#tipoDeServicio").val();
         const tipoDeCuidado = $("#tipoDeCuidado").val();
         const duracion = $("#duracion").val();
-        const entrada = $("#entrada").val();
+        const entrada = $("#entradaHora").val() + ":" + $("#entradaMinutos").val() + " " + $("#entradaMeridiem").val();
         const complexion = $("#complexion").val();
         const calParaSeguro = $("#calParaSeguro").val();
         const precioCliente = $("#precioCliente").val();
