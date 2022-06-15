@@ -831,6 +831,7 @@
 
 <script> // Script para manejar la edicion de prestadora    
     const prestadoras = <?php echo json_encode($providers); ?>;
+    
     let estaEditandoPrestador = false;
 
     const editarPrestador = (element, idServicio) => {

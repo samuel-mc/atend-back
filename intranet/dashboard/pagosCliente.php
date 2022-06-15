@@ -33,19 +33,22 @@
                             <label for="pacienteFiltro">Paciente</label>
                             <select name="pacienteFiltro" id="pacienteFiltro">
                                 <option value="0">Seleccionar paciente</option>
-                                <option value="1">Paciente1</option>
-                                <option value="101012">Foo</option>
+                                <?php
+                                    foreach ($patients as $paciente) {
+                                        echo "<option value='" . $paciente['id'] . "'>" . $paciente['name'] . "</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <label for="bancoFiltro">Banco</label>
                             <select name="bancoFiltro" id="bancoFiltro">
                                 <option value="0">Seleccionar banco</option>
                                 <option value="101011">Foo</option>
                                 <option value="101012">Foo</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         <div>
                             <label for="metodoFiltro">Metodo</label>
@@ -131,44 +134,50 @@
         </header>
         <form id="formAcreditarPago">
             <div>
-                <label for="cantidad">Cantidad del pago</label>
+                <label for="cantidad">Cantidad del pago *</label>
                 <input id="cantidad" name="cantidad" type="number" placeholder="Cantidad">
             </div>
-            <div>
-                <label for="idCliente">Cliente</label>
+          <!--  <div>
+                <label for="idCliente">Cliente *</label>
                 <select name="idCliente" id="idCliente">
-                    <option value="101010">Mario Vargas</option>
-                    <option value="101011">otro</option>
-                    <option value="101012">otro</option>
+                    <option value="0">Seleccionar Un Cliente</option>
+                    <?php
+                        foreach ($clients as $cliente) {
+                            echo '<option value="'.$cliente['id'].'">'.$cliente['name']. " " .$cliente['lastname'] .'</option>';
+                        }
+                    ?>
                 </select>
             </div>
+            -->
             <div>
-                <label for="idPaciente">Paciente</label>
+                <label for="idPaciente">Paciente *</label>
                 <select name="idPaciente" id="idPaciente">
-                    <option value="101010">Mario Vargas</option>
-                    <option value="101011">Otro</option>
-                    <option value="101012">Otro</option>
+                    <option value="0">Seleccionar Un Paciente</option>
+                    <?php
+                        foreach ($patients as $paciente) {
+                            echo '<option value="'.$paciente['id'].'">'.$paciente['name'].'</option>';
+                        }
+                    ?>
                 </select>
             </div>
             <div>
-                <label for="idBanco">Banco</label>
-                <select name="idBanco" id="idBanco">
-                    <option value="101010">BBVA</option>
-                    <option value="101011">Otro</option>
-                    <option value="101012">Otro</option>
-                </select>
+                <label for="nombreBanco">Banco *</label>
+                <input name="nombreBanco" id="nombreBanco" placeholder="Banco">
             </div>
             <div>
-                <label for="idMetodo">Método</label>
+                <label for="idMetodo">Método *</label>
                 <select name="idMetodo" id="idMetodo">
-                    <option value="101010">Tranferencia</option>
-                    <option value="101011">Efectivo</option>
-                    <option value="101012">Otro</option>
+                    <option value="0">Seleccionar Un Método</option>
+                    <?php
+                        foreach ($methods as $metodo) {
+                            echo '<option value="'.$metodo['id'].'">'.$metodo['name'].'</option>';
+                        }
+                    ?>
                 </select>
             </div>
 
             <div>
-                <label for="comentario">Comentario</label>
+                <label for="comentario">Comentario *</label>
                 <input id="comentario" name="comentario" type="text" placeholder="Un comenterio">
             </div>
 
@@ -198,13 +207,40 @@
 
         function submitForm(e, form) {
             e.preventDefault();
-            const formData = new FormData(form);
-            let data = {}
-            formData.forEach((value, key) => {
-                data[key] = value;
+            const date = new Date();
+            const amount = document.getElementById('cantidad').value;
+            const client_id = <?php echo $client['id']; ?>;
+            const patient_id = document.getElementById('idPaciente').value;
+            const bank = document.getElementById('nombreBanco').value;
+            const method_id = document.getElementById('idMetodo').value;
+            const comments = document.getElementById('comentario').value;
+            
+            if (amount == '' || patient_id == 0 || bank == '' || method_id == 0 || comments == '') {
+                alert('Todos los campos son obligatorios');
+                return;
+            }
+
+            const data = {
+                amount: amount,
+                client_id: client_id,
+                patient_id: patient_id,
+                bank: bank,
+                method_id: method_id,
+                comments: comments,
+                date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            };
+
+            $.ajax({
+                url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client_payment',
+                type: 'GET',
+                data,
+                success: function(resp) {
+                    alert('Se guardo correctamente');
+                    closeModalEditarCosto();                
+                }
             });
+            
             console.log(data);
-            closeModalEditarCosto();
         }
 </script>
 
