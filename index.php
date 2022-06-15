@@ -34,10 +34,23 @@ Flight::route('/', function () {
         'providers' => $providers,
         'clients' => $clients,
         'patients' => $patients,
+        'asideActive' => "servicios",
         'service_types' => $service_types,
         'service_types' => $service_types,
         'service_status' => $service_status
 
+    ]);
+});
+
+Flight::route("/clientes",function (){
+    $admin = new Model;
+    Flight::set('flight.views.path', 'intranet');
+    $clients = $admin->clients->List();
+    Flight::render('dashboard/clientes', [
+        'title' => 'Clientes', 
+        'header' => 'headerIndex',
+        'clients' => $clients,
+        'asideActive' => "clientes"
     ]);
 });
 
@@ -409,8 +422,33 @@ Flight::route('/add/nuevo-cliente', function() {
             "billing_schemes"=>$billing_schemes,
             "billing_uses"=>$billing_uses,
             "billing_regimes"=>$billing_regimes,
+            "asideActive"=>"clientes",
             'header' => 'headerAdd',
 
+        ]);
+});
+
+Flight::route('/add/paciente-cliente/@id', function($id) {
+    $admin = new Model;
+    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+    
+    $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render(
+        'dashboard/add/nuevoPaciente', [
+            'title' => 'Agregar Cliente',
+            "billing_schemes"=>$billing_schemes,
+            "billing_uses"=>$billing_uses,
+            "ailments"=>$ailments,
+            "billing_regimes"=>$billing_regimes,
+            "asideActive"=>"clientes",
+            'header' => 'headerAdd',
+            "client" => $client
         ]);
 });
 
@@ -428,7 +466,7 @@ Flight::route('/add/servicio-paciente/@id', function ($id) {
         'dashboard/add/servicioPaciente', [
             'title' => 'Agregar - Servicio',
             'header' => 'headerAddServicioPaciente',
-            'patient' => $patient ,
+            'patient' => $patient,
             // "billing_schemes"=>$billing_schemes,
             // "billing_regimes"=>$billing_regimes,
             // "billing_uses"=>$billing_uses,

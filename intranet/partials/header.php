@@ -26,7 +26,7 @@
                     </div>
                     <a
                         class="button button--primary button--circle"
-                        href="'.__ROOT__.'/add/servicio"
+                        href="'.__ROOT__.'/add/nuevo-cliente"
                     >
                         <i class="fa-solid fa-plus"></i>
                     </a>

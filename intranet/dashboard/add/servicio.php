@@ -945,20 +945,20 @@
         }
     }
     console.log(ailments);
-    setDrugs();
+    setAilments();
     function selectAilment() {
         ailments.push({id:Number($("#padecimientos").val()),name:$("#padecimientos option:selected").text()});
         $("#padecimientos option[value='"+$("#padecimientos").val()+"']").remove();
         $("#padecimientos").val(0);
-        setDrugs();
+        setAilments();
     }
     function deleteAilment(id) {
         let ac = ailments.filter(item => item.id === id);
         $("#padecimientos").append("<option value='"+id+"'>"+ac[0].name+"</option>")
         ailments = ailments.filter(item => item.id !== id);
-        setDrugs();
+        setAilments();
     }
-    function setDrugs() {
+    function setAilments() {
         let ms = "";
         for (var i = 0; i < ailments.length; i++) {
             let m = ailments[i];

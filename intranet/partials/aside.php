@@ -1,32 +1,24 @@
-<?php echo (isset($isEnfermera)
-    ? ''
-    : '<aside class="main__aside">
-        <a href="'.__ROOT__.'">
-            <h1 class="header__tittle"> Atend </h1>
-        </a>
-        <nav>
-            '.
-            (isset($asideActive) && $asideActive == 'clientes'
-            ? '<a
-                class="button--aside '.(isset($asideActive) ? 'active' : 'disable') .' "
-                href="#"
-            >
-                Dashboard
-            </a>'
-            : '<a
-                    class="button--aside '.(isset($asideActive) ? " disable" : " active").' "
-                    href="'.__ROOT__.'/"
-                >
-                    Servicios
-                </a>
-                <a
-                    class="button--aside '.(isset($asideActive) ? 'active' : 'disable') .' "
-                    href="'.__ROOT__.'/prestadoras"
-                >
-                    Enfermeras
-                </a>')
-            .'
-        </nav>
-    </aside>'
-    )
-?>
+<?php if (!isset($isEnfermera)){ ?>
+    <aside class="main__aside">
+            <a href="<?php echo __ROOT__; ?>">
+                <h1 class="header__tittle"> Atend </h1>
+            </a>
+            <nav>
+                <?php if (isset($asideActive) && $asideActive == 'cliente'){ ?>
+                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='dashboard' ? 'active' : 'disable'); ?>" href="#">
+                        Dashboard
+                    </a>
+                <?php }else{ ?>
+                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='servicios' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>">
+                        Servicios
+                    </a>
+                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='clientes' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>/clientes">
+                        Clientes
+                    </a>
+                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='enfermeras' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>/prestadoras">
+                        Enfermeras
+                    </a>
+                <?php } ?>
+            </nav>
+        </aside>
+<?php } ?>
