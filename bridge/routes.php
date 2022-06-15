@@ -26,6 +26,7 @@
 		"update_billing_info"=>"SaveBillingInfo",
 		"save_new_billing_receives"=>"NewBillingReceives",
 		"get_billing_receives"=>"GetBillingReceives",
+		"save_new_client_payment"=>"AddNewClientPayment",
 		"update_client_payment"=>"SaveClientPayment",
 		"delete_client_payment"=>"DeleteClientPayment",
 		]

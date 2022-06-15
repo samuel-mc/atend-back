@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "https://attend.mx/atend-back");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    //define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 session_start();
@@ -66,15 +66,16 @@ Flight::route('/cliente/@id', function ($id) {
         ]);
 });
 
-Flight::route('/pagos/@id', function ($id) {
+Flight::route('/pagos-cliente/@id', function ($id) {
     $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
     $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
     $patients = $admin->patients->List();
+    $clients = $admin->clients->List();
     $methods = $admin->payments->GetPaymentMethods();
     Flight::set('flight.views.path', 'intranet');
-    Flight::render('dashboard/pagos', [
+    Flight::render('dashboard/pagosCliente', [
         'title' => 'Historial De Pagos', 
         'header' => 'headerPagos',
         "client" => $client,
@@ -82,6 +83,7 @@ Flight::route('/pagos/@id', function ($id) {
         "payments"=>$payments,
         "balance"=>$balance['amount'],
         "patients"=>$patients,
+        "clients"=>$clients,
         "methods"=>$methods
     ]);
 });
@@ -258,8 +260,8 @@ Flight::route('/prestadoras', function () {
         Flight::redirect("login");
     }
 });
-
 */
+
 
 // Rutas relacionadas a las bitacoras
 Flight::route('/bitacora/@id', function ($id) {
@@ -442,7 +444,7 @@ Flight::route('/add/servicio-paciente/@id', function ($id) {
 });
 
 Flight::route('/add/servicio/', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    //$user = isset($_SESSION['user'])?$_SESSION['user']:null;
     // if ($user!=null && $user['type']==1){
         $admin = new Model;
         $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));

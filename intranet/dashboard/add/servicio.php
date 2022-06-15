@@ -224,7 +224,7 @@
 
                         <div class="form__field">
                             <label for="medicoTratante">Médico Tratante </label>
-                            <input type="text" value="" name="medicoTratante" id="medicoTratante">
+                            <input type="text" placeholder="Médico Tratante" name="medicoTratante" id="medicoTratante">
                         </div>
 
                         <div class="form__field">
@@ -370,12 +370,6 @@
                                         <option value="pm">pm</option>
                                     </select>
                                 </div>
-                                <input type="text" value="" name="duracionServicio" id="duracionServicio">
-                            </div>
-
-                            <div>
-                                <label for="entrada">Entrada</label>
-                                <input type="text" value="" name="entrada" id="entrada">
                             </div>
                         </div>
                     </div>
@@ -725,7 +719,7 @@
 
 <script>
     let client_id = 0;
-    const saveClient = () => {        
+    const saveClient = () => {
         
         const nombreCliente = $("#nombreCliente").val();
         const apellidosCliente = $("#apellidosCliente").val();
@@ -746,14 +740,9 @@
 
         save_new_client(function() {
             save_new_patient();
-        })
-
-        
+        })        
 
         console.log(infoPaciente);
-
-       
-
 
         const razonSocial = $("#razonSocial").val();
         const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();

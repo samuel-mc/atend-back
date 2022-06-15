@@ -86,7 +86,7 @@
                     </h3>
                     <nav>
                         <ul>
-                            <li><a href="'.__ROOT__.'/pagos/'.(isset($client)?$client['id']:0).'">Pagos</a></li>
+                            <li><a href="'.__ROOT__.'/pagos-cliente/'.(isset($client)?$client['id']:0).'">Pagos</a></li>
                             <li><a href="'.__ROOT__.'/facturas/'.(isset($client)?$client['id']:0).'">Facturas</a></li>
                         </ul>
                     </nav>

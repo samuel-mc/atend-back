@@ -86,6 +86,14 @@
 			return $cl;
 		}
 
+		public function AddNewClientPayment(Request $data)
+		{
+			$data->put("status", 1);
+			$d = $data->extract(["client_id", "patient_id", "date", "bank", "method_id", "amount", "comments", "status"]);
+			$cl = $this->Insert(self::TABLE_CLIENT_PAYMENTS,$d,"all");
+			return $cl;
+		}
+
 		public function SaveClientPayment(Request $data)
 		{
 			$d = $data->extract(["date", "patient_id", "bank","method_id","amount","comments"]);

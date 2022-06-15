@@ -123,6 +123,7 @@
                     <th>Fecha</th>
                     <th>ID</th>
                     <th>Cliente</th>
+                    <th>Paciente</th>
                     <th>Servicio</th>
                     <th>Prestador(a)</th>
                     <th>Cliente</th>
@@ -210,6 +211,11 @@
                     <td>
                         <a href="./cliente/${element.client.id}">
                             ${element.client.name} ${element.client.lastname}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="./servicios-paciente/${element.patient.id}">
+                            ${element.patient.name}
                         </a>
                     </td>
                     <td>${element?.service?.name} - ${element?.duration}</td>
