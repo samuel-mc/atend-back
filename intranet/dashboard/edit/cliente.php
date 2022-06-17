@@ -126,3 +126,42 @@
         </form>
     </div> -->
 </section>
+
+<script> // Handle Editar Cliente
+    const formInfoCliente = document.getElementById('formInfoCliente');
+    formInfoCliente.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(formInfoCliente);
+        const id = <?php echo (isset($client) ? $client["id"]:""); ?>;
+        const name = document.getElementById('nombreCliente').value;
+        const lastname = document.getElementById('apellidosCliente').value;
+        const phone = document.getElementById('telefonoCliente').value;
+        const email = document.getElementById('mailCliente').value;
+        const require_billing = document.getElementById('requiereFactura').value;
+        const comments = document.getElementById('comentariosCliente').value;
+
+        data = {
+            id,
+            name,
+            lastname,
+            phone,
+            email,
+            require_billing,
+            comments
+        };
+
+        console.log(data);
+
+        $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_client',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                window.location.href = '<?php echo __ROOT__; ?>/cliente/<?php echo $client["id"]; ?>';
+            }
+        });
+    });
+
+
+</script>
