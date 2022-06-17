@@ -53,7 +53,12 @@
                 <div class="header__side--left header__side--vertical ">
                     <div>
                         <h2>'.(isset($headerName)?$headerName:"Agregar Cliente").'</h2>
-                        '.$buttonEditar.'
+                        <a
+                            class="button button--primary button--circle"
+                            href="'.__ROOT__.'/edit/cliente/'.(isset($idClient)?$idClient:"").'"
+                        >
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
                     </div>
                     <h3> ID CLIENTE: '.(isset($idClient)?$idClient:"ID CLIENTE").'</h3>
                 </div>
@@ -71,7 +76,7 @@
                 <section class="header__side--left">
                     <div class="header__search-bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text">
+                        <input type="text" id="searchInput" name="searchInput">
                     </div>
                     <a class="button button--primary button--circle" 
                         href="'.__ROOT__.'/add/paciente/'.(isset($idClient)?$idClient:"").'"
