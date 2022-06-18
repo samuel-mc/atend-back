@@ -571,9 +571,7 @@
                 <div>
                     <label for="recurrencia">Recurrencia</label>
                     <select name="recurrencia" id="recurrencia">
-                        <option value="0">De aquí en adelante</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
+                        <option value="1">De aquí en adelante</option>
                     </select>
                 </div>
     
@@ -933,4 +931,30 @@
     });
     document.getElementById('saldoCliente').innerHTML = ` $${saldo}`;
 
+</script>
+
+<script> //Script para la funcionalidad de la barra de búsqueda.
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (event) => {
+        let searchValue = event.target.value;        
+        let servicioFiltrados = [...pacientes];
+        if (searchValue !== '') {
+            servicioFiltrados = pacientes.filter(servicio => {
+                return (servicio?.patient?.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.service?.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    (servicio?.provider?.name + ' ' + servicio?.provider?.lastname).toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.duration.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.date.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.cost.toString().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.eca_cost.toString().includes(searchValue.toLowerCase()) ||
+                    servicio?.cost.extra_cost.toString().includes(searchValue.toLowerCase())
+                )});
+        }        
+        fillindexTable(servicioFiltrados);
+    });
+    const clearSearch = () => {
+        searchInput.value = '';
+        searchButton.style.display = 'none';
+        fillindexTable(pacientes);
+    };
 </script>

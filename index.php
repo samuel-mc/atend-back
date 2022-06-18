@@ -79,6 +79,23 @@ Flight::route('/cliente/@id', function ($id) {
         ]);
 });
 
+Flight::route('/edit/cliente/@id', function ($id) {
+    $admin = new Model;
+    $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+    $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+    $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+    $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('dashboard/edit/cliente', [
+        'title' => 'Editar Paciente', 
+        'header' => 'headerAdd',
+        "client" => $client,
+        "billing_schemes" => $billing_schemes,
+        "billing_regimes" => $billing_regimes,
+        "billing_uses" => $billing_uses,
+    ]);
+});
+
 Flight::route('/pagos-cliente/@id', function ($id) {
     $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));

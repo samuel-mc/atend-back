@@ -74,7 +74,7 @@
         row.innerHTML = `
             <td>
                 <button class="buttonEditarFecha">
-                    ${service.date}
+                    ${service?.date.split(' ')[0]}
                 </button>
             </td>
             <td>${service.id}</td>
@@ -88,23 +88,40 @@
                     <i class="fa-solid fa-pencil"></i>
                 </button>
             </td>
-            <td>                
-                $ ${service.costs.cost ? service.costs.cost : '0'}
-                <a>
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
+           
             </td>
-            <td>
+            <td class="td__editable">
+                <span id="tdCosto${service?.cost?.id}">
+                    $ ${service?.costs?.cost ? service.costs.cost : '0'}
+                </span>
+                <button
+                    onclick="showEditarModal(this, 'cost', ${service.costs?.id}, ${service?.costs?.cost})"
+                    class="button--edit"
+                >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </td>
+            <td class="td__editable">
+                <span>
                 $ ${service.costs.eca_cost ? service.costs.eca_cost : '0'}
-                <a>
+                </span>
+                <button 
+                    onclick="showEditarModal(this, 'eca_cost', ${service.costs?.id}, ${service?.costs?.eca_cost})"
+                    class="button--edit"
+                >
                     <i class="fa-solid fa-pen-to-square"></i>
-                </a>
+                </button>
             </td>
-            <td>
-                $ ${service.costs.extra_cost ? service.costs.extra_cost : '0'}
-                <a>
+            <td class="td__editable">
+                <span>
+                $ ${service?.costs?.extra_cost ? service?.costs?.extra_cost : '0'}
+                </span>
+                <button
+                    onclick="showEditarModal(this, 'extra_cost', ${service.costs?.id}, ${service?.costs?.extra_cost})"
+                    class="button--edit"
+                >
                     <i class="fa-solid fa-pen-to-square"></i>
-                </a>
+                </button>
             </td>
             <td>
                 <a href="./bitacora">
@@ -195,12 +212,16 @@
             success: function(resp) {
                 alert('Información actualizada');
                 closeModalEditarPrestadora(event.target.parentNode);
-                pacientes.forEach(element => {
+                paciente.services.forEach(element => {
                     if (element.id === parseInt(idServicio)) {
                         element.provider = provider[0];
                     }
                 });
-                fillindexTable(pacientes);
+                console.log("prestadoras", prestadoras);
+                document.getElementById('serviciosTable').innerHTML = '';
+                paciente.services.forEach(service => {
+                    fillServicesTable(service);
+                });
             }
         });
     }
@@ -216,4 +237,122 @@
     document.getElementById('saldoPaciente').innerHTML = `
         $ ${saldoPaciente}
     `;
+</script>
+
+<script> //Script para editar los datos de la tabla
+    /**
+     * Funcion para mostrar el modal de editar
+     * @param {Element} boton
+     * @param {Number} idCosto
+     * @param {Number} cost 
+     */
+    let showingModalEditarCosto = false;
+    function showEditarModal(boton, aplica, idCosto, costo) {
+        const modalEditarCosto = document.createElement("div");
+        modalEditarCosto.classList.add('main__modal', 'main__modal--edit');
+        modalEditarCosto.setAttribute('id', 'modalEdit');
+        modalEditarCosto.innerHTML =
+            `<div>
+                <button
+                    class="button button--primary button--circle"
+                    onclick="closeModalEditarCosto(this)"
+                >
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+            <form id="formEditarCosto" onsubmit="handleEditSubmit(event)">
+                <input type="hidden" name="idCosto" id="idCosto" value="${idCosto}">
+                <input type="hidden" name="aplica" id="aplica" value="${aplica}">
+
+                <div>
+                    <label for="recurrencia">Recurrencia</label>
+                    <select name="recurrencia" id="recurrencia">
+                        <option value="0">De aquí en adelante</option>
+                        <option value="101011">Foo</option>
+                        <option value="101012">Foo</option>
+                    </select>
+                </div>
+    
+                <div>
+                    <label for="monto">Monto</label>
+                    <input id="monto${idCosto}" name="monto" type="text" value="${costo}">
+                </div>
+    
+                <div>
+                    <label for="comentario">Comentario</label>
+                    <input name="comentario" id="comentario" type="text" value="">
+                </div>
+                <button type="submit" class="button button--primary button--submit">
+                    Guardar
+                </button>
+            </form>
+            `;
+        if (!showingModalEditarCosto) {
+            boton.parentNode.appendChild(modalEditarCosto);
+            showingModalEditarCosto = true;
+        }
+    }
+
+    /**
+     * Funcion para cerrar el modal de editar
+     * @param {Element} boton
+     */
+    const closeModalEditarCosto = (botonCerrar) => {
+        botonCerrar.parentNode.parentNode.remove();
+        showingModalEditarCosto = false;
+    }
+
+    /**
+     * Funcion para enviar los datos del formulario de editar
+     * @param {Event} event 
+     */
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        const idCosto = document.getElementById('idCosto').value;
+        const aplica = document.getElementById('aplica'); // Esta variable determina el valor del "aplica a" (ya sea cliente, eca o extras);
+        const recurrencia = document.getElementById('recurrencia');
+        const monto = document.getElementById(`monto${idCosto}`);
+        const comentario = document.getElementById('comentario');
+        
+        let data = {
+            recurrency: recurrencia.value,
+            reason: $("#comentario").val(),
+            id: idCosto
+        }
+        data[aplica.value] = monto.value;
+        $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=update_cost',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                alert('Información actualizada');
+                showingModalEditarCosto = false;
+                if (aplica.value === 'cost') {
+                    paciente.services.forEach(element => {
+                        if (element.costs.id === parseInt(idCosto)) {
+                            element.costs.cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'eca_cost') {
+                    paciente.services.forEach(element => {
+                        if (element.costs.id === parseInt(idCosto)) {
+                            element.costs.eca_cost = monto.value;
+                        }
+                    });
+                } else if (aplica.value === 'extra_cost') {
+                    paciente.services.forEach(element => {
+                        if (element.costs.id === parseInt(idCosto)) {
+                            element.costs.extra_cost = monto.value;
+                        }
+                    });
+                }
+                event.target.parentNode.remove();                
+
+                document.getElementById('serviciosTable').innerHTML = '';
+                paciente.services.forEach(service => {
+                    fillServicesTable(service);
+                });
+            }
+        });
+    }
 </script>

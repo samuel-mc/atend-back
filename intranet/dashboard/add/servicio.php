@@ -184,12 +184,12 @@
                         <div class="form__field form__field--doble">
                             <div>
                                 <label for="numeroExteriorPaciente">Número Ext</label>
-                                <input type="number" value="" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
+                                <input type="text" value="" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
                             </div>
 
                             <div>
                                 <label for="numeroInteriorPaciente">Número Int</label>
-                                <input type="number" value="" name="numeroInteriorPaciente" id="numeroInteriorPaciente">
+                                <input type="text" value="" name="numeroInteriorPaciente" id="numeroInteriorPaciente">
                             </div>
                         </div>
 
