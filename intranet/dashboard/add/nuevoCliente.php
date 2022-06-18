@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div>
+            <div id="billing_container">
                 <header class="main__header--servicios">
                     <h1>Info Financiera</h1>
                     <button class="button  button--primary button--circle" type="reset">
@@ -123,8 +123,119 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" class="button button--primary button--submit" value="Guardar">
+                <input onclick="save_new_client()" class="button button--primary button--submit" value="Guardar">
             </div>
         </form>
     </section>
 </main>
+
+<script type="text/javascript">
+    $("#requiereFactura").on("change",function() {
+        $("#billing_container").toggle();
+    });
+</script>
+
+<script type="text/javascript">
+    function save_new_client() {
+        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
+            data:{
+                type_id:clienteEmpresa?2:1,
+                require_billing:$("#requiereFactura").val(),
+                name:$("#nombreCliente").val(),
+                lastname:$("#apellidosCliente").val(),
+                phone:$("#telefonoCliente").val(),
+                email:$("#mailCliente").val(),
+                comments:$("#comentariosCliente").val()
+            },
+            success: function(res){
+                console.log(res);
+                let cl = JSON.parse(res);
+                client_id = cl.id;
+                if ($("#requiereFactura").val()=="1")
+                    save_new_billing_information();
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function save_new_billing_information() {
+        const nombreCliente = $("#nombreCliente").val();
+        const apellidosCliente = $("#apellidosCliente").val();
+        const telefonoCliente = $("#telefonoCliente").val();
+        const mailCliente = $("#mailCliente").val();
+        const requiereFactura = $("#requiereFactura").val();
+        const comentariosCliente = $("#comentariosCliente").val();
+
+        if (
+            nombreCliente === '' || 
+            apellidosCliente === '' || 
+            telefonoCliente === '' || 
+            mailCliente === ''
+        ) {
+            alert("Se deben llenar los campos obligatorios. ");
+            return;
+        }   
+
+        const razonSocial = $("#razonSocial").val();
+        const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
+        const rfc = $("#rfc").val();
+        const emailInfoFinanciera = $("#emailInfoFinanciera").val();
+        const uso = $("#uso").val();
+        const regimenDeFacturacion = $("#regimenDeFacturacion").val();
+        const calleInfoFin = $("#calleInfoFin").val();
+        const numeroExteriorInfoFin = $("#numeroExteriorInfoFin").val();
+        const numeroInteriorInfoFin = $("#numeroInteriorInfoFin").val();
+        const coloniaInfoFin = $("#coloniaInfoFin").val();
+        const delegacionInfoFin = $("#delegacionInfoFin").val();
+        const cpInfoFin = $("#cpInfoFin").val();
+        const estadoInfoFin = $("#estadoInfoFin").val();
+        const paisInfoFin = $("#paisInfoFin").val();
+
+        if (requiereFactura==1){
+            if (
+                razonSocial === '' || 
+                rfc === '' || 
+                emailInfoFinanciera === '' || 
+                calleInfoFin === '' || 
+                numeroExteriorInfoFin === '' || 
+                coloniaInfoFin === '' || 
+                delegacionInfoFin === '' || 
+                cpInfoFin === '' || 
+                estadoInfoFin === '' || 
+                paisInfoFin === ''
+                ) {
+                alert("Se deben llenar los campos obligatorios. ");
+                return;
+            }
+
+            let datos = {
+                client_id,
+                bussines_name:razonSocial,
+                billing_scheme_id:esquemaDeFacturacion,
+                rfc,
+                email:emailInfoFinanciera,
+                use_id:uso,
+                billing_regime_id:regimenDeFacturacion,
+                street:calleInfoFin,
+                exterior:numeroExteriorInfoFin,
+                interior:numeroInteriorInfoFin,
+                suburb:coloniaInfoFin,
+                zipcode:cpInfoFin,
+                state:estadoInfoFin,
+                country:paisInfoFin,
+                townhall:delegacionInfoFin
+            }
+
+            $.ajax({
+                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+                data: datos,
+                success: function(res){
+                    alert("Información del cliente guardada con éxito");
+                }
+            });
+        }
+    }
+</script>

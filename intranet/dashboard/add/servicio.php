@@ -310,15 +310,17 @@
                             <div>
                                 <label for="sexoECA">Sexo ECA</label>
                                 <select name="sexoECA" id="sexoECA">
-                                    <option value="femenino">Femenino</option>
-                                    <option value="masculino">Masculino</option>
+                                    <option value="0">Indiferente</option>
+                                    <option value="1">Femenino</option>
+                                    <option value="2">Masculino</option>
                                 </select>
                             </div>
                             <div>
                                 <label for="tipoServicio">Tipo de Servcio</label>
                                 <select name="tipoServicio" id="tipoServicio">
-                                    <option value="enfermeriaGral">Enfermería Gral.</option>
-                                    <option value="otro">Otro</option>
+                                    <?php foreach ($service_types as $serv): ?>
+                                        <option value="<?php echo $serv['id']; ?>"><?php echo $serv['name']; ?></option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
                         </div>
@@ -326,8 +328,9 @@
                         <div class="form__field">
                             <label for="tipoDeCuidado">Tipo de Cuidado</label>
                             <select name="tipoDeCuidado" id="tipoDeCuidado">
-                                <option value="oncologico">Oncológico</option>
-                                <option value="otro">Otro</option>
+                                <?php foreach ($care_types as $care): ?>
+                                    <option value="<?php echo $care['id']; ?>"><?php echo $care['name']; ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 
@@ -378,8 +381,9 @@
                         <div class="form__field">
                             <label for="complexion">Complexión</label>
                             <select name="complexion" id="complexion">
-                                <option value="indiferente">Indiferente</option>
-                                <option value="otro">Otro</option>
+                                <?php foreach ($complexions as $comp): ?>
+                                    <option value="<?php echo $comp['id']; ?>"><?php echo $comp['name']; ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
 
@@ -449,7 +453,7 @@
                     <button 
                         class="button button--primary" 
                         style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;"
-                        onclick="saveClient()"
+                        onclick="saveAll()"
                         type="button"
                     >GUARDAR</button>
                 </div>
@@ -458,252 +462,6 @@
 
     </div>
 </main>
-
-<!-- <script> //Script para manejar el submit de los formularios
-    let client_id = <?php //echo (isset($client) ? $client["id"] : 1); ?>;
-
-    // Manejo del formulario "Cliente"
-    const formInfoCliente = document.querySelector('#formInfoCliente');
-    formInfoCliente.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
-        const nombreCliente = $("#nombreCliente").val();
-        const apellidosCliente = $("#apellidosCliente").val();
-        const telefonoCliente = $("#telefonoCliente").val();
-        const mailCliente = $("#mailCliente").val();
-        const requiereFactura = $("#requiereFactura").val();
-        const comentariosCliente = $("#comentariosCliente").val();
-
-        if (nombreCliente === '' || apellidosCliente === '' || telefonoCliente === '' || mailCliente === '') {
-            alert("Se deben llenar los campos obligatorios. ");
-            return;
-        }
-
-        $.ajax({
-            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
-            data:{
-                type_id:clienteEmpresa?2:1,
-                require_billing:$("#requiereFactura").val(),
-                name:$("#nombreCliente").val(),
-                lastname:$("#apellidosCliente").val(),
-                phone:$("#telefonoCliente").val(),
-                email:$("#mailCliente").val(),
-                comments:$("#comentariosCliente").val()
-            },
-            success: function(res){
-                console.log(res);
-                let cl = JSON.parse(res);
-                client_id = cl.id;
-                alert("Cliente guardado correctamente");
-            }
-        });
-    });
-
-    // Manejo del formulario "Informacion Financiera"
-    const formInfoFinanciera = document.querySelector('#formInfoFinanciera');
-    formInfoFinanciera.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        if (client_id === 0) {
-            alert('Primero debes crear un cliente.');
-            return;
-        }
-
-        const razonSocial = $("#razonSocial").val();
-        const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
-        const rfc = $("#rfc").val();
-        const emailInfoFinanciera = $("#emailInfoFinanciera").val();
-        const uso = $("#uso").val();
-        const regimenDeFacturacion = $("#regimenDeFacturacion").val();
-        const calleInfoFin = $("#calleInfoFin").val();
-        const numeroExteriorInfoFin = $("#numeroExteriorInfoFin").val();
-        const numeroInteriorInfoFin = $("#numeroInteriorInfoFin").val();
-        const coloniaInfoFin = $("#coloniaInfoFin").val();
-        const delegacionInfoFin = $("#delegacionInfoFin").val();
-        const cpInfoFin = $("#cpInfoFin").val();
-        const estadoInfoFin = $("#estadoInfoFin").val();
-        const paisInfoFin = $("#paisInfoFin").val();
-
-        if (
-            razonSocial === '' || 
-            rfc === '' || 
-            emailInfoFinanciera === '' || 
-            calleInfoFin === '' || 
-            numeroExteriorInfoFin === '' || 
-            coloniaInfoFin === '' || 
-            delegacionInfoFin === '' || 
-            cpInfoFin === '' || 
-            estadoInfoFin === '' || 
-            paisInfoFin === ''
-            ) {
-            alert("Se deben llenar los campos obligatorios. ");
-            return;
-        }
-
-        $.ajax({
-            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
-            data:{
-                client_id,
-                bussines_name:razonSocial,
-                billing_scheme_id:esquemaDeFacturacion,
-                rfc,
-                email:emailInfoFinanciera,
-                use_id:uso,
-                billing_regime_id:regimenDeFacturacion,
-                street:calleInfoFin,
-                exterior:numeroExteriorInfoFin,
-                interior:numeroInteriorInfoFin,
-                suburb:coloniaInfoFin,
-                zipcode:cpInfoFin,
-                state:estadoInfoFin,
-                country:paisInfoFin,
-                townhall:delegacionInfoFin
-            },
-            success: function(res){
-                console.log(res)
-                alert("Información financiera guardada correctamente");
-            }
-        });
-    });
-
-    // Manejo del formulario "Informacion del paciente"
-    const formInfoPaciente = document.querySelector('#formInfoPaciente');
-    formInfoPaciente.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const nombrePaciente = $("#nombrePaciente").val();
-        const fechaNacimiento = $("#fechaNacimiento").val();
-        const sexoPaciente = $("#sexoPaciente").val();
-        const peso = $("#peso").val();
-        const estatura = $("#estatura").val();
-        const callePaciente = $("#callePaciente").val();
-        const numeroExteriorPaciente = $("#numeroExteriorPaciente").val();
-        const numeroInteriorPaciente = $("#numeroInteriorPaciente").val();
-        const coloniaPaciente = $("#coloniaPaciente").val();
-        const delegacionPaciente = $("#delegacionPaciente").val();
-        const cpPaciente = $("#cpPaciente").val();
-        const estadoPaciente = $("#estadoPaciente").val();
-        const paisPaciente = $("#paisPaciente").val();
-        const medicoTratante = $("#medicoTratante").val();
-        const contactoDeEmergencia = $("#contactoDeEmergencia").val();
-        const telEmergencia1 = $("#telEmergencia1").val();
-        const telEmergencia2 = $("#telEmergencia2").val();
-        const diagnostico = $("#diagnostico").val();
-        const comentarioPaciente = $("#comentarioPaciente").val();
-        const alergia = $("#alergia").val();
-        const ordenMedica = $("#ordenMedica").val();
-        const requiereReanimacion = $("#requiereReanimacion").is(":checked");
-
-        const id = $("#patient_id").val();
-        
-        let ails = "(";
-        $(ailments).each(function(index,element) {
-            ails+=element.id+",";
-        });
-        ails = ails.slice(0,-1)+")";
-
-        const infoPaciente = {
-            client_id,
-            name:nombrePaciente,
-            birthdate:fechaNacimiento,
-            gender:sexoPaciente,
-            weight:peso,
-            height:estatura,
-            street:callePaciente,
-            exterior:numeroExteriorPaciente,
-            interior:numeroInteriorPaciente,
-            suburb:coloniaPaciente,
-            townhall:delegacionPaciente,
-            zipcode:cpPaciente,
-            state:estadoPaciente,
-            paisPaciente,
-            doctor:medicoTratante,
-            emergency_contact:contactoDeEmergencia,
-            emergency_phone:telEmergencia1,
-            emergency_phone2:telEmergencia2,
-            diagnosis:diagnostico,
-            comments:comentarioPaciente,
-            allergies:alergia,
-            medical_order:ordenMedica,
-            want_reanimation:requiereReanimacion?1:0,
-            ailments: ails
-        };
-        
-        $.ajax({
-            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action="+(id!=0?"update_patient":"save_new_patient"),
-            data:infoPaciente,
-            success: function(res) {
-                console.log(res)
-            }
-        })
-        alert("Información del paciente guardada correctamente");
-    });
-
-    // Manejo del formulario "Informacion del servicio"
-    const formInfoServicio = document.querySelector('#formInfoServicio');
-    formInfoServicio.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const fechaInicio = $("#fechaInicio").val();
-        const fechaFin = $("#fechaFin").val();
-        const sexoInfoServicio = $("#sexoInfoServicio").val();
-        const tipoDeServicio = $("#tipoDeServicio").val();
-        const tipoDeCuidado = $("#tipoDeCuidado").val();
-        const duracion = $("#duracion").val();
-        const entrada = $("#entrada").val();
-        const complexion = $("#complexion").val();
-        const calParaSeguro = $("#calParaSeguro").val();
-        const precioCliente = $("#precioCliente").val();
-        const precioEca = $("#precioEca").val();
-        const frecDelServicio = $("#frecDelServicio").val();
-        const diasFrecuencia = [];
-        if (frecDelServicio == 0) {
-            for (var i = 1; i < 8; i++) {
-                if ($("#freq_day_"+i).is(":checked")) {
-                    diasFrecuencia.push(i);
-                }
-            }
-        }else{
-            if (frecDelServicio == 1){
-                for (var i = 1; i < 6; i++) {
-                    diasFrecuencia.push(i);
-                } 
-            }else{
-                for (var i = 1; i < 8; i++) {
-                    diasFrecuencia.push(i);
-                } 
-            }
-        }
-        const costo = $("#costo").val();
-        const comentarioServicio = $("#comentarioServicio").val();
-
-        const infoServicio = {
-            client_id,
-            start_date:fechaInicio,
-            end_date:fechaFin,
-            provider_gender: sexoInfoServicio,
-            service_type: tipoDeServicio,
-            care_type_id: tipoDeCuidado,
-            duration: duracion,
-            schedule: entrada,
-            complexion_id: complexion,
-            insurance: calParaSeguro === 'si' ? 1 : 0,
-            cost: precioCliente,
-            eca_cost: precioEca,
-            frequency: frecDelServicio,
-            frequency_days: diasFrecuencia,
-        };
-
-        console.log(infoServicio);
-        $.ajax({
-            url:"<?php //echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
-            data:infoServicio,
-            success: function(res) {
-                console.log(JSON.parse(res))
-            }
-        })
-        alert("Servicio guardado correctamente");
-    });
-</script> -->
 
 <script type="text/javascript">
     document.querySelector('.frecDelServicio--otro').style.display = 'none';
@@ -719,8 +477,43 @@
 
 <script>
     let client_id = 0;
-    const saveClient = () => {
-        
+    let patient_id = 0;
+
+
+    const saveAll = () => {
+        if (patient_id!=0){
+            save_new_service(null);
+        }else{
+            save_new_patient(save_new_service(null));
+        }
+    }
+</script>
+
+<script type="text/javascript">
+
+    function save_new_client(on_end) {
+        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
+            data:{
+                type_id:clienteEmpresa?2:1,
+                require_billing:$("#requiereFactura").val(),
+                name:$("#nombreCliente").val(),
+                lastname:$("#apellidosCliente").val(),
+                phone:$("#telefonoCliente").val(),
+                email:$("#mailCliente").val(),
+                comments:$("#comentariosCliente").val()
+            },
+            success: function(res){
+                console.log(res);
+                let cl = JSON.parse(res);
+                client_id = cl.id;
+                on_end();
+            }
+        });
+    }
+
+    function save_new_billing_information(on_end) {
         const nombreCliente = $("#nombreCliente").val();
         const apellidosCliente = $("#apellidosCliente").val();
         const telefonoCliente = $("#telefonoCliente").val();
@@ -802,102 +595,8 @@
                 }
             });
         }
-
-
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
-            data:infoPaciente,
-            success: function(res) {
-                console.log(res)
-            }
-        })
-
-        const fechaInicio = $("#fechaInicio").val();
-        const fechaFin = $("#fechaFin").val();
-        const sexoInfoServicio = $("#sexoInfoServicio").val();
-        const tipoDeServicio = $("#tipoDeServicio").val();
-        const tipoDeCuidado = $("#tipoDeCuidado").val();
-        const duracion = $("#duracion").val();
-        const entrada = $("#entradaHora").val() + ":" + $("#entradaMinutos").val() + " " + $("#entradaMeridiem").val();
-        const complexion = $("#complexion").val();
-        const calParaSeguro = $("#calParaSeguro").val();
-        const precioCliente = $("#precioCliente").val();
-        const precioEca = $("#precioEca").val();
-        const frecDelServicio = $("#frecDelServicio").val();
-        const diasFrecuencia = [];
-        if (frecDelServicio == 0) {
-            for (var i = 1; i < 8; i++) {
-                if ($("#freq_day_"+i).is(":checked")) {
-                    diasFrecuencia.push(i);
-                }
-            }
-        }else{
-            if (frecDelServicio == 1){
-                for (var i = 1; i < 6; i++) {
-                    diasFrecuencia.push(i);
-                } 
-            }else{
-                for (var i = 1; i < 8; i++) {
-                    diasFrecuencia.push(i);
-                } 
-            }
-        }
-        const costo = $("#costo").val();
-        const comentarioServicio = $("#comentarioServicio").val();
-
-        const infoServicio = {
-            client_id,
-            start_date:fechaInicio,
-            end_date:fechaFin,
-            provider_gender: sexoInfoServicio,
-            service_type: tipoDeServicio,
-            care_type_id: tipoDeCuidado,
-            duration: duracion,
-            schedule: entrada,
-            complexion_id: complexion,
-            insurance: calParaSeguro === 'si' ? 1 : 0,
-            cost: precioCliente,
-            eca_cost: precioEca,
-            frequency: frecDelServicio,
-            frequency_days: diasFrecuencia,
-        };
-
-        console.log(infoServicio);
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
-            data:infoServicio,
-            success: function(res) {
-                console.log(JSON.parse(res))
-            }
-        })
-
-        alert("Servicio guardado correctamente");        
-        // window.location.href = "<?php //echo __ROOT__; ?>/";
     }
-</script>
 
-<script type="text/javascript">
-    function save_new_client(on_end) {
-        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
-            data:{
-                type_id:clienteEmpresa?2:1,
-                require_billing:$("#requiereFactura").val(),
-                name:$("#nombreCliente").val(),
-                lastname:$("#apellidosCliente").val(),
-                phone:$("#telefonoCliente").val(),
-                email:$("#mailCliente").val(),
-                comments:$("#comentariosCliente").val()
-            },
-            success: function(res){
-                console.log(res);
-                let cl = JSON.parse(res);
-                client_id = cl.id;
-                on_end();
-            }
-        });
-    }
 
     function save_new_patient(on_end) {
         const nombrePaciente = $("#nombrePaciente").val();
@@ -955,6 +654,81 @@
             want_reanimation:requiereReanimacion?1:0,
             ailments: ails
         };
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+            data:infoPaciente,
+            success: function(res) {
+                console.log(res)
+                res = JSON.parse(res)
+                patient_id = res.id;
+                on_end();
+            }
+        })
+    }
+
+    function save_new_service(on_end) {
+        const fechaInicio = $("#fechaInicio").val();
+        const fechaFin = $("#fechaFin").val();
+        const sexoInfoServicio = $("#sexoInfoServicio").val();
+        const tipoDeServicio = $("#tipoDeServicio").val();
+        const tipoDeCuidado = $("#tipoDeCuidado").val();
+        const duracion = $("#duracion").val();
+        const entrada = $("#entradaHora").val() + ":" + $("#entradaMinutos").val() + " " + $("#entradaMeridiem").val();
+        const complexion = $("#complexion").val();
+        const calParaSeguro = $("#calParaSeguro").val();
+        const precioCliente = $("#precioCliente").val();
+        const precioEca = $("#precioEca").val();
+        const frecDelServicio = $("#frecDelServicio").val();
+        const diasFrecuencia = [];
+        
+        if (frecDelServicio == 0) {
+            for (var i = 1; i < 8; i++) {
+                if ($("#freq_day_"+i).is(":checked")) {
+                    diasFrecuencia.push(i);
+                }
+            }
+        }else{
+            if (frecDelServicio == 1){
+                for (var i = 1; i < 6; i++) {
+                    diasFrecuencia.push(i);
+                } 
+            }else{
+                for (var i = 1; i < 8; i++) {
+                    diasFrecuencia.push(i);
+                } 
+            }
+        }
+        const costo = $("#costo").val();
+        const comentarioServicio = $("#comentarioServicio").val();
+
+        const infoServicio = {
+            client_id,
+            start_date:fechaInicio,
+            end_date:fechaFin,
+            provider_gender: sexoInfoServicio,
+            service_type: tipoDeServicio,
+            care_type_id: tipoDeCuidado,
+            duration: duracion,
+            schedule: entrada,
+            complexion_id: complexion,
+            insurance: calParaSeguro === 'si' ? 1 : 0,
+            cost: precioCliente,
+            eca_cost: precioEca,
+            frequency: frecDelServicio,
+            frequency_days: diasFrecuencia,
+        };
+
+        console.log(infoServicio);
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_service",
+            data:infoServicio,
+            success: function(res) {
+                console.log(JSON.parse(res));
+                if (on_end!=null) on_end();
+                alert("Servicio guardado correctamente");  
+            }
+        })
     }
 </script>
 
