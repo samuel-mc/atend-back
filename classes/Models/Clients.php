@@ -19,8 +19,19 @@
 
 		public function List()
 		{
-			$cl = $this->ViewList(self::TABLE_CLIENTS);
-			return $cl;
+			$res = [];
+			$cls = $this->ViewList(self::TABLE_CLIENTS);
+			foreach ($cls as $cl) {
+				$pats = [];
+				$cl['patients'] = $this->ViewList(self::TABLE_PATIENTS,"client_id = ".$cl['id']);
+				foreach ($cl['patients'] as $pat) {
+					$pat['balance'] = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,"client_id = ".$cl['id']." AND patient_id = ".$pat['id']);
+					$pats[] = $pat;
+				}
+				$cl['patients'] = $pats;
+				$res[] = $cl;
+			}
+			return $res;
 		}
 
 		public function NewClient(Request $data)
@@ -91,12 +102,25 @@
 			$data->put("status", 1);
 			$d = $data->extract(["client_id", "patient_id", "date", "bank", "method_id", "amount", "comments", "status"]);
 			$cl = $this->Insert(self::TABLE_CLIENT_PAYMENTS,$d,"all");
-			return $cl;
+			$balance = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,"client_id = ".$data->get("client_id")." AND patient_id = ".$data->get("patient_id"));
+			if ($balance!=null){
+				$up = $this->Save(self::TABLE_CLIENT_BALANCE,["amount"=>$balance['amount']+$data->get("amount")],$balance['id'],"all");
+			}else{
+				$up = $this->Insert(self::TABLE_CLIENT_BALANCE,["client_id"=>$data->id,"patient_id"=>$data->get("patient_id"),"amount"=>$data->get("amount")],"all");
+			}
+			return $up;
 		}
 
 		public function SaveClientPayment(Request $data)
 		{
-			$d = $data->extract(["date", "patient_id", "bank","method_id","amount","comments"]);
+			$d = $data->extract(["date", "bank","method_id","amount","comments"]);
+			$pa = $this->GetById(self::TABLE_CLIENT_PAYMENTS,$data->id);
+			$f = "client_id = ".$pa["client_id"]." AND patient_id = ".$pa["patient_id"];
+			$balance = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,$f);
+			if ($balance!=null){
+				$n = $balance['amount']-$pa['amount']+$data->get("amount");
+				$this->Save(self::TABLE_CLIENT_BALANCE,["amount"=>$n],$balance['id']);
+			}
 			$this->Save(self::TABLE_CLIENT_PAYMENTS,$d,$data->id);
 		}
 

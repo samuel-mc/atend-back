@@ -11,7 +11,7 @@
                     Filtrar
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="button button--circle button--primary" onclick="generarPdf()">
+                <button class="button button--circle button--primary" onclick="generarPdf('Historial de pagos')">
                     <i class="fa-solid fa-download"></i>
                 </button>
                 <div class="main__modal main__modal--filtrar" id="modalFiltrado">
@@ -235,8 +235,9 @@
                 type: 'GET',
                 data,
                 success: function(resp) {
-                    alert('Se guardo correctamente');
-                    closeModalEditarCosto();                
+                    alert('Se guardó correctamente');
+                    closeModalEditarCosto();
+                    location.reload(true);                
                 }
             });
             
@@ -364,12 +365,12 @@
                 </div>
 
                 <div>
-                    <label for="paciente">Paciente</label>
+                    <!--<label for="paciente">Paciente</label>
                     <select name="paciente" id="paciente">
                         ${pacientes.map(paciente => `
                             <option value="${paciente.id}">${paciente.name}</option>
                         `).join('')}
-                    </select>
+                    </select>-->
                 </div>
 
                 <div>
@@ -407,7 +408,7 @@
             e.preventDefault();
             const idPago = document.getElementById('idPago').value;
             const fechaPago = document.getElementById('fechaPago').value;
-            const pacientePago = document.getElementById('paciente').value;
+            //const pacientePago = document.getElementById('paciente').value;
             const bancoPago = document.getElementById('bancoPago').value;
             const metodoPago = document.getElementById('metodoPago').value;
             const montoPago = document.getElementById('montoPago').value;
@@ -416,7 +417,7 @@
             const data = {
                 id: idPago,
                 date: fechaPago,
-                patient_id: pacientePago,
+                //patient_id: pacientePago,
                 bank: bancoPago,
                 method_id: metodoPago,
                 amount: montoPago,
@@ -430,8 +431,10 @@
                 type: 'GET',
                 data,
                 success: function(resp) {
-                    alert('Se guardo correctamente');
+                    console.log(resp)
+                    alert('Se guardó correctamente');
                     formEditarPago.parentNode.remove();
+                    location.reload(true);
                 }
             });
         });

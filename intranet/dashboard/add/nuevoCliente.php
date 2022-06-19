@@ -95,11 +95,11 @@
                     <div>
                         <div class="form__field">
                             <label for="numeroExteriorInfoFin">Número Exterior</label>
-                            <input type="number" value="" name="numeroExteriorInfoFin" id="numeroExteriorInfoFin">
+                            <input type="text" value="" name="numeroExteriorInfoFin" id="numeroExteriorInfoFin">
                         </div>
                         <div class="form__field">
                             <label for="numeroInteriorInfoFin">Número Interior</label>
-                            <input type="number" value="" name="numeroInteriorInfoFin" id="numeroInteriorInfoFin">
+                            <input type="text" value="" name="numeroInteriorInfoFin" id="numeroInteriorInfoFin">
                         </div>
                         <div class="form__field">
                             <label for="coloniaInfoFin">Colonia</label>
@@ -111,7 +111,7 @@
                         </div>
                         <div class="form__field">
                             <label for="cpInfoFin">Código Postal</label>
-                            <input type="number" value="" name="cpInfoFin" id="cpInfoFin">
+                            <input type="text" value="" name="cpInfoFin" id="cpInfoFin">
                         </div>
                         <div class="form__field">
                             <label for="estadoInfoFin">Ciudad / Estado</label>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                <input onclick="save_new_client()" class="button button--primary button--submit" value="Guardar">
+                <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
             </div>
         </form>
     </section>

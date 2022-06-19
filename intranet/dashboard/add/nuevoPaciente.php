@@ -44,12 +44,12 @@
 	                <div class="form__field form__field--doble">
 	                    <div>
 	                        <label for="numeroExteriorPaciente">Número Ext</label>
-	                        <input type="number" value="" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
+	                        <input type="text" value="" name="numeroExteriorPaciente" id="numeroExteriorPaciente">
 	                    </div>
 
 	                    <div>
 	                        <label for="numeroInteriorPaciente">Número Int</label>
-	                        <input type="number" value="" name="numeroInteriorPaciente" id="numeroInterion">
+	                        <input type="text" value="" name="numeroInteriorPaciente" id="numeroInterion">
 	                    </div>
 	                </div>
 
@@ -61,7 +61,7 @@
 
 	                    <div>
 	                        <label for="delegacionPaciente">Delegación</label>
-	                        <input type="number" value="" name="delegacionPaciente" id="delegacionPaciente">
+	                        <input type="text" value="" name="delegacionPaciente" id="delegacionPaciente">
 	                    </div>
 	                </div>
 
@@ -145,7 +145,7 @@
 	                </div>
 	            </div>
 
-	            <input type="submit" class="button button--primary button--submit" value="Guardar">
+	            <a type="submit" class="button button--primary button--submit" onclick="save_new_patient()">Guardar</a>
 	        </form>
 	    </div>
 	</section>
@@ -182,4 +182,76 @@
         }
         $("#ailments_selected").html(ms);
     }
+</script>
+
+<script type="text/javascript">
+	function save_new_patient() {
+	    const nombrePaciente = $("#nombrePaciente").val();
+	    const fechaNacimiento = $("#fechaNacimiento").val();
+	    const sexoPaciente = $("#sexoPaciente").val();
+	    const peso = $("#peso").val();
+	    const estatura = $("#estatura").val();
+	    const callePaciente = $("#callePaciente").val();
+	    const numeroExteriorPaciente = $("#numeroExteriorPaciente").val();
+	    const numeroInteriorPaciente = $("#numeroInteriorPaciente").val();
+	    const coloniaPaciente = $("#coloniaPaciente").val();
+	    const delegacionPaciente = $("#delegacionPaciente").val();
+	    const cpPaciente = $("#cpPaciente").val();
+	    const estadoPaciente = $("#estadoPaciente").val();
+	    const paisPaciente = $("#paisPaciente").val();
+	    const medicoTratante = $("#medicoTratante").val();
+	    const contactoDeEmergencia = $("#contactoDeEmergencia").val();
+	    const telEmergencia1 = $("#telEmergencia1").val();
+	    const telEmergencia2 = $("#telEmergencia2").val();
+	    const diagnostico = $("#diagnostico").val();
+	    const comentarioPaciente = $("#comentarioPaciente").val();
+	    const alergia = $("#alergia").val();
+	    const ordenMedica = $("#ordenMedica").val();
+	    const requiereReanimacion = $("#requiereReanimacion").is(":checked");
+
+	    let ails = "(";
+	    $(ailments).each(function(index,element) {
+	        ails+=element.id+",";
+	    });
+	    ails = ails.slice(0,-1)+")";
+
+	    const infoPaciente = {
+	        client_id:<?php echo $client['id']; ?>,
+	        name:nombrePaciente,
+	        birthdate:fechaNacimiento,
+	        gender:sexoPaciente,
+	        weight:peso,
+	        height:estatura,
+	        street:callePaciente,
+	        exterior:numeroExteriorPaciente,
+	        interior:numeroInteriorPaciente,
+	        suburb:coloniaPaciente,
+	        townhall:delegacionPaciente,
+	        zipcode:cpPaciente,
+	        state:estadoPaciente,
+	        paisPaciente,
+	        doctor:medicoTratante,
+	        emergency_contact:contactoDeEmergencia,
+	        emergency_phone:telEmergencia1,
+	        emergency_phone2:telEmergencia2,
+	        diagnosis:diagnostico,
+	        comments:comentarioPaciente,
+	        allergies:alergia,
+	        medical_order:ordenMedica,
+	        want_reanimation:requiereReanimacion?1:0,
+	        ailments: ails
+	    };
+
+	    $.ajax({
+	        url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+	        data:infoPaciente,
+	        success: function(res) {
+	            console.log(res)
+	            res = JSON.parse(res)
+	            patient_id = res.id;
+	            alert("Paciente guardado con éxito")
+	            location.href = "<?php echo __ROOT__; ?>/clientes";
+	        }
+	    })
+	}
 </script>

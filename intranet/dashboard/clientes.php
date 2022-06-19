@@ -14,18 +14,20 @@
 	            <td><?php echo $client['id']; ?></td>
 	            <td><?php echo $client['name']; ?></td>
 	            <td>
-	                Paciente 1 <br>
-	                Paciente 2 <br>
-	                <a href="<?php echo __ROOT__; ?>/add/paciente-cliente/<?php echo $client['id']; ?>">Agregar paciente</a>
+	               	<?php foreach ($client['patients'] as $pat): ?>
+	               		<?php echo $pat['name']; ?> <br>
+	               	<?php endforeach ?>
+	                <a href="<?php echo __ROOT__; ?>/add/servicio/<?php echo $client['id']; ?>">Agregar paciente</a>
 	            </td>
 	            <td>
-	            	$400 <br>
-	            	$500 <br>
+	            	<?php foreach ($client['patients'] as $pat): ?>
+	               		$ <?php echo($pat['balance']?$pat['balance']['amount']:0); ?> <br>
+	               	<?php endforeach ?>
 	            	<a href="">Acreditar pago</a>
 	            </td>
 	            <td>
-	                <span id="name_1">Jane Doe</span>
-	                <i class="fa-solid fa-pencil" onclick="cambiarNombre(1)"></i>
+	                <!--<span id="name_1">Jane Doe</span>
+	                <i class="fa-solid fa-pencil" onclick="cambiarNombre(1)"></i>-->
 	            </td>
 	        </tr>
     	<?php endforeach ?>

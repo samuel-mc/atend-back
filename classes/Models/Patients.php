@@ -70,6 +70,11 @@
 			return $pat;
 		}
 
+		public function GetByClient(Request $data)
+		{
+			return $this->ViewList(self::TABLE_PATIENTS,"client_id = ".$data->get("client_id"));
+		}
+
 		public function List()
 		{
 			return $this->success($this->ViewList(self::TABLE_PATIENTS));

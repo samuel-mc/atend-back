@@ -100,8 +100,8 @@ Flight::route('/pagos-cliente/@id', function ($id) {
     $admin = new Model;
     $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
     $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
-    $balance = $admin->payments->GetPatientBalance(new Request(["patient_id"=>$id]));
-    $patients = $admin->patients->List();
+    $balance = $admin->payments->GetClientBalance(new Request(["client_id"=>$id]));
+    $patients = $admin->patients->GetByClient(new Request(["client_id"=>$id]));
     $clients = $admin->clients->List();
     $methods = $admin->payments->GetPaymentMethods();
     Flight::set('flight.views.path', 'intranet');
@@ -114,7 +114,8 @@ Flight::route('/pagos-cliente/@id', function ($id) {
         "balance"=>$balance['amount'],
         "patients"=>$patients,
         "clients"=>$clients,
-        "methods"=>$methods
+        "methods"=>$methods,
+        "asideActive"=>"clientes"
     ]);
 });
 
@@ -402,7 +403,8 @@ Flight::route('/add/servicio/@id', function ($id) {
             "care_types"=>$care_types,
             "durations"=>$durations,
             "complexions"=>$complexions,
-            "client"=>$client
+            "client"=>$client,
+            "asideActive"=>"servicios"
         ]);
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
@@ -557,19 +559,9 @@ Flight::route('/add/paciente/@id', function ($id) {
                 "care_types"=>$care_types,
                 "durations"=>$durations,
                 "complexions"=>$complexions,
-                "add" => 'paciente'
+                "add" => 'paciente',
+                "asideActive"=>"servicios"
             ]);
-        /*Flight::render(
-            'dashboard/add/servicio', [
-                'title' => 'Agregar - Servicio',
-                'header' => 'headerAdd',
-                "billing_schemes"=>$billing_schemes,
-                "billing_regimes"=>$billing_regimes,
-                "billing_uses"=>$billing_uses,
-                "ailments"=>$ailments,
-                "client"=>$client,
-                "add" => 'paciente'
-            ]);*/
     }else{
         Flight::redirect("login");
     }

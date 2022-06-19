@@ -5,12 +5,12 @@
 <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
 
 <script> //Script para generar el pdf
-    const generarPdf = () => {
+    const generarPdf = (name = "Servicios") => {
         let pdf = new jsPDF();
         pdf.autoTable({
             html: '#tablaServicios'
         });
-        pdf.save('Servicios.pdf');
+        pdf.save(name+'.pdf');
     }
 </script>
 

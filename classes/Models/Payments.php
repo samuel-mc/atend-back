@@ -34,10 +34,14 @@
 			return $res;
 		}
 
-		public function GetPatientBalance(Request $request)
+		public function GetClientBalance(Request $request)
 		{
-			$balance = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,"patient_id = ".$request->get("patient_id"));
-			return $balance;
+			$balance = $this->ViewList(self::TABLE_CLIENT_BALANCE,"client_id = ".$request->get("client_id"));
+			$total = 0;
+			foreach ($balance as $bal) {
+				$total += $bal['amount'];
+			}
+			return ["amount"=>$total];
 		}
 
 		public function GetPaymentMethods()
