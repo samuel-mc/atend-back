@@ -106,7 +106,7 @@
 			if ($balance!=null){
 				$up = $this->Save(self::TABLE_CLIENT_BALANCE,["amount"=>$balance['amount']+$data->get("amount")],$balance['id'],"all");
 			}else{
-				$up = $this->Insert(self::TABLE_CLIENT_BALANCE,["client_id"=>$data->id,"patient_id"=>$data->get("patient_id"),"amount"=>$data->get("amount")],"all");
+				$up = $this->Insert(self::TABLE_CLIENT_BALANCE,["client_id"=>$data->get("client_id"),"patient_id"=>$data->get("patient_id"),"amount"=>$data->get("amount")],"all");
 			}
 			return $up;
 		}
@@ -126,7 +126,14 @@
 
 		public function DeleteClientPayment(Request $data)
 		{
-			$this->DeleteRowById(self::TABLE_CLIENT_PAYMENTS, $data->id);
+			$pa = $this->GetById(self::TABLE_CLIENT_PAYMENTS,$data->id);
+			$f = "client_id = ".$pa["client_id"]." AND patient_id = ".$pa["patient_id"];
+			$balance = $this->GetByCondition(self::TABLE_CLIENT_BALANCE,$f);
+			if ($balance!=null){
+				$n = $balance['amount']-$pa['amount'];
+				$this->Save(self::TABLE_CLIENT_BALANCE,["amount"=>$n],$balance['id']);
+			}
+			$this->Save(self::TABLE_CLIENT_PAYMENTS,["status"=>0], $data->id);
 		}
 	}
 

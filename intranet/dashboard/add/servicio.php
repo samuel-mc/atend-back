@@ -154,9 +154,19 @@
                     <!-- <input type="submit" class="button button--primary button--submit" value="Guardar"> -->
                 </form>
             </div>
+            <div>
+                <button 
+                    class="button button--primary" 
+                    style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;"
+                    onclick="save_new_patient(this)"
+                    type="button"
+                >GUARDAR</button>
+            </div>
         </section>
 
-        <section class="main__content main__info-servicios">
+
+
+        <section class="main__content main__info-servicios" id="service_form">
             <header class="info-servicios__header">
                     <h1>Información del servicio</h1>
             </header>
@@ -320,7 +330,7 @@
                     <button 
                         class="button button--primary" 
                         style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px;"
-                        onclick="saveAll()"
+                        onclick="save_new_service()"
                         type="button"
                     >GUARDAR</button>
                 </div>
@@ -331,6 +341,8 @@
 </main>
 
 <script type="text/javascript">
+    let patient_id = 0;
+    $("#service_form").hide();
     document.querySelector('.frecDelServicio--otro').style.display = 'none';
     const frecDelServicio = document.getElementById('frecDelServicio');
     frecDelServicio.addEventListener('change', (e) => {
@@ -342,130 +354,9 @@
     });
 </script>
 
-<script>
-    let client_id = 0;
-    let patient_id = 0;
-
-
-    const saveAll = () => {
-        if (patient_id!=0){
-            save_new_service(null);
-        }else{
-            save_new_patient(save_new_service(null));
-        }
-    }
-</script>
-
 <script type="text/javascript">
 
-    function save_new_client(on_end) {
-        const clienteEmpresa = $("#clienteEmpresa").is(":checked");
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
-            data:{
-                type_id:clienteEmpresa?2:1,
-                require_billing:$("#requiereFactura").val(),
-                name:$("#nombreCliente").val(),
-                lastname:$("#apellidosCliente").val(),
-                phone:$("#telefonoCliente").val(),
-                email:$("#mailCliente").val(),
-                comments:$("#comentariosCliente").val()
-            },
-            success: function(res){
-                console.log(res);
-                let cl = JSON.parse(res);
-                client_id = cl.id;
-                on_end();
-            }
-        });
-    }
-
-    function save_new_billing_information(on_end) {
-        const nombreCliente = $("#nombreCliente").val();
-        const apellidosCliente = $("#apellidosCliente").val();
-        const telefonoCliente = $("#telefonoCliente").val();
-        const mailCliente = $("#mailCliente").val();
-        const requiereFactura = $("#requiereFactura").val();
-        const comentariosCliente = $("#comentariosCliente").val();
-
-        if (
-            nombreCliente === '' || 
-            apellidosCliente === '' || 
-            telefonoCliente === '' || 
-            mailCliente === ''
-        ) {
-            alert("Se deben llenar los campos obligatorios. ");
-            return;
-        }
-
-        save_new_client(function() {
-            save_new_patient();
-        })        
-
-        console.log(infoPaciente);
-
-        const razonSocial = $("#razonSocial").val();
-        const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
-        const rfc = $("#rfc").val();
-        const emailInfoFinanciera = $("#emailInfoFinanciera").val();
-        const uso = $("#uso").val();
-        const regimenDeFacturacion = $("#regimenDeFacturacion").val();
-        const calleInfoFin = $("#calleInfoFin").val();
-        const numeroExteriorInfoFin = $("#numeroExteriorInfoFin").val();
-        const numeroInteriorInfoFin = $("#numeroInteriorInfoFin").val();
-        const coloniaInfoFin = $("#coloniaInfoFin").val();
-        const delegacionInfoFin = $("#delegacionInfoFin").val();
-        const cpInfoFin = $("#cpInfoFin").val();
-        const estadoInfoFin = $("#estadoInfoFin").val();
-        const paisInfoFin = $("#paisInfoFin").val();
-
-        if (requiereFactura==1){
-            if (
-                razonSocial === '' || 
-                rfc === '' || 
-                emailInfoFinanciera === '' || 
-                calleInfoFin === '' || 
-                numeroExteriorInfoFin === '' || 
-                coloniaInfoFin === '' || 
-                delegacionInfoFin === '' || 
-                cpInfoFin === '' || 
-                estadoInfoFin === '' || 
-                paisInfoFin === ''
-                ) {
-                alert("Se deben llenar los campos obligatorios. ");
-                return;
-            }
-
-            let datos = {
-                client_id,
-                bussines_name:razonSocial,
-                billing_scheme_id:esquemaDeFacturacion,
-                rfc,
-                email:emailInfoFinanciera,
-                use_id:uso,
-                billing_regime_id:regimenDeFacturacion,
-                street:calleInfoFin,
-                exterior:numeroExteriorInfoFin,
-                interior:numeroInteriorInfoFin,
-                suburb:coloniaInfoFin,
-                zipcode:cpInfoFin,
-                state:estadoInfoFin,
-                country:paisInfoFin,
-                townhall:delegacionInfoFin
-            }
-
-            $.ajax({
-                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
-                data: datos,
-                success: function(res){
-                    console.log(res);
-                }
-            });
-        }
-    }
-
-
-    function save_new_patient(on_end) {
+    function save_new_patient(btn) {
         const nombrePaciente = $("#nombrePaciente").val();
         const fechaNacimiento = $("#fechaNacimiento").val();
         const sexoPaciente = $("#sexoPaciente").val();
@@ -486,7 +377,6 @@
         const diagnostico = $("#diagnostico").val();
         const comentarioPaciente = $("#comentarioPaciente").val();
         const alergia = $("#alergia").val();
-        const ordenMedica = $("#ordenMedica").val();
         const requiereReanimacion = $("#requiereReanimacion").is(":checked");
 
         let ails = "(";
@@ -496,7 +386,7 @@
         ails = ails.slice(0,-1)+")";
 
         const infoPaciente = {
-            client_id,
+            client_id:<?php echo $client['id'] ?>,
             name:nombrePaciente,
             birthdate:fechaNacimiento,
             gender:sexoPaciente,
@@ -517,30 +407,55 @@
             diagnosis:diagnostico,
             comments:comentarioPaciente,
             allergies:alergia,
-            medical_order:ordenMedica,
             want_reanimation:requiereReanimacion?1:0,
             ailments: ails
         };
 
+        let image = new FormData();
+        image.append('image', $('#ordenMedica')[0].files[0]);
+        image.append('name', $('#ordenMedica')[0].files[0].name);
+
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
-            data:infoPaciente,
+            url:"<?php echo __ROOT__; ?>/bridge/uploadImage.php",
+            type:"POST",
+            data: image,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType,
             success: function(res) {
-                console.log(res)
+                console.log(res);
                 res = JSON.parse(res)
-                patient_id = res.id;
-                on_end();
+                if (res.success==true){
+                    infoPaciente.medical_order = "<?php echo __ROOT__; ?>/"+res.name;
+                    $.ajax({
+                        url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_patient",
+                        data:infoPaciente,
+                        success: function(res) {
+                            console.log(res)
+                            res = JSON.parse(res)
+                            patient_id = res.id;
+                            $("#service_form").show();
+                            alert("Paciente generado con éxito");
+                            $(btn).hide();
+                            $('html, body').animate({
+                               scrollTop: $("#service_form").offset().top
+                           }, 300);
+                        }
+                    })
+                }else{
+                    alert(res.message);
+                }
             }
         })
     }
 
     function save_new_service(on_end) {
-        const fechaInicio = $("#fechaInicio").val();
-        const fechaFin = $("#fechaFin").val();
-        const sexoInfoServicio = $("#sexoInfoServicio").val();
-        const tipoDeServicio = $("#tipoDeServicio").val();
+        const fechaInicio = $("#inicioServicio").val();
+        const fechaFin = $("#finServicio").val();
+        const sexoInfoServicio = $("#sexoECA").val();
+        const tipoDeServicio = $("#tipoServicio").val();
         const tipoDeCuidado = $("#tipoDeCuidado").val();
-        const duracion = $("#duracion").val();
+        const duracion = $("#duracionServicio").val();
         const entrada = $("#entradaHora").val() + ":" + $("#entradaMinutos").val() + " " + $("#entradaMeridiem").val();
         const complexion = $("#complexion").val();
         const calParaSeguro = $("#calParaSeguro").val();
@@ -570,7 +485,8 @@
         const comentarioServicio = $("#comentarioServicio").val();
 
         const infoServicio = {
-            client_id,
+            client_id: <?php echo $client['id']; ?>,
+            patient_id,
             start_date:fechaInicio,
             end_date:fechaFin,
             provider_gender: sexoInfoServicio,
@@ -593,7 +509,8 @@
             success: function(res) {
                 console.log(JSON.parse(res));
                 if (on_end!=null) on_end();
-                alert("Servicio guardado correctamente");  
+                alert("Servicio guardado correctamente"); 
+                location.href = "<?php echo __ROOT__; ?>/cliente/<?php echo $client['id']; ?>" 
             }
         })
     }
@@ -613,7 +530,7 @@
             $("#padecimientos option[value='"+i+"']").remove();
         }
     }
-    console.log(ailments);
+
     setAilments();
     function selectAilment() {
         ailments.push({id:Number($("#padecimientos").val()),name:$("#padecimientos option:selected").text()});

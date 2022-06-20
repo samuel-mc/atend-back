@@ -211,7 +211,7 @@
             <section class="header--top-container">
                 <div class="header__side--left header__side--vertical">
                     <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
-                    <h3>ID PACIENTE: 000</h3>
+                    <h3>ID PACIENTE: '.(isset($patientID)?$patientID:"000").'</h3>
                 </div>
                 <div class="header__side--right">
                     <button class="button--transparent">

@@ -456,7 +456,8 @@
                     id
                 },
                 success: function(resp) {
-                    alert('Paciente eliminado');
+                    alert('Pago eliminado');
+                    location.reload(true)
                 }
             });
         }
