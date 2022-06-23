@@ -70,7 +70,7 @@
 
 		public function GetByClientId(Request $request)
 		{
-			$services = $this->ViewList(self::TABLE_SERVICES,"client_id = ".$request->get("client_id"));
+			$services = $this->ViewList(self::TABLE_SERVICES,"client_id = ".$request->get("client_id"),"date");
 			$res = array();
 			foreach ($services as $row) {
 				$row['client'] = $this->GetById(self::TABLE_CLIENTS,$row['client_id']);
@@ -87,7 +87,7 @@
 
 		public function GetByPatientId(Request $request)
 		{
-			$services = $this->ViewList(self::TABLE_SERVICES,"patient_id = ".$request->get("patient_id"));
+			$services = $this->ViewList(self::TABLE_SERVICES,"patient_id = ".$request->get("patient_id"),"date asc");
 			$res = array();
 			foreach ($services as $row) {
 				$row['client'] = $this->GetById(self::TABLE_CLIENTS,$row['client_id']);
@@ -127,7 +127,27 @@
 		public function SaveCosts(Request $data)
 		{	
 			$d = $data->extract(["cost","eca_cost","extra_cost","reason"]);
-			return $this->Save(self::TABLE_SERVICE_COSTS,$d,$data->id);
+			$sc = $this->GetById(self::TABLE_SERVICE_COSTS,$data->id);
+			if ($data->get("recurrency")==1){
+				$serv = $this->GetById(self::TABLE_SERVICES,$sc['service_id']);
+				$servs = $this->ViewList(self::TABLE_SERVICES,"client_id = ".$serv['client_id']." AND patient_id = ".$serv['patient_id']." AND service_type = ".$serv['service_type']." AND "."complexion_id = ".$serv['complexion_id']." AND date >= '".$serv['date']."'");
+				foreach ($servs as $ser) {
+					$this->Save(self::TABLE_SERVICE_COSTS,$d,["service_id",$ser['id']]);
+				}
+			}else if($data->get("recurrency")==3){
+				$serv = $this->GetById(self::TABLE_SERVICES,$sc['service_id']);
+				$servs = $this->ViewList(self::TABLE_SERVICES,
+					"client_id = ".$serv['client_id']." AND ".
+					"patient_id = ".$serv['patient_id']." AND ".
+					"service_type = ".$serv['service_type']." AND ".
+					"complexion_id = ".$serv['complexion_id']
+				);
+				foreach ($servs as $ser) {
+					$this->Save(self::TABLE_SERVICE_COSTS,$d,["service_id",$ser['id']]);
+				}
+			}else{
+				$this->Save(self::TABLE_SERVICE_COSTS,$d,$data->id);
+			}
 		}
 		
 		public function SaveProvider(Request $data)

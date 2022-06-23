@@ -12,10 +12,16 @@
     	<?php foreach ($clients as $client): ?>
 	        <tr class="table__row">
 	            <td><?php echo $client['id']; ?></td>
-	            <td><?php echo $client['name']; ?></td>
+	            <td>
+	            	<a href="<?php echo __ROOT__; ?>/cliente/<?php echo $client['id']; ?>">
+	            		<?php echo $client['name']; ?>		
+	            	</a>
+				</td>
 	            <td>
 	               	<?php foreach ($client['patients'] as $pat): ?>
-	               		<?php echo $pat['name']; ?> <br>
+	               		<a href="<?php echo __ROOT__; ?>/servicios-paciente/<?php echo $pat['id']; ?>">
+	               			<?php echo $pat['name']; ?> <br>
+	               		</a>
 	               	<?php endforeach ?>
 	                <a href="<?php echo __ROOT__; ?>/add/servicio/<?php echo $client['id']; ?>">Agregar paciente</a>
 	            </td>

@@ -41,14 +41,10 @@
                             </select>
                         </div>
 
-                        <!-- <div>
+                        <div>
                             <label for="bancoFiltro">Banco</label>
-                            <select name="bancoFiltro" id="bancoFiltro">
-                                <option value="0">Seleccionar banco</option>
-                                <option value="101011">Foo</option>
-                                <option value="101012">Foo</option>
-                            </select>
-                        </div> -->
+                            <input type="text" id="bancoFiltro">
+                        </div>
 
                         <div>
                             <label for="metodoFiltro">Metodo</label>

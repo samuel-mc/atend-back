@@ -177,9 +177,11 @@ class Admin
 		return $this->GetFirst($res['query']);
 	}
 
-	public function ViewList($table, $cond = 1, $order = "id")
+	public function ViewList($table, $cond = 1, $order = "id",$return = "")
 	{
 		$res = $this->query->select("*", $table, $cond,$order);
+		if ($return=="query")
+			return $res;
 		$res = $this->GetAllRows($res);
 		return $res;
 	}

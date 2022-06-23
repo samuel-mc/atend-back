@@ -163,7 +163,8 @@ Flight::route('/servicios-paciente/@id', function ($id) {
         "headerName"=>$patient['name'],
         'providers' => $providers,
         'patient_balance' => $patient_balance,
-        "idClient"=>$patient['id']
+        "idClient"=>$patient['id'],
+        "asideActive"=>"servicios"
     ]);
 });
 

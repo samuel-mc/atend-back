@@ -301,9 +301,9 @@
                 <div>
                     <label for="recurrencia">Recurrencia</label>
                     <select name="recurrencia" id="recurrencia">
-                        <option value="0">De aquí en adelante</option>
-                        <option value="101011">Foo</option>
-                        <option value="101012">Foo</option>
+                        <option value="1">De aquí en adelante</option>
+                        <option value="2">Única ocasión</option>
+                        <option value="3">Todos</option>
                     </select>
                 </div>
     

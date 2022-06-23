@@ -86,12 +86,12 @@
 
                 <div class="form__field">
                     <label for="precioCliente">Precio Cliente</label>
-                    <input type="number" value="1950" id="precioCliente" name="precioCliente">
+                    <input type="number" value="" id="precioCliente" name="precioCliente">
                 </div>
 
                 <div class="form__field">
                     <label for="precioEca">Precio ECA</label>
-                    <input type="number" value="750" id="precioEca" name="precioEca">
+                    <input type="number" value="" id="precioEca" name="precioEca">
                 </div>
             </div>
 
@@ -224,6 +224,6 @@
             }
         })
         alert("Servicio guardado correctamente");
-        window.location.href = "<?php echo __ROOT__; ?>/servicios-paciente/" + client_id;
+        window.location.href = "<?php echo __ROOT__; ?>/servicios-paciente/" + patient_id;
     });
 </script>

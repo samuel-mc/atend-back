@@ -51,7 +51,7 @@
 				$pat['address']['municipality'] = $this->getById(self::TABLE_CAT_MUNICIPALITIES,$pat["address"]['zipcode']['municipality_id']);
 			}
 			$pat['doctor'] = $this->getById(self::TABLE_DOCTORS,$pat['doctor_id']);
-			$pat['services'] = $this->ViewList(self::TABLE_SERVICES,"patient_id IN (".$pat['id'].")");
+			$pat['services'] = $this->ViewList(self::TABLE_SERVICES,"patient_id IN (".$pat['id'].")","date");
 			
 			foreach ($pat['services'] as $key => $value) {
 				$pat['services'][$key]['provider'] = $this->getById(self::TABLE_PROVIDERS, $value['provider_id']);
