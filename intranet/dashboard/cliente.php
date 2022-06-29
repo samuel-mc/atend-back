@@ -916,7 +916,7 @@
                     id
                 },
                 success: function(resp) {
-                    alert('Paciente eliminado');
+                    alert('Servicio eliminado');
                     pacientes = pacientes.filter(paciente => paciente.id !== id);
                     fillindexTable(pacientes);
                 }

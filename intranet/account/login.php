@@ -67,6 +67,8 @@
                     }else{
                         if (res.type=="1"){
                             location.href = "<?php echo __ROOT__; ?>";
+                        }else if (res.type=="3"){
+                            location.href = "<?php echo __ROOT__; ?>/enfermera";
                         }else{
                             alert({title:"Error",text:"Acceso incorrecto"});
                         }

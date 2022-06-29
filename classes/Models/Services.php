@@ -149,6 +149,26 @@
 				$this->Save(self::TABLE_SERVICE_COSTS,$d,$data->id);
 			}
 		}
+
+		public function GetByProvider(Request $data)
+		{
+			$services = $this->ViewList(self::TABLE_SERVICES,"provider_id = ".$data->id,"date asc");
+			$res = array();
+			foreach ($services as $row) {
+				$row['client'] = $this->GetById(self::TABLE_CLIENTS,$row['client_id']);
+				$row['patient'] = $this->GetById(self::TABLE_PATIENTS,$row['patient_id']);
+				$row['patient']['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS," id in ".$row['patient']['ailments']);
+				$row['status'] = $this->GetById(self::TABLE_CAT_STATUS,$row['status']);
+				$row['provider'] = $this->GetById(self::TABLE_PROVIDERS,$row['provider_id']);
+				$row['cost'] = $this->GetByCondition(self::TABLE_SERVICE_COSTS,["service_id",$row['id']],"id DESC");
+				$row['service'] = $this->GetById(self::TABLE_CAT_SERVICE_TYPES,$row['service_type']);
+				$row['duration'] = $this->GetById(self::TABLE_CAT_SERVICE_DURATIONS,$row['duration'])['name'];
+				$row['frequency'] = $this->GetByCondition(self::TABLE_SERVICE_FREQUENCY,["service_id",$row['id']]);
+				//$row['frequency']['frequency'] = $this->GetById(self::TABLE_CAT_SERVICE_FREQUENCIES,$row['frequency']['frequency_id'])['name'];
+				$res[] = $row;
+			}
+			return $res;
+		}
 		
 		public function SaveProvider(Request $data)
 		{	

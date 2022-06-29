@@ -17,6 +17,10 @@ body.body__enfermera {
     margin: 0 12px;
 }
 
+.service-card{
+    margin-top: 20px;
+}
+
 .content__nurse--header > div {
     display: flex;
     align-items: center;
@@ -94,7 +98,7 @@ body.body__enfermera {
     border-color: var(--danger-red);
 }
 
-#infoNurse {
+.infoNurse {
     display: none;
 }
 
