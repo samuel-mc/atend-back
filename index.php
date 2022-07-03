@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "https://attend.mx/atend-back");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 session_start();
@@ -645,27 +645,36 @@ Flight::route('/enfermera', function () {
     }
 });
 
-Flight::route('/enfermera/servicios', function () {
+Flight::route('/enfermera/servicios/@id', function ($id) {
+    $admin = new Model;
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
     if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/servicios', [
             'title' => 'Servicio', 
             'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
+            'isEnfermera' => true,
+            'servicio' => $service
         ]);
     }else{
         Flight::redirect("login");
     }
 });
 
-Flight::route('/enfermera/ingresosYEgresos', function () {
+Flight::route('/enfermera/ingresosYEgresos/@id', function ($id) {
+    $admin = new Model;
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
+    $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
+
     if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/ingresosYEgresos', [
             'title' => 'Ingresos y egresos', 
             'header' => 'headerEnfermeraServicios',
+            'ioTypes' => $io_types,
+            'service' => $service,
             'isEnfermera' => true
         ]);
     }else{
@@ -673,13 +682,16 @@ Flight::route('/enfermera/ingresosYEgresos', function () {
     }
 });
 
-Flight::route('/enfermera/signosVitales', function () {
+Flight::route('/enfermera/signosVitales/@id', function ($id) {
+    $admin = new Model;
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
+    $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
+    if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/signosVitales', [
             'title' => 'Signos vitales',
             'header' => 'headerEnfermeraServicios',
+            'service' => $service,
             'isEnfermera' => true
         ]);
     }else{

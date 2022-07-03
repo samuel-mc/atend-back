@@ -7,7 +7,7 @@
 	$router = new Router;
 
 	$router->Group("services",[
-		"save_new_service"=>"SaveService",
+		"save_new_service"=>"SaveService",		
 		"get_services_table"=>"GetTable",
 		"get_services_by_client"=>"GetByClientId",
 		"get_services_by_patient"=>"GetByPatientId",
@@ -45,7 +45,8 @@
 
 	$router->Group("nurses",[
 		"get_possible_provider"=>"GetRecommendedProvider",
-		"save_new_provider"=>"NewNurse"
+		"save_new_provider"=>"NewNurse",
+		"save_new_binnacle_io" => "NewBinnIO",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

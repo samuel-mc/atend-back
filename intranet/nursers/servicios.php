@@ -1,6 +1,7 @@
 <div class="main__header--enfermera">
-    <h1>Marta Suárez</h1>
-    <h2>12.06.2021 | 8:00 a 20:00 (12hrs)</h2>
+    <h1><?php echo $servicio['patient']['name']; ?></h1>    
+    <h2><?php echo explode(" ",$servicio['date'])[0]; ?> | <?php echo $servicio['schedule']; ?> (<?php echo $servicio['duration']; ?>)</h2>
+
 </div>
 <main class="main__content main__enfermera--acciones">
     <h1>Acciones del Servicio</h1>
@@ -8,12 +9,12 @@
         <li>
             <a 
                 class="button button--primary" 
-                href="<?php echo __ROOT__; ?>/enfermera/ingresosYEgresos">
+                href="<?php echo __ROOT__; ?>/enfermera/ingresosYEgresos/<?php echo $servicio['id'] ?>">
                 Ingresos / Egresos
             </a>
         </li>
         <li>
-            <a class="button button--primary" href="<?php echo __ROOT__; ?>/enfermera/signosVitales">
+            <a class="button button--primary" href="<?php echo __ROOT__; ?>/enfermera/signosVitales/<?php echo $servicio['id'] ?>">
                 Signos Vitales
             </a>
         </li>
@@ -75,6 +76,9 @@
 
 
 <script>
+    const servicio = <?php echo json_encode($servicio); ?>;
+    console.log("servicio", servicio);
+
     const sideMenuEnfermera = document.getElementById('sideMenuEnfermera');
     const buttonSideMenu = document.getElementById('buttonSideMenu');
     buttonSideMenu.addEventListener('click', () => {

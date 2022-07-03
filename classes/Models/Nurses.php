@@ -51,6 +51,18 @@
 			return $pro;
 		}
 
+		public function NewBinnIO(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_IO, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"category_id"=>$data->get("category_id"),
+				"type_id"=>$data->get("type_id"),
+				"solution"=>$data->get("solution"),
+				"quantity"=>$data->get("quantity"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
 		public function GetAllProvidersSkills()
 		{
 			return $this->ViewList(self::TABLE_PROVIDER_SKILLS);
