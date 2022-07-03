@@ -63,6 +63,21 @@
 			return $info;
 		}
 
+		public function NewBinnVitalSigns(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"pressure_mm"=>$data->get("pressure_mm"),
+				"pressure_hg"=>$data->get("pressure_hg"),
+				"heart_rate"=>$data->get("heart_rate"),
+				"breath_frequency"=>$data->get("breath_frequency"),
+				"temperature"=>$data->get("temperature"),
+				"o2_saturation"=>$data->get("o2_saturation"),
+				"capillary"=>$data->get("capillary"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
 		public function GetAllProvidersSkills()
 		{
 			return $this->ViewList(self::TABLE_PROVIDER_SKILLS);

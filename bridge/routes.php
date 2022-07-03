@@ -47,6 +47,7 @@
 		"get_possible_provider"=>"GetRecommendedProvider",
 		"save_new_provider"=>"NewNurse",
 		"save_new_binnacle_io" => "NewBinnIO",
+		"save_new_binnacle_vital_signs" => "NewBinnVitalSigns"
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

@@ -2,7 +2,7 @@
     <section class="ingresos__header">
         <a 
             class="button button--transparent"
-            href="<?php echo __ROOT__; ?>/enfermera/servicios"
+            href="<?php echo __ROOT__; ?>/enfermera/servicios/<?php echo $service['id'] ?>"
         >
             <i class="fa-solid fa-angle-left"></i>
         </a>
@@ -10,7 +10,7 @@
     </section>
 
     <section class="ingresos__body">
-        <form id="formSignosVitales">
+        <form id="formSignosVitales" onsubmit="handleSignosVitales(event)">
             <div>
                 <div class="form__field form__field--doble">
                     <div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form__field">
                     <label for="glicemia">Glicemia capilar (sólo diabéticos)</label>
-                    <input type="number" placeholder=" | " id="glicemia" name="glicemia">
+                    <input type="text" placeholder=" | " id="glicemia" name="glicemia">
                 </div>
 
                 <div>
@@ -51,3 +51,53 @@
         </form>
     </section>
 </main>
+
+<script> //Script para guardar la información
+    
+    const handleSignosVitales = (event) => {
+        event.preventDefault();
+
+        const binnacle_id = 1;
+        const pressure_mm = $("#presionArterialMM").val();
+        const pressure_hg = $("#presionArterialHG").val();
+        const heart_rate = $("#frecuenciaCardiaca").val();
+        const breath_frequency = $("#frecuenciaRespiratoria").val();
+        const temperature = $("#temperatura").val();
+        const o2_saturation = $("#saturacion").val();
+        const capillary = $("#glicemia").val();
+
+        if (
+            binnacle_id === '' ||
+            pressure_mm === '' ||
+            pressure_hg === '' ||
+            heart_rate === '' ||
+            breath_frequency === '' ||
+            temperature === '' ||
+            o2_saturation === '' ||
+            capillary === ''
+        ) {
+            window.alert("Ingresar Todos Los Campos");
+            return;
+        }
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_binnacle_vital_signs",
+            data: {
+                binnacle_id,
+                pressure_mm,
+                pressure_hg,
+                heart_rate,
+                breath_frequency,
+                temperature,
+                o2_saturation,
+                capillary,
+            },
+            success: function(res){
+                alert("Información guardada con éxito");
+                window.location.href = "<?php echo __ROOT__; ?>/enfermera/servicios/<?php echo $service['id'] ?>";
+            }
+        });
+
+
+    }
+</script>
