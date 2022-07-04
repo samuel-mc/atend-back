@@ -47,7 +47,10 @@
 		"get_possible_provider"=>"GetRecommendedProvider",
 		"save_new_provider"=>"NewNurse",
 		"save_new_binnacle_io" => "NewBinnIO",
-		"save_new_binnacle_vital_signs" => "NewBinnVitalSigns"
+		"save_new_binnacle_vital_signs" => "NewBinnVitalSigns",
+		"save_new_binnacle_mov" => "NewBinnMov",
+		"save_new_binnacle_help" => "NewBinnHelp",
+		"save_new_binnacle_drugs" => "NewBinnDrugs",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

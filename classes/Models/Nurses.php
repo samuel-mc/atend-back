@@ -77,6 +77,38 @@
 			],"all");
 			return $info;
 		}
+		
+		public function NewBinnMov(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_MOVEMENTS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"type_id"=>$data->get("type_id"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+		
+		public function NewBinnHelp(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_BREATH_HELP, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"type_id"=>$data->get("type_id"),
+				"liters_per_hour"=>$data->get("liters_per_hour"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
+		public function NewBinnDrugs(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_DRUGS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"name"=>$data->get("name"),
+				"dosis"=>$data->get("dosis"),
+				"way_id"=>$data->get("way_id"),
+				"frequency"=>$data->get("frequency"),
+				"observations"=>$data->get("observations"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
 
 		public function GetAllProvidersSkills()
 		{
