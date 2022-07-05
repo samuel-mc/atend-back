@@ -603,7 +603,8 @@ Flight::route('/add/prestadora', function () {
         Flight::render('dashboard/add/prestadora',[
             'title' => 'Agregar - Prestadora', 
             'header' => 'headerAddPrestadora',
-            "provider_skills"=>$provider_skills
+            "provider_skills"=>$provider_skills,
+            "asideActive" => "enfermeras"
         ]);
     }else{
         Flight::redirect("login");

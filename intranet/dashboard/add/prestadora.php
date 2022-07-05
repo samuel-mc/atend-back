@@ -73,8 +73,8 @@
                             </select>
                         </div>
                         <div>
-                            <label for="disponibilidad">Disponibilidad</label>
-                            <select name="availability" id="disponibilidad">
+                            <label for="availability">Disponibilidad</label>
+                            <select name="availability" id="availability">
                                 <option value="1">Diario</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -94,20 +94,20 @@
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="perfilProfesional">Perfil profesional</label>
-                        <input type="text" value="Enfermera General" name="professional_profile" id="perfilProfesional">
+                        <label for="professional_profile">Perfil profesional</label>
+                        <input type="text" value="" placeholder="Enfermera General" name="professional_profile" id="professional_profile">
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
-                            <label for="perfilAtend">Perfil Atend</label>
-                            <select name="atend_profile_id" id="perfilAtend">
+                            <label for="profile_id">Perfil Atend</label>
+                            <select name="profile_id" id="profile_id">
                                 <option value="1">Auxiliar</option>
                                 <option value="2">Otro</option>
                             </select>
                         </div>
                         <div>
-                            <label for="nivel">Nivel</label>
-                            <select name="level" id="nivel">
+                            <label for="level">Nivel</label>
+                            <select name="level" id="level">
                                 <option value="1">Avanzada</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -139,20 +139,20 @@
                             <input type="text" value="Río Rhín" name="ciudad" id="ciudad">
                         </div>
                         <div>
-                            <label for="codigoPostal">Código postal (opcional) </label>
-                            <input type="number" value="06700" name="codigoPostal" id="codigoPostal">
+                            <label for="zipcode">Código postal (opcional) </label>
+                            <input type="number" value="06700" name="zipcode" id="zipcode">
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="firma">Firma para bitácoras *</label>
+                        <label for="signature_url">Firma para bitácoras *</label>
                         <div>
-                            <input type="text" value="firma_marcela.png" name="firma" id="firma">
+                            <input type="text" value="firma_marcela.png" name="signature_url" id="signature_url">
                             <i class="fa-solid fa-download"></i>
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="comentarios">Comentarios *</label>
-                        <input type="text" value="Aquí va un comentario" name="comentarios" id="comentarios">
+                        <label for="comment">Comentarios *</label>
+                        <input type="text" value="Aquí va un comentario" name="comment" id="comment">
                     </div>
                     <div>
                         <input type="submit" value="Guardar" class="button button--primary button--submit">
