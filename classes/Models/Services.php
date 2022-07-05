@@ -158,6 +158,7 @@
 				$row['client'] = $this->GetById(self::TABLE_CLIENTS,$row['client_id']);
 				$row['patient'] = $this->GetById(self::TABLE_PATIENTS,$row['patient_id']);
 				$row['patient']['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS," id in ".$row['patient']['ailments']);
+				$row['patient']['adress'] = $this -> GetByCondition(self::TABLE_ADDRESSES, ["related_id",$row['patient_id'] ],"id DESC");
 				$row['status'] = $this->GetById(self::TABLE_CAT_STATUS,$row['status']);
 				$row['provider'] = $this->GetById(self::TABLE_PROVIDERS,$row['provider_id']);
 				$row['cost'] = $this->GetByCondition(self::TABLE_SERVICE_COSTS,["service_id",$row['id']],"id DESC");
@@ -168,6 +169,22 @@
 				$res[] = $row;
 			}
 			return $res;
+		}
+
+		public function GetServiceById(Request $data)
+		{
+			$serv = $this->GetById(self::TABLE_SERVICES,$data->get("id"));
+			$serv['client'] = $this->GetById(self::TABLE_CLIENTS,$serv['client_id']);
+			$serv['patient'] = $this->GetById(self::TABLE_PATIENTS,$serv['patient_id']);
+			$serv['patient']['ailments'] = $this->ViewList(self::TABLE_CAT_AILMENTS," id in ".$serv['patient']['ailments']);
+			$serv['patient']['adress'] = $this -> GetByCondition(self::TABLE_ADDRESSES, ["related_id",$serv['patient_id'] ],"id DESC");
+			$serv['status'] = $this->GetById(self::TABLE_CAT_STATUS,$serv['status']);
+			$serv['provider'] = $this->GetById(self::TABLE_PROVIDERS,$serv['provider_id']);
+			$serv['cost'] = $this->GetByCondition(self::TABLE_SERVICE_COSTS,["service_id",$serv['id']],"id DESC");
+			$serv['service'] = $this->GetById(self::TABLE_CAT_SERVICE_TYPES,$serv['service_type']);
+			$serv['duration'] = $this->GetById(self::TABLE_CAT_SERVICE_DURATIONS,$serv['duration'])['name'];
+			$serv['frequency'] = $this->GetByCondition(self::TABLE_SERVICE_FREQUENCY,["service_id",$serv['id']]);
+			return $serv;
 		}
 		
 		public function SaveProvider(Request $data)

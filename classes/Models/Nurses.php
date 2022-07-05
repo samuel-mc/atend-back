@@ -56,6 +56,126 @@
 			return $pro;
 		}
 
+		public function NewBinnIO(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_IO, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"category_id"=>$data->get("category_id"),
+				"type_id"=>$data->get("type_id"),
+				"solution"=>$data->get("solution"),
+				"quantity"=>$data->get("quantity"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
+		public function NewBinnVitalSigns(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"pressure_mm"=>$data->get("pressure_mm"),
+				"pressure_hg"=>$data->get("pressure_hg"),
+				"heart_rate"=>$data->get("heart_rate"),
+				"breath_frequency"=>$data->get("breath_frequency"),
+				"temperature"=>$data->get("temperature"),
+				"o2_saturation"=>$data->get("o2_saturation"),
+				"capillary"=>$data->get("capillary"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+		
+		public function NewBinnMov(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_MOVEMENTS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"type_id"=>$data->get("type_id"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+		
+		public function NewBinnHelp(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_BREATH_HELP, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"type_id"=>$data->get("type_id"),
+				"liters_per_hour"=>$data->get("liters_per_hour"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
+		public function NewBinnDrugs(Request $data) {
+			$info = $this->Insert(self::TABLE_BINNACLE_DRUGS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"name"=>$data->get("name"),
+				"dosis"=>$data->get("dosis"),
+				"way_id"=>$data->get("way_id"),
+				"frequency"=>$data->get("frequency"),
+				"observations"=>$data->get("observations"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+		
+		public function NewScalePain(Request $data) {
+			$info = $this->Insert(self::TABLE_SCALE_PAIN, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"ena_eva"=>$data->get("ena_eva"),
+				"evera"=>$data->get("evera"),
+				"conductual"=>$data->get("conductual"),
+				"pain_type"=>$data->get("pain_type"),
+				"treatment"=>$data->get("treatment"),
+				"drug_id"=>$data->get("drug_id"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+		
+		public function NewScalePupilar(Request $data) {
+			$info = $this->Insert(self::TABLE_SCALE_PUPILAR, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"pupilar_left"=>$data->get("pupilar_left"),
+				"pupilar_right"=>$data->get("pupilar_right"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+	
+		public function NewScaleGlasgow(Request $data) {
+			$info = $this->Insert(self::TABLE_SCALE_GLASGOW, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"eyes_open_id"=>$data->get("eyes_open_id"),
+				"verbal_response_id"=>$data->get("verbal_response_id"),
+				"motor_response_id"=>$data->get("motor_response_id"),
+				"glasgow_scale"=>$data->get("glasgow_scale"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
+		public function NewScalePerimeters(Request $data) {
+			$info = $this->Insert(self::TABLE_SCALE_PERIMETERS, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"locution_id"=>$data->get("locution_id"),
+				"perimeter"=>$data->get("perimeter"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
+		public function NewScaleNorton(Request $data) {
+			$info = $this->Insert(self::TABLE_SCALE_NORTON, [
+				"binnacle_id"=>$data->get("binnacle_id"),
+				"state_of_mind_id"=>$data->get("state_of_mind_id"),
+				"activity_id"=>$data->get("activity_id"),
+				"movility_id"=>$data->get("movility_id"),
+				"incontinence_id"=>$data->get("incontinence_id"),
+				"general_status_id"=>$data->get("general_status_id"),
+				"affected_zone_id"=>$data->get("affected_zone_id"),
+				"norton_scale"=>$data->get("norton_scale"),
+				"status"=>1
+			],"all");
+			return $info;
+		}
+
 		public function GetAllProvidersSkills()
 		{
 			return $this->ViewList(self::TABLE_PROVIDER_SKILLS);

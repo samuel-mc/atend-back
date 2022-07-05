@@ -10,8 +10,8 @@ $whitelist = array(
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     define('__ROOT__', "https://attend.mx/atend-back");
 }else{
-    //define('__ROOT__', "http://localhost/backend");
-    define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
+    define('__ROOT__', "http://localhost/backend");
+    // define('__ROOT__', "http://localhost/deskrive/attend/atend-back");
 }
 
 session_start();
@@ -646,75 +646,114 @@ Flight::route('/enfermera', function () {
     }
 });
 
-Flight::route('/enfermera/servicios', function () {
+Flight::route('/enfermera/servicios/@id', function ($id) {
+    $admin = new Model;
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
+    $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
+    $mov_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVEMENTS]));
+    $breath_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BREATH_HELP]));
+    $drug_ways = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_DRUG_WAYS]));
+    $cat_eyes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_OPEN_EYES]));
+    $verbal_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_VERBAL_RESPONSE]));
+    $motor_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOTOR_RESPONSE]));
+    $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCUTION]));
+    $state_minds = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_STATE_OF_MIND]));
+    $movilities = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVILITY]));
+    $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
+    $general_status = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_GENERAL_STATUS]));
+    $affected_zones = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AFFECTED_ZONE]));
+
     if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/servicios', [
             'title' => 'Servicio', 
             'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
+            'isEnfermera' => true,
+            'ioTypes' => $io_types,
+            'movTypes' => $mov_types,
+            'breathTypes' => $breath_types,
+            'drugWays' => $drug_ways,
+            'catEyes' => $cat_eyes,
+            'verbalRes' => $verbal_res,
+            'motorRes' => $motor_res,
+            'locations' => $locations,
+            'stateMinds' => $state_minds,
+            'movilities' => $movilities,
+            'incontinences' => $incontinences,
+            'generalStatus' => $general_status,
+            'affectedZones' => $affected_zones,
+            'service' => $service
         ]);
     }else{
         Flight::redirect("login");
     }
 });
 
-Flight::route('/enfermera/ingresosYEgresos', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==3){
-        Flight::set('flight.views.path', 'intranet');
-        Flight::render('nursers/ingresosYEgresos', [
-            'title' => 'Ingresos y egresos', 
-            'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
-        ]);
-    }else{
-        Flight::redirect("login");
-    }
-});
+// Flight::route('/enfermera/ingresosYEgresos/@id', function ($id) {
+//     $admin = new Model;
+//     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+//     $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
+//     $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
 
-Flight::route('/enfermera/signosVitales', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
-        Flight::set('flight.views.path', 'intranet');
-        Flight::render('nursers/signosVitales', [
-            'title' => 'Signos vitales',
-            'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
-        ]);
-    }else{
-        Flight::redirect("login");
-    }
-});
+//     if ($user!=null && $user['type']==3){
+//         Flight::set('flight.views.path', 'intranet');
+//         Flight::render('nursers/ingresosYEgresos', [
+//             'title' => 'Ingresos y egresos', 
+//             'header' => 'headerEnfermeraServicios',
+//             'ioTypes' => $io_types,
+//             'service' => $service,
+//             'isEnfermera' => true
+//         ]);
+//     }else{
+//         Flight::redirect("login");
+//     }
+// });
 
-Flight::route('/enfermera/movilizaciones', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
-        Flight::set('flight.views.path', 'intranet');
-        Flight::render('nursers/movilizaciones', [
-            'title' => 'Movilizaciones',
-            'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
-        ]);
-    }else{
-        Flight::redirect("login");
-    }
-});
+// Flight::route('/enfermera/signosVitales/@id', function ($id) {
+//     $admin = new Model;
+//     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+//     $service = $admin->services->GetServiceById(new Request(["id"=>$id]));
+//     if ($user!=null && $user['type']==3){
+//         Flight::set('flight.views.path', 'intranet');
+//         Flight::render('nursers/signosVitales', [
+//             'title' => 'Signos vitales',
+//             'header' => 'headerEnfermeraServicios',
+//             'service' => $service,
+//             'isEnfermera' => true
+//         ]);
+//     }else{
+//         Flight::redirect("login");
+//     }
+// });
 
-Flight::route('/enfermera/apoyoRespiratorio', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
-        Flight::set('flight.views.path', 'intranet');
-        Flight::render('nursers/apoyoRespiratorio', [
-            'title' => 'Apoyo Respiratorio',
-            'header' => 'headerEnfermeraServicios',
-            'isEnfermera' => true
-        ]);
-    }else{
-        Flight::redirect("login");
-    }
-});
+// Flight::route('/enfermera/movilizaciones', function () {
+//     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+//     if ($user!=null && $user['type']==1){
+//         Flight::set('flight.views.path', 'intranet');
+//         Flight::render('nursers/movilizaciones', [
+//             'title' => 'Movilizaciones',
+//             'header' => 'headerEnfermeraServicios',
+//             'isEnfermera' => true
+//         ]);
+//     }else{
+//         Flight::redirect("login");
+//     }
+// });
+
+// Flight::route('/enfermera/apoyoRespiratorio', function () {
+//     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+//     if ($user!=null && $user['type']==1){
+//         Flight::set('flight.views.path', 'intranet');
+//         Flight::render('nursers/apoyoRespiratorio', [
+//             'title' => 'Apoyo Respiratorio',
+//             'header' => 'headerEnfermeraServicios',
+//             'isEnfermera' => true
+//         ]);
+//     }else{
+//         Flight::redirect("login");
+//     }
+// });
 
 Flight::route('/enfermera/medicamentos', function () {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;

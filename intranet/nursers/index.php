@@ -27,10 +27,15 @@
             <!-- Dirección del paciente -->
             <div>
                 <i class="fa-solid fa-location-dot"></i>
-                Río Lerma 27, Dept 5, Col Cuauhtémoc, 06500, CDMX, México
+                <?php echo $serv['patient']['adress']['street']; ?> <?php echo $serv['patient']['adress']['exterior']; ?>, 
+                Int <?php echo isset($serv['patient']['adress']['interior'])?$serv['patient']['adress']['interior'] : "" ; ?>, 
+                Col <?php echo $serv['patient']['adress']['suburb']; ?>, 
+                <?php echo $serv['patient']['adress']['zipcode_id']; ?>
+                <!-- CDMX, México -->
                 <a
                     class="button button--primary"
-                    href="https://www.google.com.mx/maps/@19.3428385,-99.0472933,16.96z"
+                    href="https://www.google.com.mx/maps/search/<?php echo $serv['patient']['adress']['exterior']; ?> <?php echo $serv['patient']['adress']['street']; ?> <?php echo $serv['patient']['adress']['suburb']; ?>, <?php echo $serv['patient']['adress']['zipcode_id']; ?>"
+                    target="_blank"
                 >
                     Ver en mapa
                 </a>
@@ -41,7 +46,7 @@
                 <h2>Datos del paciente</h2>
                 <ul>
                     <li><?php echo $serv['patient']['gender']==1?"Mujer":"Hombre"; ?></li>
-                    <li><?php echo $serv['patient']['weight']; ?>Kg</li>
+                    <li><?php echo $serv['patient']['weight']; ?> Kg</li>
                     <li><?php echo $age; ?> años</li>
                     <li><?php echo $serv['patient']['height']; ?> cm</li>
                 </ul>
@@ -95,7 +100,7 @@
             }
         }
         if (stateEnCamino[id] === 'enCaminoReportado') {
-            window.location.replace('<?php echo __ROOT__; ?>/enfermera/servicios');
+            window.location.replace('<?php echo __ROOT__; ?>/enfermera/servicios/' + id);
         }
     }
     function timer(element,id,buttonEnCamino) {
@@ -161,4 +166,9 @@
             iconButton.classList.add('fa-angle-down');
         }
     }
+</script>
+
+<script>
+    const services = <?php echo json_encode($services); ?>;
+    console.log(services);
 </script>
