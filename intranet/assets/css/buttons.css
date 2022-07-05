@@ -102,6 +102,11 @@ a.button--aside{
     color: var(--primary-white);
 }
 
+.button--enfermeras {
+    width: 100%;
+    text-align: center;
+}
+
 .button--filter svg {
     height: var(--md);
     margin: 0 12px;

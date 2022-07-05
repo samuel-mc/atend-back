@@ -51,6 +51,12 @@
 		"save_new_binnacle_mov" => "NewBinnMov",
 		"save_new_binnacle_help" => "NewBinnHelp",
 		"save_new_binnacle_drugs" => "NewBinnDrugs",
+		"save_new_scale_pain" => "NewScalePain",
+		"save_new_scale_pupilar" => "NewScalePupilar",
+		"save_new_scale_glasgow" => "NewScaleGlasgow",
+		"save_new_scale_perimeters" => "NewScalePerimeters",
+		"save_new_scale_norton" => "NewScaleNorton",
+
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

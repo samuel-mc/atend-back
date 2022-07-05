@@ -653,6 +653,15 @@ Flight::route('/enfermera/servicios/@id', function ($id) {
     $mov_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVEMENTS]));
     $breath_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BREATH_HELP]));
     $drug_ways = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_DRUG_WAYS]));
+    $cat_eyes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_OPEN_EYES]));
+    $verbal_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_VERBAL_RESPONSE]));
+    $motor_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOTOR_RESPONSE]));
+    $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCUTION]));
+    $state_minds = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_STATE_OF_MIND]));
+    $movilities = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVILITY]));
+    $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
+    $general_status = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_GENERAL_STATUS]));
+    $affected_zones = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AFFECTED_ZONE]));
 
     if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
@@ -664,6 +673,15 @@ Flight::route('/enfermera/servicios/@id', function ($id) {
             'movTypes' => $mov_types,
             'breathTypes' => $breath_types,
             'drugWays' => $drug_ways,
+            'catEyes' => $cat_eyes,
+            'verbalRes' => $verbal_res,
+            'motorRes' => $motor_res,
+            'locations' => $locations,
+            'stateMinds' => $state_minds,
+            'movilities' => $movilities,
+            'incontinences' => $incontinences,
+            'generalStatus' => $general_status,
+            'affectedZones' => $affected_zones,
             'service' => $service
         ]);
     }else{
