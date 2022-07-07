@@ -114,6 +114,29 @@
 			return $balance;
 		}
 
+		public function GetLogBalanceByClient(Request $request) {
+			$firstElement = true;
+			$client_balance = 0;
+			$res = array();
+			$balances = $this->ViewList(self::TABLE_CLIENT_BALANCE_LOG,"client_id = ".$request->get("client_id"));
+			foreach ($balances as $balance) {
+				$balance['patient'] = $this->getById(self::TABLE_PATIENTS,$balance['patient_id']);
+				if ($firstElement) {
+					$firstElement = false;
+					$client_balance = $balance['amount'];
+				} else {
+					if ($balance['type'] == 1) {
+						$client_balance += $balance['amount'];
+					} else {
+						$client_balance -= $balance['amount'];
+					}
+				}
+				$balance['balance'] = $client_balance;
+				$res[] = $balance;
+			}
+			return $res;
+		}
+
 		public function GetServiceTypes()
 		{
 			return $this->ViewList(self::TABLE_CAT_SERVICE_TYPES);
