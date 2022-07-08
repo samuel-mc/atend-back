@@ -800,18 +800,28 @@ Flight::route('/enfermera/terminar', function () {
 /* ----------------------------------------------------------------
  * -----------------  Sección que ve el cliente  ------------------
  * ---------------------------------------------------------------- */
-Flight::route('/dashboard/cliente', function () {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
+Flight::route('/dashboard/cliente/@id', function ($id) {
+    // $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    // if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $client_balance = $admin->services->GetClientBalance(new Request(["client_id"=>$id]));
+        $log_balance = $admin->services->GetLogBalanceByClient(new Request(["client_id"=>$id]));
+
+
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/cliente/index', [
             'title' => 'Nombre del cliente',
             'header' => 'headerClienteDashboard',
-            'asideActive' => 'clientes'
+            'asideActive' => 'clientes',
+            'client' => $client,
+            'client_balance' => $client_balance,
+            'logBalance' => $log_balance
+
         ]);
-    }else{
-        Flight::redirect("login");
-    }
+    // }else{
+    //     Flight::redirect("login");
+    // }
 });
 Flight::route('/dashboard/cliente/abono', function () {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
