@@ -822,14 +822,19 @@ Flight::route('/dashboard/cliente/@id', function ($id) {
     //     Flight::redirect("login");
     // }
 });
-Flight::route('/dashboard/cliente/abono', function () {
+Flight::route('/dashboard/cliente/abono/@id', function ($id) {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $patients = $admin->patients->GetByClient(new Request(["client_id"=>$id]));
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/cliente/abono', [
             'title' => 'Hacer un abono',
             'header' => 'headerAbonos',
-            'asideActive' => 'clientes'
+            'asideActive' => 'clientes',
+            'client' => $client,
+            'patients' => $patients
         ]);
     }else{
         Flight::redirect("login");
