@@ -823,8 +823,8 @@ Flight::route('/dashboard/cliente/@id', function ($id) {
     // }
 });
 Flight::route('/dashboard/cliente/abono/@id', function ($id) {
-    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
+    // $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    // if ($user!=null && $user['type']==1){
         $admin = new Model;
         $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
         $patients = $admin->patients->GetByClient(new Request(["client_id"=>$id]));
@@ -834,11 +834,12 @@ Flight::route('/dashboard/cliente/abono/@id', function ($id) {
             'header' => 'headerAbonos',
             'asideActive' => 'clientes',
             'client' => $client,
-            'patients' => $patients
+            'patients' => $patients,
+            'idCliente' => $id
         ]);
-    }else{
-        Flight::redirect("login");
-    }
+    // }else{
+    //     Flight::redirect("login");
+    // }
 });
 
 /*Flight::route('/dashboard/recept-vials/@id',function($id){

@@ -113,6 +113,7 @@
 
 <script>
     let currentStep = 1;
+    let montosDePacientes;
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
@@ -122,21 +123,25 @@
 
     const handleStep = () => {
         if (currentStep === 1) {
-            const pacientesAbono = obtenerPacientes();
-            if (!pacientesAbono) {
+            montosDePacientes = obtenerPacientes();
+            if (!montosDePacientes) {
                 window.alert('Falta Informacion');
                 return;
             } else {
-                const pagoRealizado = realizarElPago(pacientesAbono);
+                step2.style.display = 'block';
+                step1.style.display = 'none';
             }
-            step2.style.display = 'block';
-            step1.style.display = 'none';
             currentStep = 2;
+            console.log(montosDePacientes);
         } else if (currentStep === 2) {
+            console.log(montosDePacientes);
+
             const datosPago = obtenerDatosPago();
             if (!datosPago) {
                 window.alert('Falta Informacion');
                 return;
+            } else {
+                const pagoRealizado = realizarElPago();
             }
             step3.style.display = 'block';
             step2.style.display = 'none';
@@ -153,15 +158,35 @@
         step3.style.display = 'none';
     }
     const obtenerPacientes = () => {
+        // Se recopila la informacion del paciente y su monto a pagar.
         let faltaInformacion = false;
+
+        // Se obtiene la informacion de los montos
+        let abonos = document.getElementsByClassName('montoAbono');
+        abonos = Array.from(abonos);
+        abonos = abonos.map(abono => {
+            if (abono.value == '') {
+                faltaInformacion = true;
+            }
+            return abono.value
+        })
+
+        if(faltaInformacion) {
+            return null;
+        }
+
         let pacientesAbono = document.getElementsByClassName('paciente');
         pacientesAbono = Array.from(pacientesAbono);
-        pacientesAbono = pacientesAbono.map(paciente => {
+        pacientesAbono = pacientesAbono.map((paciente, i) => {
             if (paciente.value == '0') {
                 faltaInformacion = true;
             }
-            return paciente.value
+            return {
+                paciente: paciente.value,
+                monto: abonos[i]
+            }
         });
+
         return faltaInformacion ? null : pacientesAbono;
     }
 
@@ -194,7 +219,6 @@
     let total = 0;
     document.getElementById('totalAPagar').innerText = `$ ${total}`;
 
-
     const addClient = () => {
         const patientPayment = document.createElement('div');
         patientPayment.classList.add('form__field', 'form__field--doble');
@@ -223,7 +247,6 @@
         let sumaAbonos = 0;
         let abonos = document.getElementsByClassName('montoAbono');
         abonos = Array.from(abonos);
-        console.log(abonos)
         abonos.forEach(abono => {
             sumaAbonos = Number(sumaAbonos) + Number(abono.value)
         })
@@ -234,30 +257,37 @@
 </script>
 
 <script> // Script para realizar el pago.
-    const realizarElPago = async (data) => {
+    const realizarElPago = async () => {
         // Método para realizar el pago
+        const date = new Date();
+        const client_id = <?php echo json_encode($idCliente); ?>;
 
-        const data = {
-            amount: amount,
-            client_id: client_id,
-            patient_id: patient_id,
-            bank: bank,
-            method_id: method_id,
-            comments: comments,
-            date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-        };
+        montosDePacientes.forEach((payment) => {
+            const data = {
+                amount: payment.monto,
+                client_id: client_id,
+                patient_id: payment.paciente,
+                bank: 'Insertado desde pagos por cliente',
+                method_id: 1,
+                comments: 'Insertado desde pagos por cliente',
+                date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            };
+            guardarPago(data);
+        });
+        // Se guarda la informacion en la db
 
+
+        return true;
+    }
+
+    const guardarPago = async (data) => {
         await $.ajax({
             url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client_payment',
             type: 'GET',
             data,
             success: function(resp) {
-                alert('Se guardó correctamente');
-                closeModalEditarCosto();
-                location.reload(true);                
+                location.reload(true);
             }
         });
-
-        return true;
     }
 </script>
