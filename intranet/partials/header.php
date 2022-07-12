@@ -408,7 +408,7 @@
         '<header class="header">
             <section class="header--top-container">
                 <div class="header__side--left">
-                    <a class="button button--transparent" href="../cliente">
+                    <a class="button button--transparent" href="'.__ROOT__.'/dashboard/cliente/'.(isset($idCliente)?$idCliente:"").'">
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                     <h2>Hacer un bono</h2>

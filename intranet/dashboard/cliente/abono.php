@@ -147,7 +147,8 @@
             step2.style.display = 'none';
             currentStep = 3;
         } else if (currentStep === 3) {
-            window.location.href = '<?php echo __ROOT__; ?>/dashboard/cliente';
+            currentStep = 1;
+            window.location.href = '<?php echo __ROOT__; ?>/dashboard/cliente/<?php echo json_encode($idCliente); ?>' ;
         }
     };
 
@@ -272,7 +273,15 @@
                 comments: 'Insertado desde pagos por cliente',
                 date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
             };
+
+            const dataLog = {
+                client_id: client_id,
+                patient_id: payment.paciente,
+                type: 1,
+                amount: payment.monto
+            }
             guardarPago(data);
+            guardarLog(dataLog);
         });
         // Se guarda la informacion en la db
 
@@ -286,7 +295,18 @@
             type: 'GET',
             data,
             success: function(resp) {
-                location.reload(true);
+                console.log(resp);
+            }
+        });
+    }
+
+    const guardarLog = async (data) => {
+        await $.ajax({
+            url: '<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client_balance_log',
+            type: 'GET',
+            data,
+            success: function(resp) {
+                console.log(resp);
             }
         });
     }

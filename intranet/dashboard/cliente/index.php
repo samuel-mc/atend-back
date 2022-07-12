@@ -3,7 +3,7 @@
         <div class="main__content cliente__card">
             <header class="cliente__card--header">
                 <h2>Saldo Actual</h2>
-                <a class="button button--primary active" href="<?php echo __ROOT__; ?>/dashboard/cliente/abono">
+                <a class="button button--primary active" href="<?php echo __ROOT__; ?>/dashboard/cliente/abono/<?php echo json_encode($client['id']); ?>">
                     Hacer un abono
                 </a>
             </header>
