@@ -375,7 +375,7 @@
     $headerEnfermeraServicios = 
         '<header class="header header__enfermera--servicios">
             <div></div>
-            <div><h2>00:00:00</h3></div>
+            <div><h1 id="timer"><time>00:00:00</time></h1></div>
             <div>
                 <button class="button button--transparent" id="buttonSideMenu">
                     <i class="fa-solid fa-ellipsis-vertical"></i>
