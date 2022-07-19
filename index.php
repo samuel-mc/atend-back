@@ -815,7 +815,8 @@ Flight::route('/dashboard/cliente/@id', function ($id) {
             'asideActive' => 'clientes',
             'client' => $client,
             'client_balance' => $client_balance,
-            'logBalance' => $log_balance
+            'logBalance' => $log_balance,
+            'isClienteSideBar' => true
 
         ]);
     // }else{

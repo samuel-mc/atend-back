@@ -1,4 +1,4 @@
-<?php if (!isset($isEnfermera)){ ?>
+<?php if (!isset($isEnfermera) && !$isClienteSideBar){ ?>
     <aside class="main__aside">
             <a href="<?php echo __ROOT__; ?>">
                 <h1 class="header__tittle"> Atend </h1>
@@ -19,6 +19,19 @@
                         Enfermeras
                     </a>
                 <?php } ?>
+            </nav>
+        </aside>
+<?php } ?>
+
+<?php if (isset($isClienteSideBar)){ ?>
+    <aside class="main__aside">
+            <a href="<?php echo __ROOT__; ?>">
+                <h1 class="header__tittle"> Atend </h1>
+            </a>
+            <nav>
+                <a class="button--aside active">
+                    Dashboard
+                </a>
             </nav>
         </aside>
 <?php } ?>
