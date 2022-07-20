@@ -375,7 +375,7 @@
     $headerEnfermeraServicios = 
         '<header class="header header__enfermera--servicios">
             <div></div>
-            <div><h2>00:00:00</h3></div>
+            <div><h1 id="timer"><time>00:00:00</time></h1></div>
             <div>
                 <button class="button button--transparent" id="buttonSideMenu">
                     <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -408,7 +408,7 @@
         '<header class="header">
             <section class="header--top-container">
                 <div class="header__side--left">
-                    <a class="button button--transparent" href="../cliente">
+                    <a class="button button--transparent" href="'.__ROOT__.'/dashboard/cliente/'.(isset($idCliente)?$idCliente:"").'">
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                     <h2>Hacer un bono</h2>

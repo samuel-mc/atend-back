@@ -29,6 +29,7 @@
 		"save_new_client_payment"=>"AddNewClientPayment",
 		"update_client_payment"=>"SaveClientPayment",
 		"delete_client_payment"=>"DeleteClientPayment",
+		"save_new_client_balance_log"=>"AddNewClientBalanceLog",
 		]
 	);
 

@@ -123,8 +123,8 @@
                         </div>
                     </div>
                 </div>
-                <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
             </div>
+            <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
         </form>
     </section>
 </main>
@@ -136,8 +136,49 @@
 </script>
 
 <script type="text/javascript">
+
+    
     function save_new_client() {
         const clienteEmpresa = $("#clienteEmpresa").is(":checked");
+        const type_id = clienteEmpresa?2:1;
+        const require_billing = $("#requiereFactura").val();
+        const name = $("#nombreCliente").val();
+        const lastname = $("#apellidosCliente").val();
+        const phone = $("#telefonoCliente").val();
+        const email = $("#mailCliente").val();
+        const comments = $("#comentariosCliente").val() !== '' ? $("#comentariosCliente").val() : ' ';
+    
+        if (
+            name === '' ||
+            lastname == '' ||
+            phone == '' ||
+            email == ''
+        ) {
+            alert('Ingresar los campos obligatorios');
+            return;
+        }
+
+        if (
+            clienteEmpresa &&
+            $("#razonSocial").val() === '' ||
+            $("#esquemaDeFacturacion").val() === '' ||
+            $("#rfc").val() === '' ||
+            $("#emailInfoFinanciera").val() === '' ||
+            $("#uso").val() === '' ||
+            $("#regimenDeFacturacion").val() === '' ||
+            $("#calleInfoFin").val() === '' ||
+            $("#numeroExteriorInfoFin").val() === '' ||
+            $("#numeroInteriorInfoFin").val() === '' ||
+            $("#coloniaInfoFin").val() === '' ||
+            $("#delegacionInfoFin").val() === '' ||
+            $("#cpInfoFin").val() === '' ||
+            $("#estadoInfoFin").val() === '' ||
+            $("#paisInfoFin").val() === ''
+        ) {
+            alert('Ingresar los campos obligatorios');
+            return;
+        }
+
         $.ajax({
             url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
             data:{
@@ -155,6 +196,7 @@
                 client_id = cl.id;
                 if ($("#requiereFactura").val()=="1")
                     save_new_billing_information();
+                alert("Información del cliente guardada con éxito");
             }
         });
     }
@@ -162,22 +204,6 @@
 
 <script type="text/javascript">
     function save_new_billing_information() {
-        const nombreCliente = $("#nombreCliente").val();
-        const apellidosCliente = $("#apellidosCliente").val();
-        const telefonoCliente = $("#telefonoCliente").val();
-        const mailCliente = $("#mailCliente").val();
-        const requiereFactura = $("#requiereFactura").val();
-        const comentariosCliente = $("#comentariosCliente").val();
-
-        if (
-            nombreCliente === '' || 
-            apellidosCliente === '' || 
-            telefonoCliente === '' || 
-            mailCliente === ''
-        ) {
-            alert("Se deben llenar los campos obligatorios. ");
-            return;
-        }   
 
         const razonSocial = $("#razonSocial").val();
         const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
@@ -195,22 +221,6 @@
         const paisInfoFin = $("#paisInfoFin").val();
 
         if (requiereFactura==1){
-            if (
-                razonSocial === '' || 
-                rfc === '' || 
-                emailInfoFinanciera === '' || 
-                calleInfoFin === '' || 
-                numeroExteriorInfoFin === '' || 
-                coloniaInfoFin === '' || 
-                delegacionInfoFin === '' || 
-                cpInfoFin === '' || 
-                estadoInfoFin === '' || 
-                paisInfoFin === ''
-                ) {
-                alert("Se deben llenar los campos obligatorios. ");
-                return;
-            }
-
             let datos = {
                 client_id,
                 bussines_name:razonSocial,

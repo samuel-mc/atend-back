@@ -48,6 +48,14 @@
 					"timestamp"=>"CURRENT_TIMESTAMP()",
 					"user_id"=>$user_id
 				]);
+				$this->Insert(self::TABLE_BINNACLE, [
+					"patient_id"=>$data->get("patient_id"),
+					"provider_id"=>$data->get("provider_id"),
+					"start_date"=>$data->get("start_date"),
+					"end_date"=>$data->get("end_date"),
+					"status"=>1,
+					"service_id"=>$service_id
+				]);
 			}
 			return $ds;
 		}
@@ -225,6 +233,10 @@
 		public function DeleteService(Request $data)
 		{
 			$this->DeleteRowById(self::TABLE_SERVICES, $data->id);
+		}
+
+		public function GetBinnacleByServiceId(Request $data) {
+			return $this->GetByCondition(self::TABLE_BINNACLE,["service_id",$data->id]);
 		}
 	}
 

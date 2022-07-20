@@ -3,13 +3,12 @@
         <div class="main__content cliente__card">
             <header class="cliente__card--header">
                 <h2>Saldo Actual</h2>
-                <a class="button button--primary active" href="<?php echo __ROOT__; ?>/dashboard/cliente/abono">
+                <a class="button button--primary active" href="<?php echo __ROOT__; ?>/dashboard/cliente/abono/<?php echo json_encode($client['id']); ?>">
                     Hacer un abono
                 </a>
             </header>
             <main class="cliente__card--content">
-                <h3>Se tienen a favor</h3>
-                <p class="cliente__card--monto afavor" id="saldoCliente"></p>
+                <div id="saldoCliente"></div>
             </main>
             <footer>
                 <h3>Este saldo alcanza aprox para: 3 turnos de servicio</h3>
@@ -169,5 +168,16 @@
     }
 
     fillTable(logBalance);
-    document.getElementById('saldoCliente').innerText = `$ ${saldo}`;
+
+    if (saldo > 0) {
+        document.getElementById('saldoCliente').innerHTML = `
+            <h3>Se tienen a favor</h3>
+            <p class="cliente__card--monto text--green" id="saldoCliente">$ ${saldo}</p>
+        `;
+    } else {
+        document.getElementById('saldoCliente').innerHTML = `
+            <h3>Se deben</h3>
+            <p class="cliente__card--monto text--red" id="saldoCliente">$ ${-1*saldo}</p>
+        `;
+    }
 </script>

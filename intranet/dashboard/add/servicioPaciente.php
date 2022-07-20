@@ -177,6 +177,25 @@
         const precioEca = $("#precioEca").val();
         const frecDelServicio = $("#frecDelServicio").val();
         const diasFrecuencia = [];
+
+        if (
+            fechaInicio === '' ||
+            fechaFin === '' ||
+            sexoInfoServicio === '' ||
+            tipoDeServicio === '' ||
+            tipoDeCuidado === '' ||
+            duracion === '' ||
+            entrada === '' ||
+            complexion === '' ||
+            calParaSeguro === '' ||
+            precioCliente === '' ||
+            precioEca === '' ||
+            frecDelServicio === ''
+        ) {
+            alert('Todos los campos son obligatorios');
+            return;
+        }
+
         if (frecDelServicio == 0) {
             for (var i = 1; i < 8; i++) {
                 if ($("#freq_day_"+i).is(":checked")) {
@@ -224,6 +243,6 @@
             }
         })
         alert("Servicio guardado correctamente");
-        window.location.href = "<?php echo __ROOT__; ?>/servicios-paciente/" + patient_id;
+        // window.location.href = "<?php echo __ROOT__; ?>/servicios-paciente/" + patient_id;
     });
 </script>

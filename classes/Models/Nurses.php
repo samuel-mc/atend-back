@@ -63,6 +63,7 @@
 				"type_id"=>$data->get("type_id"),
 				"solution"=>$data->get("solution"),
 				"quantity"=>$data->get("quantity"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -78,6 +79,7 @@
 				"temperature"=>$data->get("temperature"),
 				"o2_saturation"=>$data->get("o2_saturation"),
 				"capillary"=>$data->get("capillary"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -87,6 +89,7 @@
 			$info = $this->Insert(self::TABLE_BINNACLE_MOVEMENTS, [
 				"binnacle_id"=>$data->get("binnacle_id"),
 				"type_id"=>$data->get("type_id"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -97,6 +100,7 @@
 				"binnacle_id"=>$data->get("binnacle_id"),
 				"type_id"=>$data->get("type_id"),
 				"liters_per_hour"=>$data->get("liters_per_hour"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -110,6 +114,7 @@
 				"way_id"=>$data->get("way_id"),
 				"frequency"=>$data->get("frequency"),
 				"observations"=>$data->get("observations"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -124,6 +129,7 @@
 				"pain_type"=>$data->get("pain_type"),
 				"treatment"=>$data->get("treatment"),
 				"drug_id"=>$data->get("drug_id"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -134,6 +140,7 @@
 				"binnacle_id"=>$data->get("binnacle_id"),
 				"pupilar_left"=>$data->get("pupilar_left"),
 				"pupilar_right"=>$data->get("pupilar_right"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"status"=>1
 			],"all");
 			return $info;
@@ -145,6 +152,7 @@
 				"eyes_open_id"=>$data->get("eyes_open_id"),
 				"verbal_response_id"=>$data->get("verbal_response_id"),
 				"motor_response_id"=>$data->get("motor_response_id"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"glasgow_scale"=>$data->get("glasgow_scale"),
 				"status"=>1
 			],"all");
@@ -155,6 +163,7 @@
 			$info = $this->Insert(self::TABLE_SCALE_PERIMETERS, [
 				"binnacle_id"=>$data->get("binnacle_id"),
 				"locution_id"=>$data->get("locution_id"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"perimeter"=>$data->get("perimeter"),
 				"status"=>1
 			],"all");
@@ -170,6 +179,7 @@
 				"incontinence_id"=>$data->get("incontinence_id"),
 				"general_status_id"=>$data->get("general_status_id"),
 				"affected_zone_id"=>$data->get("affected_zone_id"),
+				"timestamp" =>'CURRENT_TIMESTAMP()',
 				"norton_scale"=>$data->get("norton_scale"),
 				"status"=>1
 			],"all");

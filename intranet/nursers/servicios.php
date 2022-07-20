@@ -783,10 +783,12 @@
 </script>
 
 <script> //Script para guardar la informacion de ingresos - egresos
+    const binnacle = <?php echo json_encode($binnacle); ?>;
+    const binnacle_id = binnacle.id;
+
     const handleSubmitIO = (event) => {
         event.preventDefault();
 
-        const binnacle_id = 1;
         const category_id = $("#ingreso").is(":checked") ? 1 : 2;
         const type_id = $("#tipoIngreso").val();
         let solution = $("#fieldSolucion").val();
@@ -869,7 +871,6 @@
 <script> // Script para guardar la información de movilidad
     const handleMovilizacion = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const type_id = $("#tipoMovilizacion").val();
 
         if ( type_id === '' ) {
@@ -894,7 +895,6 @@
 <script> // Script para guardar la información de apoyo respiratorio
     const handleSubmitHelp = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const type_id = $("#tipoApoyoResp").val();
         const liters_per_hour = $("#litrosPorHora").val();
 
@@ -922,7 +922,6 @@
 <script> // Script para guardar la información de medicamentos
     const handleSubmitDrugs = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const name = $("#nombreGenerico").val();
         const dosis = $("#dosis").val();
         const way_id = $("#via").val();
@@ -974,7 +973,6 @@
     const handleSubmitScales = async (event) => {
         event.preventDefault();
         const tipodeEscala = $('#tipodeEscala').val();
-        const binnacle_id = 1;
 
         // Si la escala es evaluación del dolor
         if (tipodeEscala === '1') {
@@ -1183,4 +1181,37 @@
     const handleEndService = (event) => {
         
     }
+</script>
+
+<script> // Script para el cronometro
+    const h1 = document.getElementById('timer');
+    let sec = 0;
+    let min = 0;
+    let hrs = 0;
+    let t;
+
+    function tick(){
+        sec++;
+        if (sec >= 60) {
+            sec = 0;
+            min++;
+            if (min >= 60) {
+                min = 0;
+                hrs++;
+            }
+        }
+    }
+    function add() {
+        tick();
+        h1.textContent = (hrs > 9 ? hrs : "0" + hrs) 
+                + ":" + (min > 9 ? min : "0" + min)
+                + ":" + (sec > 9 ? sec : "0" + sec);
+        timer();
+    }
+    function timer() {
+        t = setTimeout(add, 1000);
+    }
+
+    timer();
+
 </script>

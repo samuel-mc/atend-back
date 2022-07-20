@@ -135,6 +135,12 @@
 			}
 			$this->Save(self::TABLE_CLIENT_PAYMENTS,["status"=>0], $data->id);
 		}
+
+		public function AddNewClientBalanceLog(Request $data) {
+			$d = $data->extract(["client_id","patient_id","type","amount"]);
+			$logBalance = $this->Insert(self::TABLE_CLIENT_BALANCE_LOG,$d,"all");
+			return $logBalance;
+		}
 	}
 
 ?>

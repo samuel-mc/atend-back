@@ -66,7 +66,7 @@ Flight::route("/clientes",function (){
 
 Flight::route('/cliente/@id', function ($id) {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){   
+    if ($user!=null && $user['type']==1){
         $admin = new Model;
         $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
         $patients = $admin->patients->List();
@@ -663,6 +663,7 @@ Flight::route('/enfermera/servicios/@id', function ($id) {
     $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
     $general_status = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_GENERAL_STATUS]));
     $affected_zones = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AFFECTED_ZONE]));
+    $binnacle = $admin->services->GetBinnacleByServiceId(new Request(["id"=>$id]));
 
     if ($user!=null && $user['type']==3){
         Flight::set('flight.views.path', 'intranet');
@@ -683,7 +684,8 @@ Flight::route('/enfermera/servicios/@id', function ($id) {
             'incontinences' => $incontinences,
             'generalStatus' => $general_status,
             'affectedZones' => $affected_zones,
-            'service' => $service
+            'service' => $service,
+            'binnacle' => $binnacle
         ]);
     }else{
         Flight::redirect("login");
@@ -801,8 +803,8 @@ Flight::route('/enfermera/terminar', function () {
  * -----------------  Sección que ve el cliente  ------------------
  * ---------------------------------------------------------------- */
 Flight::route('/dashboard/cliente/@id', function ($id) {
-    // $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    // if ($user!=null && $user['type']==1){
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==5){
         $admin = new Model;
         $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
         $client_balance = $admin->services->GetClientBalance(new Request(["client_id"=>$id]));
@@ -816,21 +818,29 @@ Flight::route('/dashboard/cliente/@id', function ($id) {
             'asideActive' => 'clientes',
             'client' => $client,
             'client_balance' => $client_balance,
-            'logBalance' => $log_balance
+            'logBalance' => $log_balance,
+            'isClienteSideBar' => true
 
         ]);
-    // }else{
-    //     Flight::redirect("login");
-    // }
+    }else{
+        Flight::redirect("login");
+    }
 });
-Flight::route('/dashboard/cliente/abono', function () {
+
+Flight::route('/dashboard/cliente/abono/@id', function ($id) {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
-    if ($user!=null && $user['type']==1){
+    if ($user!=null && $user['type']==5){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $patients = $admin->patients->GetByClient(new Request(["client_id"=>$id]));
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/cliente/abono', [
             'title' => 'Hacer un abono',
             'header' => 'headerAbonos',
-            'asideActive' => 'clientes'
+            'asideActive' => 'clientes',
+            'client' => $client,
+            'patients' => $patients,
+            'idCliente' => $id
         ]);
     }else{
         Flight::redirect("login");

@@ -62,6 +62,8 @@
 }
 
 .abono__header {
+    display: flex;
+    align-items: center;
     margin-bottom: 32px;
 }
 
@@ -77,4 +79,8 @@
 
 .abono__confirmacion p {
     margin: 24px;
+}
+
+.payment__form > * {
+    margin: 12px;
 }
