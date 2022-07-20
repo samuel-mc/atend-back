@@ -783,10 +783,12 @@
 </script>
 
 <script> //Script para guardar la informacion de ingresos - egresos
+    const binnacle = <?php echo json_encode($binnacle); ?>;
+    const binnacle_id = binnacle.id;
+
     const handleSubmitIO = (event) => {
         event.preventDefault();
 
-        const binnacle_id = 1;
         const category_id = $("#ingreso").is(":checked") ? 1 : 2;
         const type_id = $("#tipoIngreso").val();
         let solution = $("#fieldSolucion").val();
@@ -869,7 +871,6 @@
 <script> // Script para guardar la información de movilidad
     const handleMovilizacion = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const type_id = $("#tipoMovilizacion").val();
 
         if ( type_id === '' ) {
@@ -894,7 +895,6 @@
 <script> // Script para guardar la información de apoyo respiratorio
     const handleSubmitHelp = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const type_id = $("#tipoApoyoResp").val();
         const liters_per_hour = $("#litrosPorHora").val();
 
@@ -922,7 +922,6 @@
 <script> // Script para guardar la información de medicamentos
     const handleSubmitDrugs = (event) => {
         event.preventDefault();
-        const binnacle_id = 1;
         const name = $("#nombreGenerico").val();
         const dosis = $("#dosis").val();
         const way_id = $("#via").val();
@@ -974,7 +973,6 @@
     const handleSubmitScales = async (event) => {
         event.preventDefault();
         const tipodeEscala = $('#tipodeEscala').val();
-        const binnacle_id = 1;
 
         // Si la escala es evaluación del dolor
         if (tipodeEscala === '1') {
