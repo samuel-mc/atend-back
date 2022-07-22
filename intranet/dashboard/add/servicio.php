@@ -379,6 +379,32 @@
         const alergia = $("#alergia").val();
         const requiereReanimacion = $("#requiereReanimacion").is(":checked");
 
+        if (
+            nombrePaciente === '' ||
+            fechaNacimiento === '' ||
+            sexoPaciente === '' ||
+            peso === '' ||
+            estatura === '' ||
+            callePaciente === '' ||
+            numeroExteriorPaciente === '' ||
+            numeroInteriorPaciente === '' ||
+            coloniaPaciente === '' ||
+            delegacionPaciente === '' ||
+            cpPaciente === '' ||
+            estadoPaciente === '' ||
+            paisPaciente === '' ||
+            medicoTratante === '' ||
+            contactoDeEmergencia === '' ||
+            telEmergencia1 === '' ||
+            telEmergencia2 === '' ||
+            diagnostico === '' ||
+            comentarioPaciente === '' ||
+            alergia === ''
+        ) {
+            alert('Todos los campos son obligatorios');
+            return;
+        }
+
         let ails = "(";
         $(ailments).each(function(index,element) {
             ails+=element.id+",";
