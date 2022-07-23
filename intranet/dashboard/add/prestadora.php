@@ -57,7 +57,7 @@
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="mail">Mail</label>
-                            <input type="mail" value="marcelap@gmail.com" id="main" name="email">
+                            <input type="mail" value="marcelap@gmail.com" id="email" name="email">
                         </div>
                         <div>
                             <label for="contraseñaAtend">Contraseña Atend</label>
@@ -68,6 +68,7 @@
                         <div>
                             <label for="sexo">Sexo</label>
                             <select name="gender" id="sexo">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Femenino</option>
                                 <option value="2">Masculino</option>
                             </select>
@@ -75,6 +76,7 @@
                         <div>
                             <label for="disponibilidad">Disponibilidad</label>
                             <select name="availability" id="disponibilidad">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Diario</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -84,6 +86,7 @@
                         <div>
                             <label for="estatus">Estatus</label>
                             <select name="estatus" id="estatus">
+                                <option value="">Seleccionar</option>
                                 <option value="baja">Baja</option>
                                 <option value="otro">Otro</option>
                             </select>
@@ -101,6 +104,7 @@
                         <div>
                             <label for="perfilAtend">Perfil Atend</label>
                             <select name="atend_profile_id" id="perfilAtend">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Auxiliar</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -108,6 +112,7 @@
                         <div>
                             <label for="nivel">Nivel</label>
                             <select name="level" id="nivel">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Avanzada</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -283,6 +288,59 @@
 <script> // Script que maneja la información de la prestadora. 
     const formInfoPrestadora = document.getElementById('formInfoPrestadora');
     formInfoPrestadora.addEventListener('submit', function(e){
+
+        const nombrePrestadora = document.getElementById('nombrePrestadora').value;
+        const apellidosPrestadora = document.getElementById('apellidosPrestadora').value;
+        const fechaDeNacimiento = document.getElementById('fechaDeNacimiento').value;
+        const altura = document.getElementById('altura').value;
+        const peso = document.getElementById('peso').value;
+        const telFijo = document.getElementById('telFijo').value;
+        const telCelular = document.getElementById('telCelular').value;
+        const email = document.getElementById('email').value;
+        const contraseñaAtend = document.getElementById('contraseñaAtend').value;
+        const sexo = document.getElementById('sexo').value;
+        const disponibilidad = document.getElementById('disponibilidad').value;
+        const estatus = document.getElementById('estatus').value;
+        const razon = document.getElementById('razon').value;
+        const perfilProfesional = document.getElementById('perfilProfesional').value;
+        const perfilAtend = document.getElementById('perfilAtend').value;
+        const nivel = document.getElementById('nivel').value;
+        const calle = document.getElementById('calle').value;
+        const numeroExterior = document.getElementById('numeroExterior').value;
+        const numeroInterior = document.getElementById('numeroInterior').value;
+        const pais = document.getElementById('pais').value;
+        const ciudad = document.getElementById('ciudad').value;
+        const codigoPostal = document.getElementById('codigoPostal').value;
+
+        if (
+            nombrePrestadora === '' ||
+            apellidosPrestadora === '' ||
+            fechaDeNacimiento === '' ||
+            altura === '' ||
+            peso === '' ||
+            telFijo === '' ||
+            telCelular === '' ||
+            email === '' ||
+            contraseñaAtend === '' ||
+            sexo === '' ||
+            disponibilidad === '' ||
+            estatus === '' ||
+            razon === '' ||
+            perfilProfesional === '' ||
+            perfilAtend === '' ||
+            nivel === '' ||
+            calle === '' ||
+            numeroExterior === '' ||
+            numeroInterior === '' ||
+            pais === '' ||
+            ciudad === '' ||
+            codigoPostal === ''
+        ) {
+            alert('Todos los campos son obligatorios');
+            e.preventDefault();
+            return;
+        }
+
         e.preventDefault();
         const formData = new FormData(formInfoPrestadora);
         const url = formInfoPrestadora.getAttribute('action');
@@ -313,6 +371,41 @@
 <script>
     const formInfoFinanciera = document.getElementById('formInfoFinanciera');
     formInfoFinanciera.addEventListener('submit', function(e){
+
+        const calle = document. getElementById('calle');
+        const numeroExterior = document. getElementById('numeroExterior');
+        const numeroInterior = document. getElementById('numeroInterior');
+        const pais = document. getElementById('pais');
+        const ciudad = document. getElementById('ciudad');
+        const codigoPostal = document. getElementById('codigoPostal');
+        const rfc = document. getElementById('rfc');
+        const curp = document. getElementById('curp');
+        const regimenFiscal = document. getElementById('regimenFiscal');
+        const altaSAT = document. getElementById('altaSAT');
+        const eFirma = document. getElementById('eFirma');
+        const clabe = document. getElementById('clabe');
+        const cuenta = document. getElementById('cuenta');
+
+        if (
+            calle === '' ||
+            numeroExterior === '' ||
+            numeroInterior === '' ||
+            pais === '' ||
+            ciudad === '' ||
+            codigoPostal === '' ||
+            rfc === '' ||
+            curp === '' ||
+            regimenFiscal === '' ||
+            altaSAT === '' ||
+            eFirma === '' ||
+            clabe === '' ||
+            cuenta === ''
+        ) {
+            alert('Todos los campos son obligatorios');
+            e.preventDefault();
+            return;
+        }
+
         e.preventDefault();
         const formData = new FormData(formInfoFinanciera);
         let data = {};
