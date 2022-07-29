@@ -65,7 +65,7 @@
             <div class="form__field form__field--doble">
                 <div>
                     <label for="numeroDeTarjeta">Número de la tarjeta</label>
-                    <input type="number" id="numeroDeTarjeta" name="numeroDeTarjeta" placeholder="Ingresa el número de la tarjeta">
+                    <input type="number" id="numeroDeTarjeta" name="numeroDeTarjeta" placeholder="Ingresa el número de la tarjeta" min="100000000000">
                 </div>
                 <div>
                     <label for="nombreTarjetahabiente">Nombre del tarjetahabiente</label>
@@ -137,8 +137,8 @@
             console.log(montosDePacientes);
 
             const datosPago = obtenerDatosPago();
-            if (!datosPago) {
-                window.alert('Falta Informacion');
+            if (datosPago?.error) {
+                window.alert(datosPago.message);
                 return;
             } else {
                 const pagoRealizado = realizarElPago();
@@ -192,19 +192,49 @@
     }
 
     const obtenerDatosPago = () => {
-        let faltaInformacion = false;
         const numeroDeTarjeta = document.getElementById('numeroDeTarjeta').value;
         const nombreTarjetahabiente = document.getElementById('nombreTarjetahabiente').value;
         const mesExpiracion = document.getElementById('mesExpiracion').value;
         const anioExpiracion = document.getElementById('anioExpiracion').value;
         const cvv = document.getElementById('cvv').value;
 
+        if (numeroDeTarjeta.length !== 16) {
+            return {
+                error: true,
+                message: 'El número de la tarjeta debe tener 16 dígitos'
+            };
+        }
+
+        if (mesExpiracion > 12 || mesExpiracion < 1) {
+            return {
+                error: true,
+                message: 'Verifica el mes de expiración'
+            };
+        }
+
+        if (anioExpiracion < 22 || anioExpiracion > 40) {
+            return {
+                error: true,
+                message: 'Verifica el año de expiración'
+            };
+        }
+
+        if (cvv.length !== 3) {
+            return {
+                error: true,
+                message: 'El cvv debe tener 3 dígitos'
+            };
+        }
+
         if (
             numeroDeTarjeta === '' || nombreTarjetahabiente === '' ||
             mesExpiracion === '' || anioExpiracion === '' ||
             cvv == ''
         ) {
-            return null;
+            return {
+                error: true,
+                message: 'Falta información'
+            };
         }
 
         return {

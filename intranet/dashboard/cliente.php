@@ -521,7 +521,7 @@
                     </button>
                 </td>
                 <td class="td__editable main__table--estatus">
-                    <span class="disable"> ● </span> ${element.status.name} 
+                    <span class="disable"> ● </span> ${element.service_status === 0 ? 'A Tiempo' : 'No llegó'} 
                     <button class="buttonEditar" onclick="showStatusModal(this, ${element?.id})">
                         <i class="fa-solid fa-pencil"></i>
                     </button>

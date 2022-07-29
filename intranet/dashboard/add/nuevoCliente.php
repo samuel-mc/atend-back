@@ -38,6 +38,9 @@
                     <label for="factura">Comentarios (opcional)</label>
                     <input type="text" value="<?php echo (isset($client) ? $client["comments"]:""); ?>" id="comentariosCliente">
                 </div>
+                <div id="buttonSave">
+                    <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
+                </div>
             </div>
 
             <div id="billing_container">
@@ -124,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
+
         </form>
     </section>
 </main>
@@ -139,6 +142,7 @@
 
     
     function save_new_client() {
+
         const clienteEmpresa = $("#clienteEmpresa").is(":checked");
         const type_id = clienteEmpresa?2:1;
         const require_billing = $("#requiereFactura").val();
@@ -178,6 +182,8 @@
             alert('Ingresar los campos obligatorios');
             return;
         }
+
+        document.getElementById("buttonSave").innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
         $.ajax({
             url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
@@ -244,6 +250,7 @@
                 data: datos,
                 success: function(res){
                     alert("Información del cliente guardada con éxito");
+                    window.location.href = "<?php echo __ROOT__; ?>/";
                 }
             });
         }
