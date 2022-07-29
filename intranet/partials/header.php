@@ -32,14 +32,9 @@
                     </a>
                     <h3>Nuevo cliente</h3>
                 </div>
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
         </header>'; //Ya quedó
@@ -62,14 +57,9 @@
                     </div>
                     <h3> ID CLIENTE: '.(isset($idClient)?$idClient:"ID CLIENTE").'</h3>
                 </div>
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
             <section class="header--bottom-container">
@@ -106,14 +96,9 @@
                     <h2>'.(isset($headerName)?$headerName:"Nombre").'</h2>
                     <h3>HISTORIAL DE PAGOS</h3>
                 </div>
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
 
@@ -135,14 +120,9 @@
                     </div>
                     <h3>HISTORIAL DE PAGOS PACIENTE</h3>
                 </div>
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
             <section class="header--bottom-container">
@@ -168,14 +148,9 @@
                     </div>
                     <h3>ID PACIENTE: '.(isset($idClient)?$idClient:"").' </h3>
                 </div>
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
             <section class="header--bottom-container">
@@ -343,14 +318,9 @@
                     </a>
                     <h3>Nueva prestadora </h3>
                 </div>        
-                <div class="header__side--right">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-bell"></i>
-                    </button>
+                <div class="header__side--right">                    
                     <img class="header__photo" src="'.__ROOT__.'/intranet/assets/images/profilePhoto.jpg" alt="Imagen de perfil">
-                    <button class="button--transparent">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
+                    <a href="'.__ROOT__.'/logout"> Cerrar sesión </a>
                 </div>
             </section>
         </header>';
