@@ -38,6 +38,7 @@ class Admin
 	const TABLE_CAT_OPEN_EYES = "cat_open_eyes";
 	const TABLE_CAT_PAIN_TYPES = "cat_pain_names";
 	const TABLE_CAT_PAYMENT_METHODS = "cat_payment_methods";
+	const TABLE_CAT_PROFESSIONAL_PROFILE = "cat_professional_profile";
 	const TABLE_CAT_PROFILE_LEVEL = "cat_profile_level";
 	const TABLE_CAT_SERVICE_TYPES = "cat_service_type";
 	const TABLE_CAT_SERVICE_DURATIONS = "cat_service_duration";

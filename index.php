@@ -598,12 +598,14 @@ Flight::route('/add/prestadora', function () {
     if ($user!=null && $user['type']==1){
         $admin = new Model;
         $provider_skills = $admin->nurses->GetAllProvidersSkills();
+        $professional_profile = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_PROFESSIONAL_PROFILE]));
 
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/add/prestadora',[
             'title' => 'Agregar - Prestadora', 
             'header' => 'headerAddPrestadora',
-            "provider_skills"=>$provider_skills
+            'professionalProfiles' => $professional_profile,
+            'provider_skills'=>$provider_skills
         ]);
     }else{
         Flight::redirect("login");
@@ -635,7 +637,7 @@ Flight::route('/enfermera', function () {
 
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/index', [
-            'title' => 'El nombre de la enfermera', 
+            'title' => 'Servicios', 
             'header' => 'headerEnfermeras',
             'isEnfermera' => true,
             "services"=>$services
@@ -644,6 +646,22 @@ Flight::route('/enfermera', function () {
         Flight::redirect("login");
     }
 });
+
+Flight::route('/enfermera/pagos', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==3){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/pagos', [
+            'title' => 'Pagos', 
+            'isEnfermera' => true, 
+            'header' => 'headerEnfermeras',
+            'pagos' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
 
 Flight::route('/enfermera/servicios/@id', function ($id) {
     $admin = new Model;
