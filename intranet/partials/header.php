@@ -331,8 +331,8 @@
             </section>
             <section class="header--bottom-container header__enfermera">
                 <div class="header__enfermera--links">
-                    <a class="button button--primary active">Servicios</a>
-                    <a class="button button--primary">Pagos</a>
+                    <a class="button button--primary '. (!isset($pagos) ? 'active' : '') .'" href="'.__ROOT__.'/enfermera" >Servicios</a>
+                    <a class="button button--primary '. (isset($pagos) ? 'active' : '') .'" href="'.__ROOT__.'/enfermera/pagos">Pagos</a>
                 </div>
                 <div class="header__enfermera--calendar">
                     <h3>Hoy</h3>
