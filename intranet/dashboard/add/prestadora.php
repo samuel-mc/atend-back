@@ -98,7 +98,13 @@
                     </div>
                     <div class="form__field">
                         <label for="perfilProfesional">Perfil profesional</label>
-                        <input type="text" value="Enfermera General" name="professional_profile" id="perfilProfesional">
+                        <select name="perfilProfesional" id="perfilProfesional">
+                            <option value="0">Seleccionar uno</option>
+                            <?php foreach($professionalProfiles as $profile) {
+                                    echo '<option value="'.$profile['id'].'">'.$profile['name'].'</option>';
+                                }   
+                            ?>
+                        </select>
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
@@ -286,6 +292,11 @@
 </style>
 
 <script> // Script que maneja la información de la prestadora. 
+
+    const perfiles = <?php echo json_encode($professionalProfiles); ?>;
+    console.log("🚀 ~ file: prestadora.php ~ line 292 ~ perfiles", perfiles)
+    
+
     const formInfoPrestadora = document.getElementById('formInfoPrestadora');
     formInfoPrestadora.addEventListener('submit', function(e){
 
