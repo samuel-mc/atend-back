@@ -4,7 +4,7 @@
         <?php include "botones.php"; ?>
 
 
-        <table class="main__table">
+        <table class="main__table" id="tablaBitacora">
             <thead>
                 <tr>
                     <th>Hora</th>

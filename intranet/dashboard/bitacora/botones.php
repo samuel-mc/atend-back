@@ -10,13 +10,14 @@
     </section>
 
     <section>
-        <button class="button button--primary button--filter" id="buttonFiltrar">
+        <button class="button button--primary" onclick="generarPdfBitacora()" >
             Descargar Bitácora
+            <span style="width: 12px"></span>
             <i class="fa-solid fa-download"></i>
         </button>
-        <button class="button button--circle button--primary">
+        <!-- <button class="button button--circle button--primary">
             <i class="fa-solid fa-xmark"></i>
-        </button>
+        </button> -->
     </section>
 </header>
 <section class="bitacora__navbar">

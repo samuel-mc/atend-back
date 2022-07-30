@@ -5,7 +5,7 @@
 
         <h1>Evaluación y reevaluación del dolor</h1>
 
-        <table class="main__table">
+        <table class="main__table" id="tablaBitacora">
             <thead>
                 <tr>
                     <th>Hora</th>

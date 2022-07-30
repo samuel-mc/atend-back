@@ -12,6 +12,13 @@
         });
         pdf.save(name+'.pdf');
     }
+    const generarPdfBitacora = (name = "Bitacora") => {
+        let pdf = new jsPDF();
+        pdf.autoTable({
+            html: '#tablaBitacora'
+        });
+        pdf.save(name+'.pdf');
+    }
 </script>
 
 
