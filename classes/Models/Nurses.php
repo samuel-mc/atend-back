@@ -151,6 +151,29 @@
 			return $update;
 		}
 
+		public function UpdateScalePerimeters (Request $data) {
+			$d = $data->extract([
+				"location_id",
+				"perimeter"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PERIMETERS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScaleNorton (Request $data) {
+			$d = $data->extract([
+				"state_of_mind_id",
+                "activity_id",
+                "movility_id",
+                "incontinence_id",
+                "general_status_id",
+                "affected_zone_id",
+                "norton_scale"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_NORTON,$d,$data->id);
+			return $update;
+		}
+
 		public function NewBinnVitalSigns(Request $data) {
 			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
 				"binnacle_id"=>$data->get("binnacle_id"),

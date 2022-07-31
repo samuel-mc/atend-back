@@ -65,6 +65,8 @@
 		"update_scale_pain" => "UpdateScalePain",
 		"update_scale_pupilar" => "UpdateScalePupilar",
 		"update_scale_glasgow" => "UpdateScaleGlasgow",
+		"update_scale_perimeters" => "UpdateScalePerimeters",
+		"update_scale_norton" => "UpdateScaleNorton",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

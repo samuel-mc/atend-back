@@ -30,6 +30,7 @@ class Admin
 	const TABLE_CAT_HR_STEPS = "cat_hr_steps";
 	const TABLE_CAT_INCONTINENCE = "cat_incontinence";
 	const TABLE_CAT_IO_NAMES = "cat_io_names";
+	const TABLE_CAT_LOCATION = "cat_location";
 	const TABLE_CAT_LOCUTION = "cat_locution";
 	const TABLE_CAT_MOTOR_RESPONSE = "cat_motor_response";
 	const TABLE_CAT_MOVEMENTS = "cat_movements";

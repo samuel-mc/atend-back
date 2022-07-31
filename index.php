@@ -350,7 +350,7 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
         $cat_eyes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_OPEN_EYES]));
         $verbal_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_VERBAL_RESPONSE]));
         $motor_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOTOR_RESPONSE]));
-        $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCUTION]));
+        $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCATION]));
         $state_minds = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_STATE_OF_MIND]));
         $movilities = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVILITY]));
         $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
