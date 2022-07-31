@@ -60,8 +60,9 @@
 		"update_binacle_io" => "UpdateBinnIO",
 		"update_binacle_vital_signs" => "UpdateBinnVitalSigns",
 		"update_binacle_mov" => "UpdateBinnMov",
-
-
+		"update_binacle_help" => "UpdateBinnHelp",
+		"update_binacle_drugs" => "UpdateBinnDrugs",
+		"update_scale_pain" => "UpdateScalePain",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

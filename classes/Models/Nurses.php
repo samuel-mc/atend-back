@@ -98,6 +98,39 @@
 			return $update;
 		}
 
+		public function UpdateBinnHelp (Request $data) {
+			$d = $data->extract([
+				"type_id",
+				"liters_per_hour"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_BREATH_HELP,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnDrugs (Request $data) {
+			$d = $data->extract([
+				"name",
+				"dosis",
+				"way_id",
+				"frequency",
+				"observations"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_DRUGS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScalePain (Request $data) {
+			$d = $data->extract([
+				"ena_eva",
+				"evera_id",
+				"conductual_id",
+				"pain_type_id",
+				"treatment"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PAIN,$d,$data->id);
+			return $update;
+		}
+
 		public function NewBinnVitalSigns(Request $data) {
 			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
 				"binnacle_id"=>$data->get("binnacle_id"),
