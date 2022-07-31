@@ -63,6 +63,8 @@
 		"update_binacle_help" => "UpdateBinnHelp",
 		"update_binacle_drugs" => "UpdateBinnDrugs",
 		"update_scale_pain" => "UpdateScalePain",
+		"update_scale_pupilar" => "UpdateScalePupilar",
+		"update_scale_glasgow" => "UpdateScaleGlasgow",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

@@ -131,6 +131,26 @@
 			return $update;
 		}
 
+		public function UpdateScalePupilar (Request $data) {
+			$d = $data-> extract([
+				"pupilar_left",
+				"pupilar_right"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PUPILAR,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScaleGlasgow (Request $data) {
+			$d = $data->extract([
+				"eyes_open_id",
+				"verbal_response_id",
+				"motor_response_id",
+				"glasgow_scale"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_GLASGOW,$d,$data->id);
+			return $update;
+		}
+
 		public function NewBinnVitalSigns(Request $data) {
 			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
 				"binnacle_id"=>$data->get("binnacle_id"),
