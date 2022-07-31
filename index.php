@@ -345,6 +345,18 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
         $admin = new Model;
         $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
         $mov_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVEMENTS]));
+        $breath_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BREATH_HELP]));
+        $drug_ways = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_DRUG_WAYS]));
+        $cat_eyes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_OPEN_EYES]));
+        $verbal_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_VERBAL_RESPONSE]));
+        $motor_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOTOR_RESPONSE]));
+        $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCUTION]));
+        $state_minds = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_STATE_OF_MIND]));
+        $movilities = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVILITY]));
+        $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
+        $general_status = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_GENERAL_STATUS]));
+        $affected_zones = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AFFECTED_ZONE]));
+        
         $table = [
             "apoyo"=>"binnacle_breath_help",
             "ingresos"=>"binnacle_io",
@@ -367,6 +379,17 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
                 "asideActive"=>"servicios",
                 'ioTypes' => $io_types,
                 'movTypes' => $mov_types,
+                'breathTypes' => $breath_types,
+                'drugWays' => $drug_ways,
+                'catEyes' => $cat_eyes,
+                'verbalRes' => $verbal_res,
+                'motorRes' => $motor_res,
+                'locations' => $locations,
+                'stateMinds' => $state_minds,
+                'movilities' => $movilities,
+                'incontinences' => $incontinences,
+                'generalStatus' => $general_status,
+                'affectedZones' => $affected_zones,
             ]);
     }else{
         Flight::redirect("login");
