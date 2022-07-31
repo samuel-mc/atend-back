@@ -343,6 +343,8 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
     if ($user!=null && $user['type']==1){   
         Flight::set('flight.views.path', 'intranet');
         $admin = new Model;
+        $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
+        $mov_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVEMENTS]));
         $table = [
             "apoyo"=>"binnacle_breath_help",
             "ingresos"=>"binnacle_io",
@@ -357,7 +359,15 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
         ];
 
         $data = $admin->binnacle->GetData($id,$table[$type]);
-        Flight::render('dashboard/bitacora/'.$type, ['title' => 'Bitácora', 'header' => 'headerBitacora', "data"=>$data, "asideActive"=>"servicios"]);
+        Flight::render('dashboard/bitacora/'.$type, 
+            [
+                'title' => 'Bitácora', 
+                'header' => 'headerBitacora', 
+                "data"=>$data, 
+                "asideActive"=>"servicios",
+                'ioTypes' => $io_types,
+                'movTypes' => $mov_types,
+            ]);
     }else{
         Flight::redirect("login");
     }

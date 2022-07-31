@@ -57,6 +57,10 @@
 		"save_new_scale_glasgow" => "NewScaleGlasgow",
 		"save_new_scale_perimeters" => "NewScalePerimeters",
 		"save_new_scale_norton" => "NewScaleNorton",
+		"update_binacle_io" => "UpdateBinnIO",
+		"update_binacle_vital_signs" => "UpdateBinnVitalSigns",
+		"update_binacle_mov" => "UpdateBinnMov",
+
 
 	]);
 

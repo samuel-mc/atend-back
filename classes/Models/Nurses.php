@@ -64,6 +64,40 @@
 			return $info;
 		}
 
+		public function UpdateBinnIO(Request $data) {
+
+			$d = $data->extract([
+				"category_id",
+				"type_id",
+				"solution",
+				"quantity"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_IO,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnVitalSigns (Request $data) {
+			$d = $data->extract([
+				"pressure_mm",
+				"pressure_hg",
+				"heart_rate",
+				"breath_frequency",
+				"temperature",
+				"o2_saturation",
+				"capillary"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_VITAL_SIGNS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnMov (Request $data) {
+			$d = $data->extract([
+				"type_id",
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_MOVEMENTS,$d,$data->id);
+			return $update;
+		}
+
 		public function NewBinnVitalSigns(Request $data) {
 			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
 				"binnacle_id"=>$data->get("binnacle_id"),

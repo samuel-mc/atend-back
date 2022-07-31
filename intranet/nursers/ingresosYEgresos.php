@@ -26,10 +26,6 @@
                 <div class="form__field" id="fieldTipoIngreso">
                     <label for="tipoIngreso" id="labelTipodeIngreso">Tipo de ingreso</label>
                     <select name="tipoIngreso" id="tipoIngreso">
-                        <!-- <option value="1">Soluciones</option>
-                        <option value="2">Líquidos orales</option>
-                        <option value="3">Dieta</option>
-                        <option value="4">Diuresis</option> -->
                         <?php foreach ($ioTypes as $type) { ?>
                             <option value="<?php echo $type['id']; ?>"><?php echo $type['name']; ?></option>
                         <?php } ?>
