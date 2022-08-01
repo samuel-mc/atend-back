@@ -40,7 +40,10 @@
 			$user = $this->Insert(self::TABLE_USERS,["name"=>$fullname,"email"=>$data->get("email"),"password"=>md5("usuario"),"type"=>5,"status"=>1],"id");
 			$data->put("user_id",$user['id']);
 			$data->put("status",1);
-			$d = $data->extract(["user_id","type_id","name","lastname","phone","email","require_billing","comments","photo"]);
+			$d = $data->extract(["user_id","type_id","name","lastname","phone","email","require_billing","photo"]);
+			if($data->get("comments") != ""){
+				$d['comments'] = $data->get("comments");
+			}
 			$cl = $this->Insert(self::TABLE_CLIENTS,$d,"all");
 			return $cl;
 		}
@@ -63,7 +66,9 @@
 			$data->put("type",3);
 			$data->put("related_id",$finantial_info['id']);
 			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
-			
+			if($data->get("interior") != ""){
+				$add['interior'] = $data->get("interior");
+			}
 			$fi = $this->Insert(self::TABLE_ADDRESSES,$add,"id");
 
 			return $finantial_info;
