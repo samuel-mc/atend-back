@@ -15,7 +15,7 @@
                     <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='clientes' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>/clientes">
                         Clientes
                     </a>
-                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='enfermeras' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>/prestadoras">
+                    <a class="button--aside <?php echo (isset($asideActive) && $asideActive=='enfermeras' ? 'active' : ''); ?>" href="<?php echo __ROOT__; ?>/prestadoras/active">
                         Enfermeras
                     </a>
                 <?php } ?>

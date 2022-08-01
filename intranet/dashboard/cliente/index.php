@@ -17,9 +17,9 @@
         <div class="main__content">
             <header class="cliente__card--header">
                 <h2>Facturas</h2>
-                <button class="button button--primary active">
+                <a href="<?php echo __ROOT__; ?>/dashboard/facturas/<?php echo $client['id']; ?>" class="button button--primary active">
                     Ver todas las facturas
-                </button>
+                </a>
             </header>
             <main>
                 <h3>Periodo</h3>

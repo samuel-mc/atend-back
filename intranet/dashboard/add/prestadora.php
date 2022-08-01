@@ -11,12 +11,13 @@
                         <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="65" cy="65" r="65" fill="#C4C4C4" />
                         </svg> <!-- Acá debería ir la imagen de perfil-->
-                        <i class="fa-solid fa-upload"></i>
+                        <!--<i class="fa-solid fa-upload"></i>-->
+                        <input type="file" id="profile_photo">
                     </div>
                     <div class="form__field">
                         <label>Es empresa</label>
                             <label for="esEmpresa" class="form--checkbox">Sí, es empresa
-                                <input type="checkbox" id="esEmpresa" name="esEmpresa" value="true">
+                                <input type="checkbox" id="esEmpresa" name="esEmpresa">
                             </label>
                     </div>
                     <div class="form__field form__field--doble">
@@ -146,8 +147,8 @@
                     <div class="form__field">
                         <label for="signature_url">Firma para bitácoras *</label>
                         <div>
-                            <input type="text" value="firma_marcela.png" name="signature_url" id="signature_url">
-                            <i class="fa-solid fa-download"></i>
+                            <input type="file" name="signature_url" id="signature_url">
+                            <!--<i class="fa-solid fa-download"></i>-->
                         </div>
                     </div>
                     <div class="form__field">
@@ -155,7 +156,7 @@
                         <input type="text" value="Aquí va un comentario" name="comment" id="comment">
                     </div>
                     <div>
-                        <input type="submit" value="Guardar" class="button button--primary button--submit">
+                        <a class="button button--primary button--submit" onclick="save_new_provider()">Guardar</a>
                     </div>
                 </form>
             </div>
@@ -213,14 +214,18 @@
                             <label for="cuenta">Cuenta</label>
                             <input type="number" value="00000000000000000" name="cuenta" id="cuenta">
                         </div>
-                        <div class="form__field">
-                            <label for="altaSantander">Alta Santander </label>
-                            <label for="enfermeraGeneral" class="form--checkbox"> Enfermera General
-                                <input type="checkbox" id="enfermeraGeneral" name="enfermeraGeneral" value="true">
-                            </label>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="checkbox" id="enfermeraGeneral" name="enfermeraGeneral" class="mt-4"> 
+                                </div>
+                                <div class="col-6">
+                                    Alta Santander
+                                </div>
+                            </div>
                         </div>
                         <div>
-                            <input type="submit" value="Guardar" class="button button--primary button--submit">
+                            <a class="button button--primary button--submit">Guardar</a>
                         </div>
                     </div>
                 </form>
@@ -270,7 +275,13 @@
         </section>
     </div>
 </main>
-<!-- <script src="<?php echo __ROOT__; ?>/intranet/assets/js/index.js"></script> -->
+
+<script type="text/javascript">
+    $(function() {
+        //$('#formInfoPrestadora')[0].reset();
+        //$(':input').val('');
+    })
+</script>
 
 <style type="text/css">
     .form__field--avanzada{
@@ -280,10 +291,60 @@
     }
 </style>
 
-<script> // Script que maneja la información de la prestadora. 
-    const formInfoPrestadora = document.getElementById('formInfoPrestadora');
-    formInfoPrestadora.addEventListener('submit', function(e){
-        e.preventDefault();
+<script type="text/javascript">
+    function uploadProfilePhoto(on_end) {
+        let image = new FormData();
+        image.append('image', $("#profile_photo")[0].files[0]);
+        image.append('name', $("#profile_photo")[0].files[0].name);
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/uploadImage.php",
+            type:"POST",
+            data: image,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType,
+            success: function(res) {
+                console.log(res);
+                res = JSON.parse(res)
+                if (res.success==true){
+                    on_end(res.name)
+                }else{
+                    alert(res.message);
+                }
+            }
+        });
+    }
+
+    function uploadSignature(on_end) {
+        let image = new FormData();
+        image.append('image', $("#signature_url")[0].files[0]);
+        image.append('name', $("#signature_url")[0].files[0].name);
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/uploadImage.php",
+            type:"POST",
+            data: image,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType,
+            success: function(res) {
+                console.log(res);
+                res = JSON.parse(res)
+                if (res.success==true){
+                    on_end(res.name)
+                }else{
+                    alert(res.message);
+                }
+            }
+        });
+    }
+</script>
+
+<script> // Script que maneja la información de la prestadora.
+
+    function save_new_provider() {
+        const formInfoPrestadora = document.getElementById('formInfoPrestadora');
         const formData = new FormData(formInfoPrestadora);
         const url = formInfoPrestadora.getAttribute('action');
         const data = {};
@@ -292,22 +353,29 @@
         });
 
         if(data?.esEmpresa) {
-            data.esEmpresa = true;
+            data.is_business = 2;
         } else {
-            data.esEmpresa = false;
+            data.is_business = 1;
         }
 
-        console.log(data);
-
-        $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
-            data: data,
-            success: function(res){
-                console.log(res)
-                alert("Prestadora agregada correctamente");
-            }
-        });
-    });
+        uploadProfilePhoto(function(name) {
+            console.log(name)
+            data.profile_photo = "<?php echo __ROOT__; ?>"+name;
+            console.log(data)
+            uploadSignature(function(firma) {
+                data.signature = firma;
+                $.ajax({
+                    url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
+                    data: data,
+                    success: function(res){
+                        console.log(res)
+                        alert("Prestadora agregada correctamente");
+                        //location.href = "<?php echo __ROOT__; ?>/prestadoras";
+                    }
+                });
+            })
+        })
+     } 
 </script>
 
 <script>

@@ -3,9 +3,9 @@
         <header class="main__header--servicios">
             <section>
                 <h2>Servicios</h2>
-                <button class="button button--primary">Activos</button>
-                <button class="button button--primary active">Inactivos</button>
-                <button class="button button--primary">Bajas</button>
+                <a href="<?php echo __ROOT__; ?>/prestadoras/active" class="button button--primary <?php echo $type=='active'?'active':''; ?>">Activos</a>
+                <a href="<?php echo __ROOT__; ?>/prestadoras/inactive" class="button button--primary <?php echo $type=='inactive'?'active':''; ?>">Inactivos</a>
+                <a href="<?php echo __ROOT__; ?>/prestadoras/unsuscribed" class="button button--primary <?php echo $type=='unsuscribed'?'active':''; ?>">Bajas</a>
             </section>
 
             <section>
@@ -37,15 +37,15 @@
             <tbody>
                 <?php foreach ($providers as $pro): ?> 
                     <tr>
-                        <td><?php echo $pro['id']; ?><i class="fa-solid fa-circle-info"></i></td>
+                        <td><?php echo $pro['id']; ?><!--<i class="fa-solid fa-circle-info"></i>--></td>
                         <td><?php echo $pro['name']." ".$pro['lastname']; ?></td>
                         <td><?php echo $pro['professional_profile']; ?></td>
                         <td><?php echo $pro['atend_profile']; ?></td>
                         <td><?php echo $pro['email']; ?></td>
                         <td><?php echo $pro['mobile']; ?></td>
                         <td><?php echo $pro['zone']; ?></td>
-                        <td><?php echo $pro['availability']; ?></td>
-                        <td>¿No?</td>
+                        <td><?php echo $pro['availability']==1?"Disponible":"No disponible"; ?></td>
+                        <td>No</td>
                     </tr>
                 <?php endforeach ?>
             </tbody>

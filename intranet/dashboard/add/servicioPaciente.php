@@ -180,7 +180,6 @@
 
         if (
             fechaInicio === '' ||
-            fechaFin === '' ||
             sexoInfoServicio === '' ||
             tipoDeServicio === '' ||
             tipoDeCuidado === '' ||

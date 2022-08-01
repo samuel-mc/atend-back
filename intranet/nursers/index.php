@@ -66,7 +66,7 @@
             <div class="nurse__body--adicional">
                 <h2>Información adicional</h2>
                 <ul>
-                    <li>plan de cuidados</li>
+                    <li><a id="care_plan" href="<?php echo __ROOT__; ?>/assets/data/careplans/1.pdf" target="_blank">plan de cuidados</a></li>
                     <li>bitácora</li>
                 </ul>
             </div>

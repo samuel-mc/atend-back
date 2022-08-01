@@ -40,6 +40,8 @@
 			$user = $this->Insert(self::TABLE_USERS,["name"=>$fullname,"email"=>$data->get("email"),"password"=>md5("usuario"),"type"=>5,"status"=>1],"id");
 			$data->put("user_id",$user['id']);
 			$data->put("status",1);
+			if ($data->get("comments")=="")
+				$data->put("comments",null);
 			$d = $data->extract(["user_id","type_id","name","lastname","phone","email","require_billing","comments","photo"]);
 			$cl = $this->Insert(self::TABLE_CLIENTS,$d,"all");
 			return $cl;

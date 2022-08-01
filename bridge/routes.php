@@ -44,6 +44,11 @@
 		]
 	);
 
+	$router->Group("mercadopago",[
+		"createPreference"=>"CreatePreference",
+		"approvePayment"=>"UpdatePayment"
+	]);
+
 	$router->Group("nurses",[
 		"get_possible_provider"=>"GetRecommendedProvider",
 		"save_new_provider"=>"NewNurse",

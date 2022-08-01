@@ -2,7 +2,7 @@
     $buttonEditar = '
     <a
         class="button button--primary button--circle"
-        href="'.__ROOT__.'/add/servicio/'.(isset($idClient)?$idClient:"").'"
+        href="'.__ROOT__.'/editar/paciente/'.(isset($idClient)?$idClient:"").'"
     >
         <i class="fa-solid fa-pencil"></i>
     </a>';

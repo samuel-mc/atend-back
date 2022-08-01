@@ -309,7 +309,35 @@ Flight::route('/paciente/@id', function ($id) {
 });
 */
 
-Flight::route('/prestadoras', function () {
+Flight::route('/prestadoras/', function ($type) {
+    Flight::redirect("/prestadoras/active");
+});
+
+Flight::route('/prestadoras/@type', function ($type) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        Flight::set('flight.views.path', 'intranet');
+        if ($type=="unsuscribed"){
+            $providers = $admin->nurses->List();
+        }else if($type=="inactive"){
+            $providers = $admin->nurses->List();
+        }else{
+            $providers = $admin->nurses->List();
+        }
+        Flight::render('dashboard/prestadoras', [
+            'title' => 'Prestadoras', 
+            'header' => 'headerPrestadoras',
+            'asideActive' => 'enfermeras',
+            "providers" => $providers,
+            "type"=>$type
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
+/*Flight::route('/prestadoras', function () {
     $user = isset($_SESSION['user'])?$_SESSION['user']:null;
     if ($user!=null && $user['type']==1){
         $admin = new Model;
@@ -324,7 +352,7 @@ Flight::route('/prestadoras', function () {
     }else{
         Flight::redirect("login");
     }
-});
+});/
 
 
 // Rutas relacionadas a las bitacoras
@@ -508,12 +536,51 @@ Flight::route('/add/servicio-paciente/@id', function ($id) {
             // "billing_regimes"=>$billing_regimes,
             // "billing_uses"=>$billing_uses,
             // "ailments"=>$ailments,
+            "asideActive"=>"clientes",
             "service_types"=>$service_types,
             "care_types"=>$care_types,
             "durations"=>$durations,
             "complexions"=>$complexions,
             // "client"=>$client
         ]);
+});
+
+Flight::route('/editar/paciente/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==1){
+        $admin = new Model;
+        $patient = $admin->patients->GetPatientById(new Request(["id"=>$id]));
+        $client = $admin->clients->GetClientById(new Request(["id"=>$patient['client_id']]));
+        $billing_schemes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_SCHEMES]));
+        $billing_regimes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_REGIMES]));
+        $billing_uses = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BILLING_USES]));
+        $service_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_TYPES]));
+        $care_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_CARE_TYPE]));
+        $durations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_SERVICE_DURATIONS]));
+        $complexions = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COMPLEXION]));
+        $ailments = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AILMENTS]));
+        $countries = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_COUNTRIES]));
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render(
+            'dashboard/edit/patient', [
+                'title' => 'Agregar - Servicio',
+                'header' => 'headerAdd',
+                "billing_schemes"=>$billing_schemes,
+                "billing_regimes"=>$billing_regimes,
+                "billing_uses"=>$billing_uses,
+                "ailments"=>$ailments,
+                "countries"=>$countries,
+                "service_types"=>$service_types,
+                "care_types"=>$care_types,
+                "durations"=>$durations,
+                "complexions"=>$complexions,
+                "patient"=>$patient,
+                "client"=>$client,
+                "asideActive"=>"clientes"
+            ]);
+    }else{
+        Flight::redirect("login");
+    }
 });
 
 Flight::route('/add/servicio/', function () {
@@ -531,7 +598,7 @@ Flight::route('/add/servicio/', function () {
         Flight::set('flight.views.path', 'intranet');
         Flight::render(
             'dashboard/add/servicio', [
-                'title' => 'Agregar - Servicio',
+                'title' => 'Editar - Paciente',
                 'header' => 'headerAdd',
                 "billing_schemes"=>$billing_schemes,
                 "billing_regimes"=>$billing_regimes,
@@ -840,7 +907,43 @@ Flight::route('/dashboard/cliente/abono/@id', function ($id) {
             'asideActive' => 'clientes',
             'client' => $client,
             'patients' => $patients,
-            'idCliente' => $id
+            'idCliente' => $id,
+            'isClienteSideBar' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
+Flight::route('/dashboard/abono/result/@type', function ($type) {
+    $admin = new Model;
+    Flight::set('flight.views.path', 'intranet');
+    Flight::render('clients/results/'.$type, [
+        'title' => 'Pago realizado', 
+        'header' => 'headerClienteDashboard',
+        'isClienteSideBar' => true
+    ]);
+});
+
+Flight::route('/dashboard/facturas/@id', function ($id) {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==5){
+        $admin = new Model;
+        $client = $admin->clients->GetClientById(new Request(["id"=>$id]));
+        $payments = $admin->payments->GetByClient(new Request(["client_id"=>$id]));
+        $balance = $admin->services->GetPatientBalance(new Request(["patient_id"=>$id]));
+        $billingReceives = $admin->clients->GetBillingReceives();
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('dashboard/cliente/facturas', [
+            'title' => 'Facturación', 
+            'header' => 'headerClienteDashboard',
+            "client" => $client,
+            "headerName"=>$client['name'],
+            "payments"=>$payments,
+            "balance"=>$balance?$balance['amount']:0,
+            "billingReceives"=>$billingReceives,
+            'isClienteSideBar' => true,
+            "asideActive"=>"clientes"
         ]);
     }else{
         Flight::redirect("login");
