@@ -371,6 +371,20 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
     if ($user!=null && $user['type']==1){   
         Flight::set('flight.views.path', 'intranet');
         $admin = new Model;
+        $io_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_IO_TYPES]));
+        $mov_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVEMENTS]));
+        $breath_types = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_BREATH_HELP]));
+        $drug_ways = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_DRUG_WAYS]));
+        $cat_eyes = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_OPEN_EYES]));
+        $verbal_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_VERBAL_RESPONSE]));
+        $motor_res = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOTOR_RESPONSE]));
+        $locations = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_LOCATION]));
+        $state_minds = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_STATE_OF_MIND]));
+        $movilities = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_MOVILITY]));
+        $incontinences = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_INCONTINENCE]));
+        $general_status = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_GENERAL_STATUS]));
+        $affected_zones = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_AFFECTED_ZONE]));
+        
         $table = [
             "apoyo"=>"binnacle_breath_help",
             "ingresos"=>"binnacle_io",
@@ -385,7 +399,26 @@ Flight::route('/bitacora/@id/@type', function ($id,$type) {
         ];
 
         $data = $admin->binnacle->GetData($id,$table[$type]);
-        Flight::render('dashboard/bitacora/'.$type, ['title' => 'Bitácora', 'header' => 'headerBitacora', "data"=>$data, "asideActive"=>"servicios"]);
+        Flight::render('dashboard/bitacora/'.$type, 
+            [
+                'title' => 'Bitácora', 
+                'header' => 'headerBitacora', 
+                "data"=>$data, 
+                "asideActive"=>"servicios",
+                'ioTypes' => $io_types,
+                'movTypes' => $mov_types,
+                'breathTypes' => $breath_types,
+                'drugWays' => $drug_ways,
+                'catEyes' => $cat_eyes,
+                'verbalRes' => $verbal_res,
+                'motorRes' => $motor_res,
+                'locations' => $locations,
+                'stateMinds' => $state_minds,
+                'movilities' => $movilities,
+                'incontinences' => $incontinences,
+                'generalStatus' => $general_status,
+                'affectedZones' => $affected_zones,
+            ]);
     }else{
         Flight::redirect("login");
     }
@@ -665,6 +698,7 @@ Flight::route('/add/prestadora', function () {
     if ($user!=null && $user['type']==1){
         $admin = new Model;
         $provider_skills = $admin->nurses->GetAllProvidersSkills();
+        $professional_profile = $admin->catalogs->getCatalog(new Request(["catalog"=>$admin->catalogs::TABLE_CAT_PROFESSIONAL_PROFILE]));
 
         Flight::set('flight.views.path', 'intranet');
         Flight::render('dashboard/add/prestadora',[
@@ -672,6 +706,8 @@ Flight::route('/add/prestadora', function () {
             'header' => 'headerAddPrestadora',
             "provider_skills"=>$provider_skills,
             "asideActive" => "enfermeras"
+            'professionalProfiles' => $professional_profile,
+            'provider_skills'=>$provider_skills
         ]);
     }else{
         Flight::redirect("login");
@@ -703,7 +739,7 @@ Flight::route('/enfermera', function () {
 
         Flight::set('flight.views.path', 'intranet');
         Flight::render('nursers/index', [
-            'title' => 'El nombre de la enfermera', 
+            'title' => 'Servicios', 
             'header' => 'headerEnfermeras',
             'isEnfermera' => true,
             "services"=>$services
@@ -712,6 +748,22 @@ Flight::route('/enfermera', function () {
         Flight::redirect("login");
     }
 });
+
+Flight::route('/enfermera/pagos', function () {
+    $user = isset($_SESSION['user'])?$_SESSION['user']:null;
+    if ($user!=null && $user['type']==3){
+        Flight::set('flight.views.path', 'intranet');
+        Flight::render('nursers/pagos', [
+            'title' => 'Pagos', 
+            'isEnfermera' => true, 
+            'header' => 'headerEnfermeras',
+            'pagos' => true
+        ]);
+    }else{
+        Flight::redirect("login");
+    }
+});
+
 
 Flight::route('/enfermera/servicios/@id', function ($id) {
     $admin = new Model;

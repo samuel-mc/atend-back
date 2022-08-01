@@ -62,7 +62,16 @@
 		"save_new_scale_glasgow" => "NewScaleGlasgow",
 		"save_new_scale_perimeters" => "NewScalePerimeters",
 		"save_new_scale_norton" => "NewScaleNorton",
-
+		"update_binacle_io" => "UpdateBinnIO",
+		"update_binacle_vital_signs" => "UpdateBinnVitalSigns",
+		"update_binacle_mov" => "UpdateBinnMov",
+		"update_binacle_help" => "UpdateBinnHelp",
+		"update_binacle_drugs" => "UpdateBinnDrugs",
+		"update_scale_pain" => "UpdateScalePain",
+		"update_scale_pupilar" => "UpdateScalePupilar",
+		"update_scale_glasgow" => "UpdateScaleGlasgow",
+		"update_scale_perimeters" => "UpdateScalePerimeters",
+		"update_scale_norton" => "UpdateScaleNorton",
 	]);
 
 	$router->New("newUser", "users/Save"); //email, password

@@ -38,6 +38,9 @@
                     <label for="factura">Comentarios (opcional)</label>
                     <input type="text" value="<?php echo (isset($client) ? $client["comments"]:""); ?>" id="comentariosCliente">
                 </div>
+                <div id="buttonSave">
+                    <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
+                </div>
             </div>
 
             <div id="billing_container">
@@ -51,11 +54,11 @@
                 <div class="nuevo__cliente--doble">
                     <div>
                         <div class="form__field">
-                            <label for="razonSocial">Razón social</label>
+                            <label for="razonSocial">Razón social * </label>
                             <input type="text" value="" name="razonSocial" id="razonSocial">
                         </div>
                         <div class="form__field">
-                            <label for="esquemaDeFacturacion">Esquema de facturación</label>
+                            <label for="esquemaDeFacturacion">Esquema de facturación *</label>
                             <select name="esquemaDeFacturacion" id="esquemaDeFacturacion">
                                 <?php  foreach ($billing_schemes as $bs) { ?>
                                         <option value="<?php echo $bs['id']; ?>"><?php echo $bs['name']; ?></option>
@@ -63,15 +66,15 @@
                             </select>
                         </div>
                         <div class="form__field">
-                            <label for="rfc">RFC</label>
+                            <label for="rfc">RFC *</label>
                             <input type="text" value="" name="rfc" id="rfc">
                         </div>
                         <div class="form__field">
-                            <label for="emailInfoFinanciera">Correo Electrónico</label>
+                            <label for="emailInfoFinanciera">Correo Electrónico *</label>
                             <input type="mail" value="" name="emailInfoFinanciera" id="emailInfoFinanciera">
                         </div>
                         <div class="form__field">
-                            <label for="uso">Uso</label>
+                            <label for="uso">Uso *</label>
                             <select name="uso" id="uso">
                                 <?php  foreach ($billing_uses as $bu) { ?>
                                         <option value="<?php echo $bu['id']; ?>"><?php echo $bu['name']; ?></option>
@@ -79,7 +82,7 @@
                             </select>
                         </div>
                         <div class="form__field">
-                            <label for="regimenDeFacturacion">Régimen de Facturación</label>
+                            <label for="regimenDeFacturacion">Régimen de Facturación *</label>
                             <select name="regimenDeFacturacion" id="regimenDeFacturacion">
                                 <?php  foreach ($billing_regimes as $br) { ?>
                                         <option value="<?php echo $br['id']; ?>"><?php echo $br['name']; ?></option>
@@ -87,14 +90,14 @@
                             </select>
                         </div>
                         <div class="form__field">
-                            <label for="calleInfoFin">Calle</label>
+                            <label for="calleInfoFin">Calle *</label>
                             <input type="text" value="" name="calleInfoFin" id="calleInfoFin">
                         </div>
                     </div>
 
                     <div>
                         <div class="form__field">
-                            <label for="numeroExteriorInfoFin">Número Exterior</label>
+                            <label for="numeroExteriorInfoFin">Número Exterior *</label>
                             <input type="text" value="" name="numeroExteriorInfoFin" id="numeroExteriorInfoFin">
                         </div>
                         <div class="form__field">
@@ -102,29 +105,29 @@
                             <input type="text" value="" name="numeroInteriorInfoFin" id="numeroInteriorInfoFin">
                         </div>
                         <div class="form__field">
-                            <label for="coloniaInfoFin">Colonia</label>
+                            <label for="coloniaInfoFin">Colonia *</label>
                             <input type="text" value="" name="coloniaInfoFin" id="coloniaInfoFin">
                         </div>
                         <div class="form__field">
-                            <label for="delegacionInfoFin">Delegación</label>
+                            <label for="delegacionInfoFin">Delegación *</label>
                             <input type="text" value="" name="delegacionInfoFin" id="delegacionInfoFin">
                         </div>
                         <div class="form__field">
-                            <label for="cpInfoFin">Código Postal</label>
+                            <label for="cpInfoFin">Código Postal *</label>
                             <input type="text" value="" name="cpInfoFin" id="cpInfoFin">
                         </div>
                         <div class="form__field">
-                            <label for="estadoInfoFin">Ciudad / Estado</label>
+                            <label for="estadoInfoFin">Ciudad / Estado *</label>
                             <input type="text" value="" name="estadoInfoFin" id="estadoInfoFin">
                         </div>
                         <div class="form__field">
-                            <label for="paisInfoFin">País</label>
+                            <label for="paisInfoFin">País *</label>
                             <input type="text" value="" name="paisInfoFin" id="paisInfoFin">
                         </div>
                     </div>
                 </div>
             </div>
-            <a onclick="save_new_client()" class="button button--primary button--submit">Guardar</a>
+
         </form>
     </section>
 </main>
@@ -137,8 +140,30 @@
 
 <script type="text/javascript">
 
+    const validateBillingInfo = () => {
+        if (
+            $("#razonSocial").val() === '' ||
+            $("#esquemaDeFacturacion").val() === '' ||
+            $("#rfc").val() === '' ||
+            $("#emailInfoFinanciera").val() === '' ||
+            $("#uso").val() === '' ||
+            $("#regimenDeFacturacion").val() === '' ||
+            $("#calleInfoFin").val() === '' ||
+            $("#numeroExteriorInfoFin").val() === '' ||
+            $("#coloniaInfoFin").val() === '' ||
+            $("#delegacionInfoFin").val() === '' ||
+            $("#cpInfoFin").val() === '' ||
+            $("#estadoInfoFin").val() === '' ||
+            $("#paisInfoFin").val() === ''
+        ) {
+            return false;
+        }
+        return true;
+    }
+
     
     function save_new_client() {
+
         const clienteEmpresa = $("#clienteEmpresa").is(":checked");
         const type_id = clienteEmpresa?2:1;
         const require_billing = $("#requiereFactura").val();
@@ -158,26 +183,13 @@
             return;
         }
 
-        if (
-            require_billing == 1 &&
-            ($("#razonSocial").val() === '' ||
-            $("#esquemaDeFacturacion").val() === '' ||
-            $("#rfc").val() === '' ||
-            $("#emailInfoFinanciera").val() === '' ||
-            $("#uso").val() === '' ||
-            $("#regimenDeFacturacion").val() === '' ||
-            $("#calleInfoFin").val() === '' ||
-            $("#numeroExteriorInfoFin").val() === '' ||
-            $("#numeroInteriorInfoFin").val() === '' ||
-            $("#coloniaInfoFin").val() === '' ||
-            $("#delegacionInfoFin").val() === '' ||
-            $("#cpInfoFin").val() === '' ||
-            $("#estadoInfoFin").val() === '' ||
-            $("#paisInfoFin").val() === '')
-        ) {
-            alert('Ingresar los campos para la factura obligatorios ');
+
+        if (require_billing === '1' && !validateBillingInfo()) {
+            alert('Ingresar los campos obligatorios');
             return;
         }
+
+        document.getElementById("buttonSave").innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
         $.ajax({
             url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_client",
@@ -205,6 +217,7 @@
 
 <script type="text/javascript">
     function save_new_billing_information() {
+        console.log('save_new_billing_information');
 
         const razonSocial = $("#razonSocial").val();
         const esquemaDeFacturacion = $("#esquemaDeFacturacion").val();
@@ -221,32 +234,30 @@
         const estadoInfoFin = $("#estadoInfoFin").val();
         const paisInfoFin = $("#paisInfoFin").val();
 
-        if (requiereFactura==1){
-            let datos = {
-                client_id,
-                bussines_name:razonSocial,
-                billing_scheme_id:esquemaDeFacturacion,
-                rfc,
-                email:emailInfoFinanciera,
-                use_id:uso,
-                billing_regime_id:regimenDeFacturacion,
-                street:calleInfoFin,
-                exterior:numeroExteriorInfoFin,
-                interior:numeroInteriorInfoFin,
-                suburb:coloniaInfoFin,
-                zipcode:cpInfoFin,
-                state:estadoInfoFin,
-                country:paisInfoFin,
-                townhall:delegacionInfoFin
-            }
-
-            $.ajax({
-                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
-                data: datos,
-                success: function(res){
-                    alert("Información del cliente guardada con éxito");
-                }
-            });
+        let datos = {
+            client_id,
+            bussines_name:razonSocial,
+            billing_scheme_id:esquemaDeFacturacion,
+            rfc,
+            email:emailInfoFinanciera,
+            use_id:uso,
+            billing_regime_id:regimenDeFacturacion,
+            street:calleInfoFin,
+            exterior:numeroExteriorInfoFin,
+            interior:numeroInteriorInfoFin,
+            suburb:coloniaInfoFin,
+            zipcode:cpInfoFin,
+            state:estadoInfoFin,
+            country:paisInfoFin,
+            townhall:delegacionInfoFin
         }
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_billing_info",
+            data: datos,
+            success: function(res){
+                alert("Información financiera con éxito");
+            }
+        });
     }
 </script>

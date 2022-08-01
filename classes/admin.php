@@ -31,6 +31,7 @@ class Admin
 	const TABLE_CAT_HR_STEPS = "cat_hr_steps";
 	const TABLE_CAT_INCONTINENCE = "cat_incontinence";
 	const TABLE_CAT_IO_NAMES = "cat_io_names";
+	const TABLE_CAT_LOCATION = "cat_location";
 	const TABLE_CAT_LOCUTION = "cat_locution";
 	const TABLE_CAT_MOTOR_RESPONSE = "cat_motor_response";
 	const TABLE_CAT_MOVEMENTS = "cat_movements";
@@ -39,6 +40,7 @@ class Admin
 	const TABLE_CAT_OPEN_EYES = "cat_open_eyes";
 	const TABLE_CAT_PAIN_TYPES = "cat_pain_names";
 	const TABLE_CAT_PAYMENT_METHODS = "cat_payment_methods";
+	const TABLE_CAT_PROFESSIONAL_PROFILE = "cat_professional_profile";
 	const TABLE_CAT_PROFILE_LEVEL = "cat_profile_level";
 	const TABLE_CAT_SERVICE_TYPES = "cat_service_type";
 	const TABLE_CAT_SERVICE_DURATIONS = "cat_service_duration";

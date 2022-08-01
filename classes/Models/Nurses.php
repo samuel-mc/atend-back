@@ -69,6 +69,116 @@
 			return $info;
 		}
 
+		public function UpdateBinnIO(Request $data) {
+
+			$d = $data->extract([
+				"category_id",
+				"type_id",
+				"solution",
+				"quantity"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_IO,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnVitalSigns (Request $data) {
+			$d = $data->extract([
+				"pressure_mm",
+				"pressure_hg",
+				"heart_rate",
+				"breath_frequency",
+				"temperature",
+				"o2_saturation",
+				"capillary"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_VITAL_SIGNS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnMov (Request $data) {
+			$d = $data->extract([
+				"type_id",
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_MOVEMENTS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnHelp (Request $data) {
+			$d = $data->extract([
+				"type_id",
+				"liters_per_hour"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_BREATH_HELP,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateBinnDrugs (Request $data) {
+			$d = $data->extract([
+				"name",
+				"dosis",
+				"way_id",
+				"frequency",
+				"observations"
+			]);
+			$update = $this->Save(self::TABLE_BINNACLE_DRUGS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScalePain (Request $data) {
+			$d = $data->extract([
+				"ena_eva",
+				"evera_id",
+				"conductual_id",
+				"pain_type_id",
+				"treatment"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PAIN,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScalePupilar (Request $data) {
+			$d = $data-> extract([
+				"pupilar_left",
+				"pupilar_right"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PUPILAR,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScaleGlasgow (Request $data) {
+			$d = $data->extract([
+				"eyes_open_id",
+				"verbal_response_id",
+				"motor_response_id",
+				"glasgow_scale"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_GLASGOW,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScalePerimeters (Request $data) {
+			$d = $data->extract([
+				"location_id",
+				"perimeter"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_PERIMETERS,$d,$data->id);
+			return $update;
+		}
+
+		public function UpdateScaleNorton (Request $data) {
+			$d = $data->extract([
+				"state_of_mind_id",
+                "activity_id",
+                "movility_id",
+                "incontinence_id",
+                "general_status_id",
+                "affected_zone_id",
+                "norton_scale"
+			]);
+			$update = $this->Save(self::TABLE_SCALE_NORTON,$d,$data->id);
+			return $update;
+		}
+
 		public function NewBinnVitalSigns(Request $data) {
 			$info = $this->Insert(self::TABLE_BINNACLE_VITAL_SIGNS, [
 				"binnacle_id"=>$data->get("binnacle_id"),

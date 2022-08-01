@@ -58,7 +58,7 @@
                     <div class="form__field form__field--doble">
                         <div>
                             <label for="mail">Mail</label>
-                            <input type="mail" value="marcelap@gmail.com" id="main" name="email">
+                            <input type="mail" value="marcelap@gmail.com" id="email" name="email">
                         </div>
                         <div>
                             <label for="contraseñaAtend">Contraseña Atend</label>
@@ -69,13 +69,15 @@
                         <div>
                             <label for="sexo">Sexo</label>
                             <select name="gender" id="sexo">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Femenino</option>
                                 <option value="2">Masculino</option>
                             </select>
                         </div>
                         <div>
-                            <label for="availability">Disponibilidad</label>
-                            <select name="availability" id="availability">
+                            <label for="disponibilidad">Disponibilidad</label>
+                            <select name="availability" id="disponibilidad">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Diario</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -85,6 +87,7 @@
                         <div>
                             <label for="estatus">Estatus</label>
                             <select name="estatus" id="estatus">
+                                <option value="">Seleccionar</option>
                                 <option value="baja">Baja</option>
                                 <option value="otro">Otro</option>
                             </select>
@@ -95,20 +98,30 @@
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="professional_profile">Perfil profesional</label>
-                        <input type="text" value="" placeholder="Enfermera General" name="professional_profile" id="professional_profile">
+
+                        <label for="perfilProfesional">Perfil profesional</label>
+                        <select name="perfilProfesional" id="perfilProfesional">
+                            <option value="0">Seleccionar uno</option>
+                            <?php foreach($professionalProfiles as $profile) {
+                                    echo '<option value="'.$profile['id'].'">'.$profile['name'].'</option>';
+                                }   
+                            ?>
+                        </select>
                     </div>
                     <div class="form__field form__field--doble">
                         <div>
-                            <label for="profile_id">Perfil Atend</label>
-                            <select name="profile_id" id="profile_id">
+                            <label for="perfilAtend">Perfil Atend</label>
+                            <select name="atend_profile_id" id="perfilAtend">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Auxiliar</option>
                                 <option value="2">Otro</option>
                             </select>
                         </div>
                         <div>
-                            <label for="level">Nivel</label>
-                            <select name="level" id="level">
+
+                            <label for="nivel">Nivel</label>
+                            <select name="level" id="nivel">
+                                <option value="">Seleccionar</option>
                                 <option value="1">Avanzada</option>
                                 <option value="2">Otro</option>
                             </select>
@@ -344,43 +357,137 @@
 <script> // Script que maneja la información de la prestadora.
 
     function save_new_provider() {
-        const formInfoPrestadora = document.getElementById('formInfoPrestadora');
-        const formData = new FormData(formInfoPrestadora);
-        const url = formInfoPrestadora.getAttribute('action');
-        const data = {};
-        formData.forEach(function(value, key){
-            data[key] = value;
-        });
+    const perfiles = <?php echo json_encode($professionalProfiles); ?>;
+    
+    const formInfoPrestadora = document.getElementById('formInfoPrestadora');
+    
+    const nombrePrestadora = document.getElementById('nombrePrestadora').value;
+    const apellidosPrestadora = document.getElementById('apellidosPrestadora').value;
+    const fechaDeNacimiento = document.getElementById('fechaDeNacimiento').value;
+    const altura = document.getElementById('altura').value;
+    const peso = document.getElementById('peso').value;
+    const telFijo = document.getElementById('telFijo').value;
+    const telCelular = document.getElementById('telCelular').value;
+    const email = document.getElementById('email').value;
+    const contraseñaAtend = document.getElementById('contraseñaAtend').value;
+    const sexo = document.getElementById('sexo').value;
+    const disponibilidad = document.getElementById('disponibilidad').value;
+    const estatus = document.getElementById('estatus').value;
+    const razon = document.getElementById('razon').value;
+    const perfilProfesional = document.getElementById('perfilProfesional').value;
+    const perfilAtend = document.getElementById('perfilAtend').value;
+    const nivel = document.getElementById('nivel').value;
+    const calle = document.getElementById('calle').value;
+    const numeroExterior = document.getElementById('numeroExterior').value;
+    const numeroInterior = document.getElementById('numeroInterior').value;
+    const pais = document.getElementById('pais').value;
+    const ciudad = document.getElementById('ciudad').value;
+    const codigoPostal = document.getElementById('codigoPostal').value;
 
-        if(data?.esEmpresa) {
-            data.is_business = 2;
-        } else {
-            data.is_business = 1;
-        }
+    if (
+        nombrePrestadora === '' ||
+        apellidosPrestadora === '' ||
+        fechaDeNacimiento === '' ||
+        altura === '' ||
+        peso === '' ||
+        telFijo === '' ||
+        telCelular === '' ||
+        email === '' ||
+        contraseñaAtend === '' ||
+        sexo === '' ||
+        disponibilidad === '' ||
+        estatus === '' ||
+        razon === '' ||
+        perfilProfesional === '' ||
+        perfilAtend === '' ||
+        nivel === '' ||
+        calle === '' ||
+        numeroExterior === '' ||
+        numeroInterior === '' ||
+        pais === '' ||
+        ciudad === '' ||
+        codigoPostal === ''
+    ) {
+        alert('Todos los campos son obligatorios');
+        e.preventDefault();
+        return;
+    }
 
-        uploadProfilePhoto(function(name) {
-            console.log(name)
-            data.profile_photo = "<?php echo __ROOT__; ?>"+name;
-            console.log(data)
-            uploadSignature(function(firma) {
-                data.signature = firma;
-                $.ajax({
-                    url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
-                    data: data,
-                    success: function(res){
-                        console.log(res)
-                        alert("Prestadora agregada correctamente");
-                        //location.href = "<?php echo __ROOT__; ?>/prestadoras";
-                    }
-                });
-            })
+    e.preventDefault();
+
+    formInfoPrestadora.addEventListener('submit', function(e){
+
+    const formData = new FormData(formInfoPrestadora);
+    const url = formInfoPrestadora.getAttribute('action');
+    const data = {};
+    formData.forEach(function(value, key){
+        data[key] = value;
+    });
+
+    if(data?.esEmpresa) {
+        data.is_business = 2;
+    } else {
+        data.is_business = 1;
+    }
+
+    uploadProfilePhoto(function(name) {
+        console.log(name)
+        data.profile_photo = "<?php echo __ROOT__; ?>"+name;
+        console.log(data)
+        uploadSignature(function(firma) {
+            data.signature = firma;
+            $.ajax({
+                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
+                data: data,
+                success: function(res){
+                    console.log(res)
+                    alert("Prestadora agregada correctamente");
+                    //location.href = "<?php echo __ROOT__; ?>/prestadoras";
+                }
+            });
         })
-     } 
+    })
+
 </script>
 
 <script>
     const formInfoFinanciera = document.getElementById('formInfoFinanciera');
     formInfoFinanciera.addEventListener('submit', function(e){
+
+        const calle = document. getElementById('calle');
+        const numeroExterior = document. getElementById('numeroExterior');
+        const numeroInterior = document. getElementById('numeroInterior');
+        const pais = document. getElementById('pais');
+        const ciudad = document. getElementById('ciudad');
+        const codigoPostal = document. getElementById('codigoPostal');
+        const rfc = document. getElementById('rfc');
+        const curp = document. getElementById('curp');
+        const regimenFiscal = document. getElementById('regimenFiscal');
+        const altaSAT = document. getElementById('altaSAT');
+        const eFirma = document. getElementById('eFirma');
+        const clabe = document. getElementById('clabe');
+        const cuenta = document. getElementById('cuenta');
+
+        if (
+            calle === '' ||
+            numeroExterior === '' ||
+            numeroInterior === '' ||
+            pais === '' ||
+            ciudad === '' ||
+            codigoPostal === '' ||
+            rfc === '' ||
+            curp === '' ||
+            regimenFiscal === '' ||
+            altaSAT === '' ||
+            eFirma === '' ||
+            clabe === '' ||
+            cuenta === ''
+        ) {
+            alert('Todos los campos son obligatorios');
+            e.preventDefault();
+            return;
+        }
+
         e.preventDefault();
         const formData = new FormData(formInfoFinanciera);
         let data = {};

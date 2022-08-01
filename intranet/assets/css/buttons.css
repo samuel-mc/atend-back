@@ -153,3 +153,12 @@ a.button--aside{
     opacity: 0.4;
     transition: var(--in);
 }
+
+.paginate_controls > input {
+    background-color: var(--primary-white);
+    border: none;
+    border: 1px solid var(--light-gray);
+    cursor: pointer;
+    padding: 8px;
+    margin: 0 4px;
+}

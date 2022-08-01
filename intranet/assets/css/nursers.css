@@ -201,3 +201,13 @@ body.body__enfermera {
 .form__field textarea {
     padding: 12px;
 }
+
+.desglose--item {
+    font-size: 16px;
+    border-bottom: 1px solid var(--light-gray);
+    padding: 12px 0;
+}
+
+.desglose--item > * {
+    margin: 12px 0;
+}
