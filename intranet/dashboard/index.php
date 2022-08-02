@@ -533,7 +533,6 @@
 </script>
 
 <script> // Script para manejar la edicion de prestadora
-    const prestadoras = <?php echo json_encode($providers); ?>;
     let estaEditandoPrestador = false;
 
     const editarPrestador = (element, idServicio) => {
@@ -541,35 +540,55 @@
         if (estaEditandoPrestador) {
             return;
         }
-        const modalEditandoPrestado = document.createElement('div');
-        modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
-        modalEditandoPrestado.innerHTML = `       
-            <div>
-                <button
-                    class="button button--primary button--circle"
-                    onclick="closeModalEditarPrestadora(this)"
-                >
-                    <i class="fa-solid fa-x"></i>
-                </button>
-            </div>
-            <form id="formEditandoPrestador" onsubmit="handlePrestadorSubmit(event)">
-                <input type="hidden" name="idServicio" value="${idServicio}">
-                <div class="form-group">
-                    <label for="prestador">Prestador</label>
-                    <select class="form-control" id="nuevoPrestador">
-                        <option value="0">Seleccione una prestadora</option>
-                        ${prestadoras.map(prestadora => `
-                            <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
-                        `).join('')}
-                    </select>
-                </div>
-                <button type="submit" class="button button--primary button--submit">
-                    Guardar
-                </button>
-            </form>
-        `;
-        element.parentNode.appendChild(modalEditandoPrestado);
-        estaEditandoPrestador = true;
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=get_possible_provider",
+            data:{
+                service_id:idServicio
+            },
+            success: function(res) {
+                res = JSON.parse(res)
+                console.log(res);
+                console.log(idServicio);
+                const modalEditandoPrestado = document.createElement('div');
+                modalEditandoPrestado.classList.add('main__modal', 'main__modal--edit');
+                modalEditandoPrestado.innerHTML = `       
+                    <div>
+                        <button
+                            class="button button--primary button--circle"
+                            onclick="closeModalEditarPrestadora(this)"
+                        >
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </div>
+                    <form id="formEditandoPrestador" onsubmit="handlePrestadorSubmit(event)">
+                        <input type="hidden" name="idServicio" value="${idServicio}">
+                        <div class="form-group">
+                            <label for="prestador">Prestador</label>
+                            <select class="form-control" id="nuevoPrestador">
+                                <option value="0">Seleccione una prestadora</option>
+                                <optgroup label="---Recomendados---">
+                                    ${res.recommended.map(prestadora => `
+                                        <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
+                                    `).join('')}
+                                </optgroup>
+                                <optgroup label="---Otros---">
+                                    ${res.not_recommended.map(prestadora => `
+                                        <option value="${prestadora.id}">${prestadora.name} ${prestadora.lastname}</option>
+                                    `).join('')}
+                                </optgroup>
+                            </select>
+                        </div>
+                        <button type="submit" class="button button--primary button--submit">
+                            Guardar
+                        </button>
+                    </form>
+                `;
+                element.parentNode.appendChild(modalEditandoPrestado);
+                estaEditandoPrestador = true;
+            }
+        })
+
     }
 
     const closeModalEditarPrestadora = (element) => {
@@ -581,7 +600,7 @@
         event.preventDefault();
         const nuevoPrestador = event.target.nuevoPrestador.value;
         const idServicio = event.target.idServicio.value;
-        const provider = prestadoras.filter(prestadora => prestadora.id === parseInt(nuevoPrestador));
+        const provider = $("#nuevoPrestador").val();
 
         console.log("provider", provider);
 
@@ -603,6 +622,7 @@
                 });
                 fillindexTable(servicios);
                 closeModalEditarPrestadora(event.target.parentNode);
+                location.reload(true);
             }
         });
     }

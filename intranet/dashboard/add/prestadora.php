@@ -11,12 +11,13 @@
                         <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="65" cy="65" r="65" fill="#C4C4C4" />
                         </svg> <!-- Acá debería ir la imagen de perfil-->
-                        <i class="fa-solid fa-upload"></i>
+                        <!--<i class="fa-solid fa-upload"></i>-->
+                        <input type="file" id="profile_photo">
                     </div>
                     <div class="form__field">
                         <label>Es empresa</label>
                             <label for="esEmpresa" class="form--checkbox">Sí, es empresa
-                                <input type="checkbox" id="esEmpresa" name="esEmpresa" value="true">
+                                <input type="checkbox" id="esEmpresa" name="esEmpresa">
                             </label>
                     </div>
                     <div class="form__field form__field--doble">
@@ -97,6 +98,7 @@
                         </div>
                     </div>
                     <div class="form__field">
+
                         <label for="perfilProfesional">Perfil profesional</label>
                         <select name="perfilProfesional" id="perfilProfesional">
                             <option value="0">Seleccionar uno</option>
@@ -116,6 +118,7 @@
                             </select>
                         </div>
                         <div>
+
                             <label for="nivel">Nivel</label>
                             <select name="level" id="nivel">
                                 <option value="">Seleccionar</option>
@@ -150,23 +153,23 @@
                             <input type="text" value="Río Rhín" name="ciudad" id="ciudad">
                         </div>
                         <div>
-                            <label for="codigoPostal">Código postal (opcional) </label>
-                            <input type="number" value="06700" name="codigoPostal" id="codigoPostal">
+                            <label for="zipcode">Código postal (opcional) </label>
+                            <input type="number" value="06700" name="zipcode" id="zipcode">
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="firma">Firma para bitácoras *</label>
+                        <label for="signature_url">Firma para bitácoras *</label>
                         <div>
-                            <input type="text" value="firma_marcela.png" name="firma" id="firma">
-                            <i class="fa-solid fa-download"></i>
+                            <input type="file" name="signature_url" id="signature_url">
+                            <!--<i class="fa-solid fa-download"></i>-->
                         </div>
                     </div>
                     <div class="form__field">
-                        <label for="comentarios">Comentarios *</label>
-                        <input type="text" value="Aquí va un comentario" name="comentarios" id="comentarios">
+                        <label for="comment">Comentarios *</label>
+                        <input type="text" value="Aquí va un comentario" name="comment" id="comment">
                     </div>
                     <div>
-                        <input type="submit" value="Guardar" class="button button--primary button--submit">
+                        <a class="button button--primary button--submit" onclick="save_new_provider()">Guardar</a>
                     </div>
                 </form>
             </div>
@@ -224,14 +227,18 @@
                             <label for="cuenta">Cuenta</label>
                             <input type="number" value="00000000000000000" name="cuenta" id="cuenta">
                         </div>
-                        <div class="form__field">
-                            <label for="altaSantander">Alta Santander </label>
-                            <label for="enfermeraGeneral" class="form--checkbox"> Enfermera General
-                                <input type="checkbox" id="enfermeraGeneral" name="enfermeraGeneral" value="true">
-                            </label>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="checkbox" id="enfermeraGeneral" name="enfermeraGeneral" class="mt-4"> 
+                                </div>
+                                <div class="col-6">
+                                    Alta Santander
+                                </div>
+                            </div>
                         </div>
                         <div>
-                            <input type="submit" value="Guardar" class="button button--primary button--submit">
+                            <a class="button button--primary button--submit">Guardar</a>
                         </div>
                     </div>
                 </form>
@@ -281,7 +288,13 @@
         </section>
     </div>
 </main>
-<!-- <script src="<?php echo __ROOT__; ?>/intranet/assets/js/index.js"></script> -->
+
+<script type="text/javascript">
+    $(function() {
+        //$('#formInfoPrestadora')[0].reset();
+        //$(':input').val('');
+    })
+</script>
 
 <style type="text/css">
     .form__field--avanzada{
@@ -291,92 +304,150 @@
     }
 </style>
 
-<script> // Script que maneja la información de la prestadora. 
-
-    const perfiles = <?php echo json_encode($professionalProfiles); ?>;
-    console.log("🚀 ~ file: prestadora.php ~ line 292 ~ perfiles", perfiles)
-    
-
-    const formInfoPrestadora = document.getElementById('formInfoPrestadora');
-    formInfoPrestadora.addEventListener('submit', function(e){
-
-        const nombrePrestadora = document.getElementById('nombrePrestadora').value;
-        const apellidosPrestadora = document.getElementById('apellidosPrestadora').value;
-        const fechaDeNacimiento = document.getElementById('fechaDeNacimiento').value;
-        const altura = document.getElementById('altura').value;
-        const peso = document.getElementById('peso').value;
-        const telFijo = document.getElementById('telFijo').value;
-        const telCelular = document.getElementById('telCelular').value;
-        const email = document.getElementById('email').value;
-        const contraseñaAtend = document.getElementById('contraseñaAtend').value;
-        const sexo = document.getElementById('sexo').value;
-        const disponibilidad = document.getElementById('disponibilidad').value;
-        const estatus = document.getElementById('estatus').value;
-        const razon = document.getElementById('razon').value;
-        const perfilProfesional = document.getElementById('perfilProfesional').value;
-        const perfilAtend = document.getElementById('perfilAtend').value;
-        const nivel = document.getElementById('nivel').value;
-        const calle = document.getElementById('calle').value;
-        const numeroExterior = document.getElementById('numeroExterior').value;
-        const numeroInterior = document.getElementById('numeroInterior').value;
-        const pais = document.getElementById('pais').value;
-        const ciudad = document.getElementById('ciudad').value;
-        const codigoPostal = document.getElementById('codigoPostal').value;
-
-        if (
-            nombrePrestadora === '' ||
-            apellidosPrestadora === '' ||
-            fechaDeNacimiento === '' ||
-            altura === '' ||
-            peso === '' ||
-            telFijo === '' ||
-            telCelular === '' ||
-            email === '' ||
-            contraseñaAtend === '' ||
-            sexo === '' ||
-            disponibilidad === '' ||
-            estatus === '' ||
-            razon === '' ||
-            perfilProfesional === '' ||
-            perfilAtend === '' ||
-            nivel === '' ||
-            calle === '' ||
-            numeroExterior === '' ||
-            numeroInterior === '' ||
-            pais === '' ||
-            ciudad === '' ||
-            codigoPostal === ''
-        ) {
-            alert('Todos los campos son obligatorios');
-            e.preventDefault();
-            return;
-        }
-
-        e.preventDefault();
-        const formData = new FormData(formInfoPrestadora);
-        const url = formInfoPrestadora.getAttribute('action');
-        const data = {};
-        formData.forEach(function(value, key){
-            data[key] = value;
-        });
-
-        if(data?.esEmpresa) {
-            data.esEmpresa = true;
-        } else {
-            data.esEmpresa = false;
-        }
-
-        console.log(data);
+<script type="text/javascript">
+    function uploadProfilePhoto(on_end) {
+        let image = new FormData();
+        image.append('image', $("#profile_photo")[0].files[0]);
+        image.append('name', $("#profile_photo")[0].files[0].name);
 
         $.ajax({
-            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
-            data: data,
-            success: function(res){
-                console.log(res)
-                alert("Prestadora agregada correctamente");
+            url:"<?php echo __ROOT__; ?>/bridge/uploadImage.php",
+            type:"POST",
+            data: image,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType,
+            success: function(res) {
+                console.log(res);
+                res = JSON.parse(res)
+                if (res.success==true){
+                    on_end(res.name)
+                }else{
+                    alert(res.message);
+                }
             }
         });
+    }
+
+    function uploadSignature(on_end) {
+        let image = new FormData();
+        image.append('image', $("#signature_url")[0].files[0]);
+        image.append('name', $("#signature_url")[0].files[0].name);
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/uploadImage.php",
+            type:"POST",
+            data: image,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType,
+            success: function(res) {
+                console.log(res);
+                res = JSON.parse(res)
+                if (res.success==true){
+                    on_end(res.name)
+                }else{
+                    alert(res.message);
+                }
+            }
+        });
+    }
+</script>
+
+<script> // Script que maneja la información de la prestadora.
+
+    function save_new_provider() {
+    const perfiles = <?php echo json_encode($professionalProfiles); ?>;
+    
+    const formInfoPrestadora = document.getElementById('formInfoPrestadora');
+    
+    const nombrePrestadora = document.getElementById('nombrePrestadora').value;
+    const apellidosPrestadora = document.getElementById('apellidosPrestadora').value;
+    const fechaDeNacimiento = document.getElementById('fechaDeNacimiento').value;
+    const altura = document.getElementById('altura').value;
+    const peso = document.getElementById('peso').value;
+    const telFijo = document.getElementById('telFijo').value;
+    const telCelular = document.getElementById('telCelular').value;
+    const email = document.getElementById('email').value;
+    const contraseñaAtend = document.getElementById('contraseñaAtend').value;
+    const sexo = document.getElementById('sexo').value;
+    const disponibilidad = document.getElementById('disponibilidad').value;
+    const estatus = document.getElementById('estatus').value;
+    const razon = document.getElementById('razon').value;
+    const perfilProfesional = document.getElementById('perfilProfesional').value;
+    const perfilAtend = document.getElementById('perfilAtend').value;
+    const nivel = document.getElementById('nivel').value;
+    const calle = document.getElementById('calle').value;
+    const numeroExterior = document.getElementById('numeroExterior').value;
+    const numeroInterior = document.getElementById('numeroInterior').value;
+    const pais = document.getElementById('pais').value;
+    const ciudad = document.getElementById('ciudad').value;
+    const codigoPostal = document.getElementById('codigoPostal').value;
+
+    if (
+        nombrePrestadora === '' ||
+        apellidosPrestadora === '' ||
+        fechaDeNacimiento === '' ||
+        altura === '' ||
+        peso === '' ||
+        telFijo === '' ||
+        telCelular === '' ||
+        email === '' ||
+        contraseñaAtend === '' ||
+        sexo === '' ||
+        disponibilidad === '' ||
+        estatus === '' ||
+        razon === '' ||
+        perfilProfesional === '' ||
+        perfilAtend === '' ||
+        nivel === '' ||
+        calle === '' ||
+        numeroExterior === '' ||
+        numeroInterior === '' ||
+        pais === '' ||
+        ciudad === '' ||
+        codigoPostal === ''
+    ) {
+        alert('Todos los campos son obligatorios');
+        e.preventDefault();
+        return;
+    }
+
+    e.preventDefault();
+
+    formInfoPrestadora.addEventListener('submit', function(e){
+
+    const formData = new FormData(formInfoPrestadora);
+    const url = formInfoPrestadora.getAttribute('action');
+    const data = {};
+    formData.forEach(function(value, key){
+        data[key] = value;
     });
+
+    if(data?.esEmpresa) {
+        data.is_business = 2;
+    } else {
+        data.is_business = 1;
+    }
+
+    uploadProfilePhoto(function(name) {
+        console.log(name)
+        data.profile_photo = "<?php echo __ROOT__; ?>"+name;
+        console.log(data)
+        uploadSignature(function(firma) {
+            data.signature = firma;
+            $.ajax({
+                url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=save_new_provider",
+                data: data,
+                success: function(res){
+                    console.log(res)
+                    alert("Prestadora agregada correctamente");
+                    //location.href = "<?php echo __ROOT__; ?>/prestadoras";
+                }
+            });
+        })
+    })
+
 </script>
 
 <script>

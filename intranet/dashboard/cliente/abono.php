@@ -8,7 +8,7 @@
                 <div class="form__field form__field--doble">
                     <div>
                         <label for="paciente">Paciente</label>
-                        <select name="paciente" id="paciente" class="paciente">
+                        <select name="paciente" id="paciente_0" class="paciente">
                             <option value="0">Seleccione un paciente</option>
                             <?php foreach ($patients as $patien) { ?>
                                 <option value="<?php echo $patien['id']; ?>"><?php echo $patien['name']; ?></option>
@@ -18,8 +18,8 @@
 
                     <div>
                         <label for="monto">Monto</label>
-                        <input type="number" placeholder="$" id="monto" name="monto" onchange="updateTotal()" class="montoAbono">
-                        <span class="form__span">abono sugerido: $13,665.00</span>
+                        <input type="number" placeholder="$" id="monto_0" name="monto" onchange="updateTotal()" class="montoAbono">
+                        <!--<span class="form__span">abono sugerido: $13,665.00</span>-->
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div>
                     <h2>Total a pagar</h2>
                     <h1 id="totalAPagar"></h1>
-                    <button type="button" class="button button--primary button--submit active" onclick="handleStep()">Continuar
+                    <button type="button" class="button button--primary button--submit active" onclick="goToPayment()">Realizar pago
                     </button>
                 </div>
             </div>
@@ -110,6 +110,57 @@
         </button>
     </div>
 </main>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+<script type="text/javascript">
+    function goToPayment() {
+        let orders = [];
+        for (var i = 0; i < patients_quantity; i++) {
+            if ($("#paciente_"+i).val()!=0){
+                orders.push({patient_id:$("#paciente_"+i).val(),monto:$("#monto_"+i).val()});
+            }else{
+                break;
+            }
+        }
+
+        console.log(orders);
+        //return;
+
+        $.ajax({
+            url:"<?php echo __ROOT__; ?>/bridge/routes.php?action=createPreference",
+            data:{
+                orders,
+                client_id: <?php echo $client['id']; ?>
+            },
+            success:function(res) {
+                console.log(res)
+                res = JSON.parse(res)
+                open_mercadopago(res.id)
+            }
+        })
+    }
+
+    function open_mercadopago(id) {
+        //const mp = new MercadoPago('APP_USR-9d1b1b46-e979-45a7-b124-e611bd561613', {
+        const mp = new MercadoPago('TEST-be126955-354f-4dfa-ba7e-4a95f9a2a6c2', {
+              locale: 'es-MX'
+        });
+
+        let mp_checkout = mp.checkout({
+            preference: {
+                id
+            },
+            theme: {
+                elementsColor: '#ECE4D9',
+                headerColor: '#BBAA9A'
+            }
+        });
+
+        mp_checkout.open();
+    }
+</script>
+
 
 <script>
     let currentStep = 1;
@@ -248,6 +299,7 @@
 </script>
 <script>
     let total = 0;
+    let patients_quantity = 1;
     document.getElementById('totalAPagar').innerText = `$ ${total}`;
 
     const addClient = () => {
@@ -256,7 +308,7 @@
         patientPayment.innerHTML = `
             <div>
                 <label for="paciente">Paciente</label>
-                <select name="paciente" id="paciente" class="paciente">
+                <select name="paciente" id="paciente_${patients_quantity}" class="paciente">
                     <option value="0">Seleccione un paciente</option>
                     <?php foreach ($patients as $patient) {
                         echo '<option value="' . $patient['id'] . '">' . $patient['name'] . '</option>';
@@ -267,10 +319,10 @@
     
             <div>
                 <label for="monto">Monto</label>
-                <input type="number" value="" placeholder="$" id="monto" name="monto" onchange="updateTotal()" class="montoAbono">
-                <span class="form__span" >abono sugerido: $13,665.00</span>
+                <input type="number" value="" placeholder="$" id="monto_${patients_quantity}" name="monto" onchange="updateTotal()" class="montoAbono">
+                <!--<span class="form__span" >abono sugerido: $13,665.00</span>-->
             </div>`;
-
+        patients_quantity++;
         document.getElementById('formPayments').appendChild(patientPayment);
     }
 

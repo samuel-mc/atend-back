@@ -26,15 +26,20 @@
 
 		public function NewNurse(Request $data)
 		{
+			//return $data->obj;
 			$user = $this->Insert(self::TABLE_USERS,["name"=>$data->get("name"),"email"=>"nurse@mail.com","password"=>"null","type"=>3,"status"=>1],"id");
 
 			$password = md5($data->get("password"));
-			$pro = $this->Insert(self::TABLE_PROVIDERS,["user_id"=>$user['id'],"name"=>$data->get("name"),"lastname"=>$data->get("lastname"),"gender"=>$data->get("gender"),"phone"=>$data->get("phone"),"type"=>$data->get("type"),"birthdate"=>$data->get("birthdate"),"height"=>$data->get("height"),"weight"=>$data->get("weight"),"mobile"=>$data->get("mobile"),"email"=>$data->get("email"),"password"=>$password,"availability"=>$data->get("availability"),"professional_profile"=>$data->get("professional_profile"),"atend_profile_id"=>$data->get("profile_id"),"level"=>$data->get("level"),"signature"=>$data->get("signature_url"),"comment"=>$data->get("comment"),"status"=>1],"all");
+			$data->put("type",1);
+
+			$pro = $this->Insert(self::TABLE_PROVIDERS,["user_id"=>$user['id'],"name"=>$data->get("name"),"lastname"=>$data->get("lastname"),"gender"=>$data->get("gender"),"phone"=>$data->get("phone"),"type"=>$data->get("type"),"birthdate"=>$data->get("birthdate"),"height"=>$data->get("height"),"weight"=>$data->get("weight"),"mobile"=>$data->get("mobile"),"email"=>$data->get("email"),"password"=>$password,"availability"=>$data->get("availability"),"professional_profile"=>$data->get("professional_profile"),"atend_profile_id"=>$data->get("profile_id"),"level"=>$data->get("level"),"signature"=>$data->get("signature_url"),"profile_photo"=>$data->get("profile_photo"),"comment"=>$data->get("comment"),"status"=>1],"all");
+			//echo "AQUI";
+			//echo $pro;
 
 			$zc = $this->GetByCondition(self::TABLE_CAT_ZIPCODES,["zipcode",$data->get("zipcode")])['id'];
 			$data->put("country_id", 1);
 			$data->put("zipcode_id",$zc);
-			$data->put("type",1);
+			$data->put("type",$data->get("is_business"));
 			$data->put("related_id",$user['id']);
 			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
 
@@ -300,7 +305,8 @@
 		{
 			$serv = $this->GetById(self::TABLE_SERVICES,$data->get("service_id"));
 			$gen = $serv['provider_gender']==0?"(gender = 1 || gender = 2)":"(gender = ".$serv['provider_gender'].")";
-			$pos_prov = $this->ViewList(self::TABLE_PROVIDERS,$gen." AND atend_profile_id = ".$serv['service_type']);
+			$f = $gen." AND atend_profile_id = ".$serv['service_type'];
+			$pos_prov = $this->ViewList(self::TABLE_PROVIDERS,$f);
 			$recommended = array();
 			$not_recommended = array();
 			foreach ($pos_prov as $prov) {
@@ -312,7 +318,7 @@
 				}
 			}
 
-			return ["recommended"=>$recommended,"not_recommended"=>$not_recommended];
+			return ["recommended"=>$recommended,"not_recommended"=>$not_recommended,"filter"=>$f];
 		}
 
 	}

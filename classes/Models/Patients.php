@@ -37,8 +37,32 @@
 
 		public function UpdatePatient(Request $data)
 		{
-			$d = $data->extract(["user_id","client_id","name","diagnosis","birthdate","gender","weight","height","ailments","want_reanimation","care_plan","comments","allergies","medical_order","doctor_id","emergency_contact","emergency_phone","emergency_phone2"]);
-			$update = $this->Save(self::TABLE_PATIENTS,$d,$data->id);
+			//return $data->obj;
+
+			$patient = $this->GetById(self::TABLE_PATIENTS,$data->get("patient_id"));
+			$user = $this->Save(self::TABLE_USERS,["name"=>$data->get("name")],$patient['user_id']);
+			
+
+			$dr = $this->GetByCondition(self::TABLE_DOCTORS,"name = '".$data->get("doctor")."'");
+			if ($dr==null){
+				$user = $this->Insert(self::TABLE_USERS,["name"=>$data->get("doctor"),"email"=>"doctor@mail.com","password"=>"null","type"=>4,"status"=>1],"id");
+				$dr = $this->Insert(self::TABLE_DOCTORS,["name"=>$data->get("doctor")],"id");
+			}
+
+			$data->put("doctor_id",$dr['id']);
+			$d = $data->extract(["name","diagnosis","birthdate","gender","weight","height","ailments","want_reanimation","care_plan","comments","allergies","medical_order","doctor_id","emergency_contact","emergency_phone","emergency_phone2"]);
+			$update = $this->Save(self::TABLE_PATIENTS,$d,$patient['id']);
+
+			$zc = $this->GetByCondition(self::TABLE_CAT_ZIPCODES,["zipcode",$data->get("zipcode")])['id'];
+			$data->put("country_id", 1);
+			$data->put("zipcode_id",$zc);
+			$data->put("type",2);
+			$data->put("related_id",$patient['id']);
+			$add = $data->extract(["street","exterior","interior","suburb","zipcode_id","country_id","type","related_id"]);
+			
+			$address = $this->GetByCondition(self::TABLE_ADDRESSES,"type = 2 AND related_id = ".$data->get("patient_id"));
+			$fi = $this->Save(self::TABLE_ADDRESSES,$add,$address['id']);
+
 		}
 
 		public function GetPatientById(Request $data)
@@ -48,6 +72,7 @@
 			if ($pat['address']!=null){
 				$pat['address']['zipcode'] = $this->getById(self::TABLE_CAT_ZIPCODES,$pat["address"]['zipcode_id']);
 				$pat['address']['state'] = $this->getById(self::TABLE_CAT_STATES,$pat["address"]['zipcode']['state_id']);
+				$pat['address']['country'] = $this->getById(self::TABLE_CAT_COUNTRIES,$pat["address"]['country_id']);
 				$pat['address']['municipality'] = $this->getById(self::TABLE_CAT_MUNICIPALITIES,$pat["address"]['zipcode']['municipality_id']);
 			}
 			$pat['doctor'] = $this->getById(self::TABLE_DOCTORS,$pat['doctor_id']);

@@ -22,6 +22,7 @@ class Admin
 	const TABLE_CAT_CLIENT_TYPE = "cat_client_type";
 	const TABLE_CAT_COMPLEXION = "cat_complexion";
 	const TABLE_CAT_CONDUCTUAL = "cat_conductual";
+	const TABLE_CAT_COUNTRIES = "cat_countries";
 	const TABLE_CAT_IO_TYPES = "cat_io_types"; 
 	const TABLE_CAT_DRUGS = "cat_drugs";
 	const TABLE_CAT_DRUG_WAYS = "cat_drug_ways";
@@ -55,6 +56,8 @@ class Admin
 	const TABLE_DOCTORS = "doctors";
 	const TABLE_FINANTIAL_INFORMATION = "finantial_information";
 	const TABLE_HR_CONTROL = "hr_control";
+	const TABLE_INVOICES = "invoices";
+	const TABLE_ORDERS = "orders";
 	const TABLE_PATIENTS = "patients";
 	const TABLE_CLIENT_PAYMENTS = "client_payments";
 	const TABLE_PROVIDERS = "provider";

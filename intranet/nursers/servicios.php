@@ -89,7 +89,7 @@
     <div class="side__menu--content">
         <ul>
             <li><a href="">Ver bitácora</a></li>
-            <li><a href="">Ver plan de cuidado</a></li>
+            <li><a id="care_plan" href="">Ver plan de cuidado</a></li>
         </ul>
     </div>
 </main>
@@ -657,6 +657,8 @@
         sideMenuEnfermera.classList.add('hidden');
         console.log('click');
     });
+    $("#care_plan").attr("href","<?php echo __ROOT__; ?>/assets/data/careplans/"+servicio.care_type_id+".pdf");
+    $("#care_plan").attr("target","_blank");
 </script>
 
 <script> // Script para manejar el cambio de menu
@@ -815,6 +817,7 @@
                 quantity,
             },
             success: function(res){
+                console.log(res)
                 alert("Información guardada con éxito");
                 changeMenu('main');
             }

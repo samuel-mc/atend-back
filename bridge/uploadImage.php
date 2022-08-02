@@ -6,3 +6,4 @@
 	$admin = new Model;
 	$res = $admin->files->UploadImage();
 	echo json_encode($res);
+?>

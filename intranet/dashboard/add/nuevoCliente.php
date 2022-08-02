@@ -21,7 +21,7 @@
                 </div>
                 <div class="form__field">
                     <label for="telefonoCliente">Teléfono *</label>
-                    <input type="number" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente">
+                    <input type="text" value="<?php echo (isset($client) ? $client["phone"]:""); ?>" id="telefonoCliente">
                 </div>
                 <div class="form__field">
                     <label for="mailCliente">Mail *</label>
@@ -171,7 +171,7 @@
         const lastname = $("#apellidosCliente").val();
         const phone = $("#telefonoCliente").val();
         const email = $("#mailCliente").val();
-        const comments = $("#comentariosCliente").val() !== '' ? $("#comentariosCliente").val() : ' ';
+        const comments = $("#comentariosCliente").val() != '' ? $("#comentariosCliente").val() : null;
     
         if (
             name === '' ||
@@ -182,6 +182,7 @@
             alert('Ingresar los campos obligatorios');
             return;
         }
+
 
         if (require_billing === '1' && !validateBillingInfo()) {
             alert('Ingresar los campos obligatorios');
@@ -199,7 +200,7 @@
                 lastname:$("#apellidosCliente").val(),
                 phone:$("#telefonoCliente").val(),
                 email:$("#mailCliente").val(),
-                comments:$("#comentariosCliente").val()
+                comments
             },
             success: function(res){
                 console.log(res);
@@ -208,7 +209,7 @@
                 if ($("#requiereFactura").val()=="1")
                     save_new_billing_information();
                 alert("Información del cliente guardada con éxito");
-                // window.location.href = "<?php echo __ROOT__; ?>/";
+                location.href = "<?php echo __ROOT__; ?>/add/paciente/"+client_id
             }
         });
     }

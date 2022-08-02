@@ -9,6 +9,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="stylesheet" href="<?php echo __ROOT__; ?>/intranet/assets/css/clientes.css">
     <link rel="stylesheet" href="<?php echo __ROOT__; ?>/intranet/assets/css/buttons.css">
     <link rel="stylesheet" href="<?php echo __ROOT__; ?>/intranet/assets/css/header.css">
@@ -21,3 +23,22 @@
 </head>
 
 <body class="<?php echo isset($isEnfermera)?"body__enfermera":""; ?>">
+
+<script type="text/javascript">
+    window.alert = function(params) {
+        if (!params.text){
+            let a = params;
+            params = {text:a};
+        }
+        if (params.title=="Error"){
+            params.icon = "error";  
+        }
+        Swal.fire({
+             title: params.title||"Alerta",
+             text: params.text||"Alerta",
+             confirmButtonText: params.button||"Okay", // Text on button
+             icon: params.icon||"success", //built in icons: success, warning, error, info
+             timer: params.time||3000, //timeOut for auto-close
+        });
+    }
+</script>
