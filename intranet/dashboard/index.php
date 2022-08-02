@@ -179,7 +179,6 @@
     </section>
 </main>
 
-
 <script> //Script para desplegar los datos en la tabla
     let servicios = [];
     $.ajax({
@@ -203,9 +202,10 @@
             table += `
                 <tr>
                     <td>
-                        <button class="buttonEditarFecha" onclick="editFecha()">
+                        <p>${element.date.split(" ")[0]}</p>
+                        <!-- <button class="buttonEditarFecha" onclick="editFecha()">
                             ${element.date.split(" ")[0]}
-                        </button>
+                        </button> -->
                     </td>
                     <td>${element.id}</td>
                     <td>
@@ -381,7 +381,7 @@
                     });
                 }
                 event.target.parentNode.remove();
-                fillindexTable(servicios);
+                fillindexTable(servicios);               
             }
         });
     }
@@ -403,7 +403,7 @@
         document.getElementById('servicioFiltro').value = '0';
         document.getElementById('prestadorFiltro').value = '0';
         document.getElementById('estatusFiltro').value = '0';
-        fillindexTable(servicios);
+        fillindexTable(servicios);       
         closeModal();
     }
 
@@ -451,7 +451,7 @@
         }
 
         console.log("servicioFiltrados", servicioFiltrados);
-        fillindexTable(servicioFiltrados);
+        fillindexTable(servicioFiltrados);       
         closeModal();
     });
 
@@ -480,12 +480,12 @@
             });
         }
         searchButton.style.display = 'flex';
-        fillindexTable(servicioFiltrados);
+        fillindexTable(servicioFiltrados);               
     });
     const clearSearch = () => {
         searchInput.value = '';
         searchButton.style.display = 'none';
-        fillindexTable(servicios);
+        fillindexTable(servicios);       
     };
 </script>
 
@@ -515,7 +515,7 @@
             botonPasados.classList.add('active');
             servicioFiltrados = servicios.filter(servicio => {
                 return servicio.date.split(' ')[0] < FECHA_HOY_STRING;
-            });
+            });            
         } else if (estatus === 'futuros') {
             botonActivos.classList.remove('active');
             botonFuturos.classList.add('active');
@@ -523,7 +523,11 @@
             servicioFiltrados = servicios.filter(servicio => {
                 return servicio.date.split(' ')[0] > FECHA_HOY_STRING;
             });
+            servicioFiltrados.sort((a, b) => {
+                return new Date(a.date) - new Date(b.date);
+            });
         }
+        console.log("servicioFiltrados", servicioFiltrados);
         fillindexTable(servicioFiltrados);
     }
 </script>
@@ -604,3 +608,5 @@
     }
 
 </script>
+
+<!-- <script type="text/javascript" src="<?php echo __ROOT__; ?>/intranet/assets/js/paginate.js"></script> -->
